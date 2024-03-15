@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../shared/components/shared_component.dart';
-import '../shared/style/colors.dart';
+
+import '../../shared/components/shared_component.dart';
+import '../../shared/style/colors.dart';
+
 
 
 class BoardingModel {
@@ -64,40 +66,43 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          defaultTextButton(
-            function: (){
-              goToLogin();
-            },
-            buttonlable: "تخطي",
-            color: defultColor
-          ),
-        ],
-      ),
-      body:Column(
-        children: [
-          Expanded(
-            child: PageView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              controller: boardController,
-              onPageChanged: (int index){
-                if (index == boarding.length-1){
-                  setState(() {
-                    isLastPage =true;
-                  });
-                }else{
-                  setState(() {
-                    isLastPage =false;
-                  });
-                }
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            defaultTextButton(
+              function: (){
+                goToLogin();
               },
-              itemBuilder: (context , index) => buildBoardingItem(boarding[index]),
-              itemCount: boarding.length,
+              buttonlable: "تخطي",
+              color: defultColor
             ),
-          ),
-        ],
+          ],
+        ),
+        body:Column(
+          children: [
+            Expanded(
+              child: PageView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                controller: boardController,
+                onPageChanged: (int index){
+                  if (index == boarding.length-1){
+                    setState(() {
+                      isLastPage =true;
+                    });
+                  }else{
+                    setState(() {
+                      isLastPage =false;
+                    });
+                  }
+                },
+                itemBuilder: (context , index) => buildBoardingItem(boarding[index]),
+                itemCount: boarding.length,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -178,6 +183,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                       child: Row(
                         children: [
                           FloatingActionButton(
+                            heroTag: "previousPage",
                             backgroundColor: Colors.transparent,
                             elevation: 0.0,
                             onPressed: (){
@@ -204,6 +210,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                               count: boarding.length),
                           Spacer(),
                           FloatingActionButton(
+                            heroTag: "nextPage",
                             backgroundColor: Colors.transparent,
                             elevation: 0.0,
                             onPressed: (){

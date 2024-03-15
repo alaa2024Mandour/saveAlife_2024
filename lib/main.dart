@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:save_a_life_2024/shared/style/themes.dart';
-import 'OnBording/on_bording.dart';
+import 'package:save_a_life_2024/splash_screen/splash_screen.dart';
+import 'package:save_a_life_2024/user_layouts/OnBording/on_bording.dart';
+
 
 
 
@@ -17,10 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: lightTheme ,
-      home: Directionality( // use this
-        textDirection: TextDirection.rtl, // set it to rtl //
-        child: onBoardingScreen(),
-      ),
+      home: SplashScreen(),
     );
   }
 }
