@@ -39,7 +39,14 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   fluttertoast: ^8.2.4
   hexcolor: ^3.0.1
-
+  animated_splash_screen: ^1.3.0
+  page_transition: "^2.1.0"
+#  flutter_native_splash: ^2.3.13
+#
+#flutter_native_splash:
+#  color: "#42a5f5"
+#  image: "assets/images/icons/splash.png"
+#  android_garvity: center
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
