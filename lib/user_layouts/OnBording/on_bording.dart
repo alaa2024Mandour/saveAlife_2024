@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:save_a_life_2024/common_pages/stuff_user/stuff_user.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../shared/components/shared_component.dart';
@@ -79,6 +80,15 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
               color: defultColor
             ),
           ],
+          leading: IconButton(
+                onPressed: (){
+                  navigateTo(context, StuffSAndUser());
+                },
+                icon:Icon(
+                  Icons.arrow_back_ios,
+                color: defultColor),
+              )
+
         ),
         body:Column(
           children: [
@@ -190,10 +200,10 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                                 boardController.previousPage(
                                     duration: Duration(milliseconds: 1,),
                                     curve: Curves.fastLinearToSlowEaseIn);
-
                             },
                             child: Icon(
                                 Icons.arrow_back_ios,
+                              color: Colors.white,
                             ),
                           ),
                           Spacer(),
@@ -224,6 +234,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             },
                             child: Icon(
                               Icons.arrow_forward_ios,
+                              color: Colors.white,
                             ),
                           ),
 
