@@ -26,12 +26,6 @@ ThemeData lightTheme =ThemeData(
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: defultColor,
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    type: BottomNavigationBarType.fixed,
-    selectedItemColor: defultColor,
-    backgroundColor: Colors.white,
-    elevation: 25.0,
-  ),
   textTheme: TextTheme(
     bodyText1: TextStyle(
         fontSize: 20,
