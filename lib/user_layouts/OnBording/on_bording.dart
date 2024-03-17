@@ -5,6 +5,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../shared/components/shared_component.dart';
 import '../../shared/style/colors.dart';
+import '../home_page/home_page.dart';
 
 
 
@@ -74,7 +75,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
           actions: [
             defaultTextButton(
               function: (){
-                goToLogin();
+                navigateTo(context, UserHomePage());
               },
               buttonlable: "تخطي",
               color: defultColor
@@ -225,7 +226,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             elevation: 0.0,
                             onPressed: (){
                               if(isLastPage){
-                                goToLogin();
+                                navegateAndFinish(context, UserHomePage());
                               }else{
                                 boardController.nextPage(
                                     duration: Duration(milliseconds: 1,),
