@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:save_a_life_2024/shared/components/shared_component.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
-import 'package:save_a_life_2024/user_layouts/OnBording/on_bording.dart';
+import '../../user_layouts/Login_page/user_login.dart';
 
 class StuffSAndUser extends StatefulWidget {
   const StuffSAndUser({Key? key}) : super(key: key);
@@ -133,7 +133,7 @@ class _StuffSAndUserState extends State<StuffSAndUser> {
                             });
                             await Future.delayed(Duration(milliseconds: 400), ()
                             {
-                              navigateTo(context, onBoardingScreen());
+                              navigateTo(context, LoginPage());
                             });
                           },
                             child: CircleAvatar(

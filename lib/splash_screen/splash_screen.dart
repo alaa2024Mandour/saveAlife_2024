@@ -13,14 +13,17 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSplashScreen(
-        splash:Image(
-          image: AssetImage("assets/images/icons/splash.png"),
-        ),
-        splashIconSize: 205,
-        splashTransition: SplashTransition.scaleTransition,
-// backgroundColor: Colors.white,
-        nextScreen: StuffSAndUser());
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(statusBarColor:Colors.transparent,),
+      child: AnimatedSplashScreen(
+          splash:Image(
+            image: AssetImage("assets/images/icons/splash.png"),
+          ),
+          splashIconSize: 205,
+          splashTransition: SplashTransition.scaleTransition,
+      // backgroundColor: Colors.white,
+          nextScreen: StuffSAndUser()),
+    );
   }
 }
 

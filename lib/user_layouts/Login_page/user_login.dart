@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:save_a_life_2024/shared/components/shared_component.dart';
+
+import '../OnBording/on_bording.dart';
 
 void main() {
   runApp(LoginPage());
@@ -160,6 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: ElevatedButton(
                             onPressed: () {
                               // Implement your login logic here
+                              navigateTo(context, onBoardingScreen());
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
