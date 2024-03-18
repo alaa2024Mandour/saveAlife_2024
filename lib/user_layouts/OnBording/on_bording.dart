@@ -196,6 +196,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             },
                             child: Icon(
                                 Icons.arrow_back_ios,
+                              color: Colors.white,
                             ),
                           ),
                           Spacer(),
@@ -226,6 +227,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             },
                             child: Icon(
                               Icons.arrow_forward_ios,
+                              color: Colors.white,
                             ),
                           ),
 
