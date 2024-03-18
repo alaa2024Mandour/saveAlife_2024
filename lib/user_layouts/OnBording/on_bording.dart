@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:save_a_life_2024/user_layouts/home_page/home_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../shared/components/shared_component.dart';
@@ -73,12 +74,13 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
           actions: [
             defaultTextButton(
               function: (){
-                goToLogin();
+                navegateAndFinish(context, UserHomePage());
               },
               buttonlable: "تخطي",
               color: defultColor
             ),
           ],
+          leading: Icon(Icons.arrow_back_ios,color: defultColor,),
         ),
         body:Column(
           children: [
@@ -215,7 +217,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             elevation: 0.0,
                             onPressed: (){
                               if(isLastPage){
-                                goToLogin();
+                                navegateAndFinish(context, UserHomePage());
                               }else{
                                 boardController.nextPage(
                                     duration: Duration(milliseconds: 1,),
