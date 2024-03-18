@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:save_a_life_2024/common_pages/stuff_user/stuff_user.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../shared/components/shared_component.dart';
 import '../../shared/style/colors.dart';
-import '../home_page/home_page.dart';
 
 
 
@@ -75,21 +73,12 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
           actions: [
             defaultTextButton(
               function: (){
-                navigateTo(context, UserHomePage());
+                goToLogin();
               },
               buttonlable: "تخطي",
               color: defultColor
             ),
           ],
-          leading: IconButton(
-                onPressed: (){
-                  navigateTo(context, StuffSAndUser());
-                },
-                icon:Icon(
-                  Icons.arrow_back_ios,
-                color: defultColor),
-              )
-
         ),
         body:Column(
           children: [
@@ -201,10 +190,10 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                                 boardController.previousPage(
                                     duration: Duration(milliseconds: 1,),
                                     curve: Curves.fastLinearToSlowEaseIn);
+
                             },
                             child: Icon(
                                 Icons.arrow_back_ios,
-                              color: Colors.white,
                             ),
                           ),
                           Spacer(),
@@ -226,7 +215,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             elevation: 0.0,
                             onPressed: (){
                               if(isLastPage){
-                                navegateAndFinish(context, UserHomePage());
+                                goToLogin();
                               }else{
                                 boardController.nextPage(
                                     duration: Duration(milliseconds: 1,),
@@ -235,7 +224,6 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             },
                             child: Icon(
                               Icons.arrow_forward_ios,
-                              color: Colors.white,
                             ),
                           ),
 
