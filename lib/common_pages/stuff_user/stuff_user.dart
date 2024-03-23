@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:save_a_life_2024/shared/components/shared_component.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
+import '../../user_layouts/Login_page/signup form.dart';
 import '../../user_layouts/Login_page/user_login.dart';
 
 class StuffSAndUser extends StatefulWidget {
@@ -133,7 +134,7 @@ class _StuffSAndUserState extends State<StuffSAndUser> {
                             });
                             await Future.delayed(Duration(milliseconds: 400), ()
                             {
-                              navigateTo(context, LoginPage());
+                              navigateTo(context, SignUpForm());
                             });
                           },
                             child: CircleAvatar(
