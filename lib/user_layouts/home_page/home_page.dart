@@ -13,7 +13,7 @@ class UserHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: TextDirection.rtl,
       child: BlocProvider(
         create: (BuildContext context) => UserCubit(),
         child: BlocConsumer<UserCubit,UserStatus>(
@@ -21,6 +21,12 @@ class UserHomePage extends StatelessWidget {
           builder: (BuildContext context, UserStatus state) {
             var cubit = UserCubit.get(context);
             return Scaffold(
+              extendBody: true,
+              floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {  },
+                child: Image(image: AssetImage('assets/images/icons/icons8-robot-60.png'),fit: BoxFit.fill,width: 43,),
+              ),
               body: cubit.bottomScreen[cubit.currentIndex],
               bottomNavigationBar: Theme(
                 data: Theme.of(context).copyWith(

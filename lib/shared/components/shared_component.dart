@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:save_a_life_2024/shared/style/colors.dart';
 
 /*=================================================*/
 //Reusable Buttons
@@ -86,20 +87,24 @@ Widget defaultTextFormField({
         if (value == null || value.isEmpty) return 'Field is required.';
         return null;
       },
+
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,
-        prefixIcon: Icon(preFix),
+        labelStyle:TextStyle(
+            fontSize: 15,
+        ),
+        prefixIcon: Icon(preFix, color: defultColor,),
         suffix: suFix != null
             ? IconButton(
           onPressed: () {
             suffixOnPressed!();
           },
-          icon: Icon(suFix),
+          icon: Icon(suFix,color: defultColor,),
         )
             : null,
         //=======for Password=========
-        border: OutlineInputBorder(),
+        // border: OutlineInputBorder(),
       ),
     );
 

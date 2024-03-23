@@ -23,7 +23,8 @@ ThemeData lightTheme =ThemeData(
     elevation: 0.0,
   ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: defultColor,
+    backgroundColor: Colors.white,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
   ),
   textTheme: TextTheme(
     bodyText1: TextStyle(

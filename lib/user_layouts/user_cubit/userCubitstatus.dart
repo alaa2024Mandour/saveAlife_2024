@@ -28,4 +28,12 @@ class UserCubit extends Cubit<UserStatus> {
     emit(UserChangeBottomNavState());
   }
 
+  late String Title;
+  late String Item1;
+  late String Item2;
+
+  void citySearch(String title , String value){
+    Title = value;
+    emit(UserCitySearchState());
+  }
 }
