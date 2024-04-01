@@ -1,19 +1,28 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:hexcolor/hexcolor.dart';
 
-class UserProfile extends StatefulWidget {
-  const UserProfile({Key? key}) : super(key: key);
+import '../user_cubit/userCubit.dart';
+import '../user_cubit/userStatus.dart';
 
-  @override
-  State<UserProfile> createState() => _UserProfileState();
-}
+class UserProfile extends StatelessWidget {
 
-class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Your Info"),
+    return BlocProvider(
+      create: (BuildContext context) => UserCubit(),
+      child: BlocConsumer<UserCubit,UserStatus>(
+        listener: (BuildContext context, UserStatus state) {  },
+    builder: (BuildContext context, UserStatus state) {
+      var cubit = UserCubit.get(context);
+      return Directionality(
+        textDirection: TextDirection.rtl,
+            child: Text ("Your info"),
+      );
+    }
       ),
     );
   }
