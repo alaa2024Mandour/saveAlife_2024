@@ -1,115 +1,390 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:save_a_life_2024/shared/components/localization/appLocal.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
-import 'package:save_a_life_2024/user_layouts/home_page/home_page.dart';
-
 import '../../shared/components/shared_component.dart';
-import '../OnBording/on_bording.dart';
+import '../user_cubit/userCubit.dart';
+import '../user_cubit/userStatus.dart';
+
+import 'login form.dart';
 
 class SignUpForm extends StatelessWidget {
    SignUpForm({super.key});
  var emailController = TextEditingController();
- var PassController = TextEditingController();
+ var passController = TextEditingController();
  var rePassController = TextEditingController();
- var fName = TextEditingController();
- var lName = TextEditingController();
- var phone = TextEditingController();
- var birthDay = TextEditingController();
- var address = TextEditingController();
- var gender = TextEditingController();
- var bloodType = TextEditingController();
+ var fNameController = TextEditingController();
+ var lNameController = TextEditingController();
+ var phoneController = TextEditingController();
+ var birthDayController = TextEditingController();
+ var addressController = TextEditingController();
+ var genderController = TextEditingController();
+ var bloodTypeController = TextEditingController();
 
+   var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: defultColor,
-        body: Container(
-          width: double.infinity,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 50.0, bottom: 50),
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.white,
-                  child: Image(image: AssetImage('assets/images/icons/splash.png'),
-                  ),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(40.0),
-                        bottomRight: Radius.circular(40.0),
-                        topLeft: Radius.circular(140.0),
-                        bottomLeft: Radius.circular(40.0)),
-                    color: Colors.white,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: Form(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          defaultTextFormField(
-                              controller: emailController,
-                              type: TextInputType.emailAddress,
-                              hintText: 'البريد الالكتروني',
-                              labelText: 'البريد الالكتروني',
-                              preFix: Icons.email),
-                          SizedBox(height: 10,),
-                          defaultTextFormField(
-                              controller: emailController,
-                              type: TextInputType.emailAddress,
-                              hintText: 'البريد الالكتروني',
-                              labelText: 'البريد الالكتروني',
-                              preFix: Icons.email),
-                          SizedBox(height: 10,),
-                          defaultTextFormField(
-                              controller: emailController,
-                              type: TextInputType.emailAddress,
-                              hintText: 'البريد الالكتروني',
-                              labelText: 'البريد الالكتروني',
-                              preFix: Icons.email),
-                          SizedBox(height: 10,),
-                      ElevatedButton(
-                                onPressed: () {
-                                  navigateTo(context, onBoardingScreen());
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.red,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 15),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                child: const Text(
-                                  'تسجيل الدخول',
-                                  style: TextStyle(
-                                      fontSize: 10, fontFamily: 'Lemonada'),
-                                ),
-                              ),
-                        ],
+    return BlocConsumer<UserCubit,UserStatus>(
+        listener: (BuildContext context, UserStatus state) {  },
+    builder: (BuildContext context, UserStatus state) {
+      var cubit = UserCubit.get(context);
+      return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light.copyWith(statusBarColor:Colors.transparent,),
+        child: Scaffold(
+          backgroundColor: defultColor,
+          body: SizedBox(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 40.0, bottom: 30),
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white,
+                      child: Image(image: AssetImage(
+                          'assets/images/icons/splash.png'),
                       ),
                     ),
                   ),
-                ),
-              )
+                  const Text(
+                      "مرحبا, بك",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700
+                    )
+                  ),
+                   Column(
+                     children: [
+                       Form(
+                         key: formKey,
+                         child: Stack(
+                           alignment: Alignment.bottomCenter,
+                           children: [
+                             const Image(image: AssetImage('assets/images/cerves pages/SIGN UP APP USER.png'),),
+                             Positioned(
+                               top: 50,
+                               right: 20,
+                               child: Column(
+                                 crossAxisAlignment: CrossAxisAlignment.center,
+                                 children: [
+                                   const Text(
+                                     "إنشاء حساب",
+                                     style: TextStyle(
+                                         fontSize: 15,
+                                         fontWeight: FontWeight.w700
+                                     ),
+                                   ),
+                                   const SizedBox(height:3,),
+                                   Container(
+                                     width: 100,
+                                     height: 3,
+                                     color: defultColor,
+                                   )
+                                 ],
+                               ),
+                             ),
+                             Stack(
+                               alignment: Alignment.bottomCenter,
+                               children: [
+                                 Padding(
+                                   padding: const EdgeInsets.all(15.0),
+                                   child: Container(
+                                     height: 320,
+                                     decoration: const BoxDecoration(
+                                       borderRadius: BorderRadius.only(
+                                           topRight: Radius.circular(40.0),
+                                           bottomRight: Radius.circular(40.0),
+                                           topLeft: Radius.circular(40.0),
+                                           bottomLeft: Radius.circular(40.0)),
+                                       // color: Colors.white,
+                                     ),
+                                     child: Padding(
+                                       padding: const EdgeInsets.all(25.0),
+                                       child: SingleChildScrollView(
+                                         child: Column(
+                                           crossAxisAlignment: CrossAxisAlignment.center,
+                                           children: [
+                                             defaultTextFormField(
+                                                 controller: fNameController,
+                                                 type: TextInputType.name,
+                                                 hintText: 'الاسم',
+                                                 labelText: 'الاسم',
+                                                 preFix: Icons.person),
+                                             const SizedBox(height: 10,),
+                                             defaultTextFormField(
+                                                 controller: emailController,
+                                                 type: TextInputType.emailAddress,
+                                                 hintText: 'البريد الالكتروني',
+                                                 labelText: 'البريد الالكتروني',
+                                                 preFix: Icons.email),
+                                             const SizedBox(height: 10,),
+                                             defaultTextFormField(
+                                               controller: passController,
+                                               type: TextInputType.visiblePassword,
+                                               hintText: 'كلمه السر',
+                                               labelText: 'كلمه السر',
+                                               preFix: Icons.lock_outline,
+                                               isPassword: cubit.isPassword,
+                                               suFix:  cubit.suffixIcon,
+                                               suffixOnPressed: (){
+                                                 cubit.changePasswordVisibility();
+                                               },
+                                             ),
+                                             const SizedBox(height: 10,),
+                                             defaultTextFormField(
+                                               controller: rePassController,
+                                               type: TextInputType.visiblePassword,
+                                               hintText: 'اعاده كلمه السر',
+                                               labelText: 'اعاده كلمه السر',
+                                               preFix: Icons.lock_outline,
+                                               isPassword: cubit.isPassword,
+                                             ),
+                                             defaultTextFormField(
+                                                 controller: birthDayController,
+                                                 type: TextInputType.datetime,
+                                                 hintText: 'تاريخ الميلاد',
+                                                 labelText: 'تاريخ الميلاد',
+                                                 onTap: ( ) {
+                                                   showDatePicker(
+                                                       context: context,
+                                                       initialDate: DateTime.now(),
+                                                       firstDate: DateTime(1930),
+                                                       lastDate: DateTime.now(),
+                                                   ).then((value) {
+                                                     birthDayController.text=DateFormat.yMMMd().format(value!);
+                                                     print(DateFormat.yMMMd().format(value));
+                                                   });
+                                                 },
+                                                 preFix: Icons.date_range_rounded
+                                             ),
+                                             const SizedBox(height: 10,),
+                                             defaultTextFormField(
+                                                 controller: phoneController,
+                                                 type: TextInputType.phone,
+                                                 hintText: 'رقم الهاتف',
+                                                 labelText: 'رقم الهاتف',
+                                                 preFix: Icons.phone_android),
+                                             const SizedBox(height: 10,),
+                                             defaultTextFormField(
+                                                 controller: addressController,
+                                                 type: TextInputType.streetAddress,
+                                                 hintText: 'المدينه',
+                                                 labelText: 'المدينه',
+                                                 preFix: Icons.location_on_outlined),
+                                             const SizedBox(height: 10,),
+                                             Row(
+                                               children: [
+                                                 Row(
+                                                   children: [
+                                                     Icon(
+                                                       Icons.transgender,
+                                                       color: defultColor,
+                                                     ),
+                                                     const SizedBox(width: 10,),
+                                                     const Text(
+                                                       "النوع",
+                                                       style: TextStyle(
+                                                           fontWeight: FontWeight.w900,
+                                                           fontSize: 12,
+                                                           color: Colors.grey
+                                                       ),
+                                                     ),
+                                                   ],
+                                                 ),
+                                                 Expanded(
+                                                   child: RadioListTile(
+                                                       title:const Text(
+                                                         "ذكر",
+                                                         style:TextStyle(
+                                                           fontSize: 12,
+                                                         ),
+                                                       ),
+                                                       activeColor: defultColor,
+                                                       selected: cubit.Gender == "ذكر" ? true : false,
+                                                       value: "ذكر",
+                                                       groupValue: cubit.Gender,
+                                                       onChanged: (val){
+                                                         cubit.ChooseGender(val!);
+                                                       }),
+                                                 ),
+                                                 Expanded(
+                                                   child: RadioListTile(
+                                                       title:const Text(
+                                                         "انثي",
+                                                         style:TextStyle(
+                                                           fontSize: 12,
+                                                         ),
+                                                       ),
+                                                       selected: cubit.Gender == "انثي" ? true : false,
+                                                       activeColor: defultColor,
+                                                       value: "انثي",
+                                                       groupValue: cubit.Gender,
+                                                       onChanged: (val){
+                                                         cubit.ChooseGender(val!);
+                                                       }),
+                                                 ),
+                                               ],
+                                             ),
+                                             const SizedBox(height: 10,),
+                                             Row(
+                                               children: [
+                                                 Icon(Icons.bloodtype,color: defultColor,),
+                                                 const SizedBox(width: 10,),
+                                                 const Text(
+                                                     "زمرة الدم",
+                                                   style: TextStyle(
+                                                       fontWeight: FontWeight.w900,
+                                                       fontSize: 12,
+                                                       color: Colors.grey
+                                                   ),
+                                                 ),
+                                                 const SizedBox(width: 15,),
+                                                 DropdownButtonHideUnderline(
+                                                   child: DropdownButton2<String>(
+                                                     items: cubit.items.map((String item) =>
+                                                         DropdownMenuItem<String>(
+                                                           value: item,
+                                                           child: Text(
+                                                             item,
+                                                             style: const TextStyle(
+                                                               fontSize: 14,
+                                                               fontWeight: FontWeight.bold,
+                                                               color: Colors.grey,
+                                                             ),
+                                                             overflow: TextOverflow.ellipsis,
+                                                           ),
+                                                         ))
+                                                         .toList(),
+                                                     value: cubit.dropdownBloodMenuValue,
+                                                     onChanged: (value) {
+                                                       cubit.BloodTypeMenu(value!);
+                                                     },
+                                                     buttonStyleData: ButtonStyleData(
+                                                       padding: const EdgeInsets.only(left: 14, right: 14),
+                                                       decoration: BoxDecoration(
+                                                         color: Colors.white,
+                                                         borderRadius: BorderRadius.circular(14),
+                                                         boxShadow: kElevationToShadow[2],
+                                                       ),
+                                                       width: 100
+                                                     ),
+                                                     iconStyleData: const IconStyleData(
+                                                       icon: Icon(
+                                                         Icons.menu,
+                                                       ),
+                                                       iconSize: 14,
+                                                       iconEnabledColor: Colors.red,
+                                                     ),
+                                                     dropdownStyleData: DropdownStyleData(
+                                                       maxHeight: 200,
+                                                       width: 80,
+                                                       decoration: BoxDecoration(
+                                                         borderRadius: BorderRadius.circular(14),
+                                                         color: Colors.white,
+                                                       ),
+                                                       offset: const Offset(-20, 0),
+                                                       scrollbarTheme: ScrollbarThemeData(
+                                                         radius: const Radius.circular(40),
+                                                         thickness: MaterialStateProperty.all(5),
+                                                         thumbVisibility: MaterialStateProperty.all(true),
+                                                       ),
+                                                     ),
+                                                     menuItemStyleData: const MenuItemStyleData(
+                                                       height: 30,
+                                                       padding: EdgeInsets.only(left: 14, right: 14),
+                                                     ),
+                                                   ),
+                                                 ),
+                                               ],
+                                             ),
+                                             const SizedBox(height: 20,),
+                                           ],
+                                         ),
+                                       ),
+                                     ),
+                                   ),
+                                 ),
+                                 defaultButton(
+                                    text: "إنشاء حساب",
+                                    width: 140,
+                                    radius: 35,
+                                    function: (){
+                                      if(formKey.currentState!.validate()) {
+                                        navigateTo(context, const LoginForm());
+                                      }
+                                    }
+                                 ),
+                               ],
+                             ),
+                           ],
+                         ),
+                       ),
+                       Padding(
+                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+                         child: Column(
+                           children: [
+                             Row(
+                               children: [
+                                   Expanded(
+                                     child: defaultImageButton(
+                                         image: "assets/images/icons/icons8-facebook-96.png",
+                                         text: "تسجيل الدخول بفيسبوك",
+                                         function: (){}),
+                                   ),
+                                 const SizedBox(width: 30,),
+                                 Expanded(
+                                   child: defaultImageButton(
+                                       image: "assets/images/icons/icons8-google-96.png",
+                                       text: "تسجيل الدخول بجوجل",
+                                       function: (){}),
+                                 ),
+                               ],
+                             ),
+                             const SizedBox(height: 20,),
+                             Row(
+                               mainAxisSize: MainAxisSize.max,
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: [
+                                 const Text(
+                                   "ليس حساب بالفعل ..." ,
+                                   style: TextStyle(
+                                       fontSize: 10,
+                                       color: Colors.white),
+                                 ),
 
-            ],
+                                 defaultTextButton(
+                                   fontSize: 10,
+                                     color: Colors.orangeAccent,
+                                     function: (){
+                                       navigateTo(context, const LoginForm());
+                                     },
+                                     buttonlable: "${getLang(context, "login")}"),
+                               ],
+                             )
+                           ],
+                         ),
+                       )
+                     ],
+                   ),
+
+                ],
+              ),
+            ),
           ),
         ),
-
-      ),
+      );
+    }
     );
 
+
+//---------------------------------------------------
     // return  Stack(
     //
     //   children: [
