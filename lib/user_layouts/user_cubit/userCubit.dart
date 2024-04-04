@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +19,11 @@ class UserCubit extends Cubit<UserStatus> {
   int currentIndex = 2;
 
   List<Widget> bottomScreen = [
-    NearestBank(),
-    Appointment(),
-    UserHome(),
-    SharingApp(),
-    UserProfile(),
+    const NearestBank(),
+    const Appointment(),
+     UserHome(),
+    const SharingApp(),
+    const UserProfile(),
   ];
 
   void changeNavBottom(int index) {
@@ -78,12 +79,33 @@ class UserCubit extends Cubit<UserStatus> {
 
 //=========== Nearest blood bank =============
 //------------- open location ---------------
-Future getPosition() async {
+Future getPosition(context) async {
     bool services;
+    LocationPermission per;
     services = await Geolocator.isLocationServiceEnabled();
     print(services);
+    if(!services){
+       AwesomeDialog(
+          context: context,
+          title: "Services",
+          body: Text ("Services Not Enable"),
+      ).show();
+    }
+
+    per = await Geolocator.checkPermission();
+
+    if(per == LocationPermission.denied){
+      per = await Geolocator.requestPermission();
+      if(per == LocationPermission.whileInUse || per == LocationPermission.always ){
+        getLatitudeAndLongitude();
+       }
+    }
+    print(per);
     emit(UserLocationStatus());
 }
 
+ Future<Position> getLatitudeAndLongitude() async{
+     return await Geolocator.getCurrentPosition().then((value) => value);
+ }
 
 }
