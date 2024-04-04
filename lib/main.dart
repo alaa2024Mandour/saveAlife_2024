@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
 
       providers: [
-        BlocProvider( create: (BuildContext context) => UserCubit()..getPosition,)
+        BlocProvider( create: (BuildContext context) => UserCubit(),)
       ],
       child: BlocConsumer<UserCubit,UserStatus>(
           listener: (context , state){},
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: lightTheme ,
-              home: const NearestBank(),
+              home: const SplashScreen(),
               localizationsDelegates:const[
                 AppLocale.delegate,
                 GlobalMaterialLocalizations.delegate,
