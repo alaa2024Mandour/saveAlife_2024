@@ -20,6 +20,7 @@ class UserHomePage extends StatelessWidget {
           extendBody: true,
           floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
           floatingActionButton: FloatingActionButton(
+
             onPressed: () {  },
             child: Image(image: AssetImage('assets/images/icons/icons8-robot-60.png'),fit: BoxFit.fill,width: 43,),
           ),
