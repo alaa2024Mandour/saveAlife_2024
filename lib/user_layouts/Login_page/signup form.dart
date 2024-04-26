@@ -47,7 +47,7 @@ class SignUpForm extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.white,
-                      child: Image(image: AssetImage(
+                      child:Image(image: AssetImage(
                           'assets/images/icons/splash.png'),
                       ),
                     ),

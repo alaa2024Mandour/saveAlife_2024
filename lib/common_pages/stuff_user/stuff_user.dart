@@ -5,8 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:save_a_life_2024/shared/components/shared_component.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
+import '../../admin_layouts/adminLogin/admin_login.dart';
 import '../../user_layouts/Login_page/signup form.dart';
-import '../../user_layouts/Login_page/user_login.dart';
+
 
 class StuffSAndUser extends StatefulWidget {
   const StuffSAndUser({Key? key}) : super(key: key);
@@ -171,7 +172,7 @@ class _StuffSAndUserState extends State<StuffSAndUser> {
                             setState(() {
                               is_user=false;
                             });
-                            //navigateTo(context, );
+                            navigateTo(context, AdminLogin());
                           },
                           child: CircleAvatar(
                             radius: 65,
@@ -182,7 +183,7 @@ class _StuffSAndUserState extends State<StuffSAndUser> {
                                   Image(image: AssetImage('assets/images/icons/doctor1.png'),
                                     width: 60,),
                                   Text(
-                                    "مسؤل",
+                                    "مسئول",
                                     style: TextStyle(
                                         fontSize: 21,
                                         fontWeight: FontWeight.w700,

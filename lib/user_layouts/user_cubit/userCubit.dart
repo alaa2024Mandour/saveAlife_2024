@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
 import '../appointment/appointment.dart';
@@ -19,7 +20,7 @@ class UserCubit extends Cubit<UserStatus> {
   int currentIndex = 2;
 
   List<Widget> bottomScreen = [
-    const NearestBank(),
+    NearestBank(),
     const Appointment(),
      UserHome(),
     const SharingApp(),
@@ -47,6 +48,16 @@ class UserCubit extends Cubit<UserStatus> {
   String donorCityMenuValue = 'البحث عن متبرعين في محافظه';
   void donorCityMenu(String value){
     donorCityMenuValue = value;
+    emit(DonorCityState());
+  }
+
+  final List<String> bloodBanktems = [
+    'الاسكندريه',
+    'البحيره',
+  ];
+  String bloodBankValue = 'الاسكندريه';
+  void bloodBankMenu(String value){
+    bloodBankValue = value;
     emit(DonorCityState());
   }
 
@@ -107,5 +118,23 @@ Future getPosition(context) async {
  Future<Position> getLatitudeAndLongitude() async{
      return await Geolocator.getCurrentPosition().then((value) => value);
  }
+ var KomEdekaLat = 53.35;
+  var KomEdekaLong = 9.6;
+  var ElHelalaLat = 53.4833;
+  var ElHelalaLong = 10.3667;
+  var ElshatbyaLat = 55.5833;
+  var ElshatbyLong = 12.95;
+  Future <dynamic> getDistance (lat,long) async{
+    var currentLocation = await getLatitudeAndLongitude();
+    // print("Latitude ${currentLocation.altitude}");
+    // print("Longitude ${currentLocation.longitude}");
+    List<Placemark> placemarks = await placemarkFromCoordinates(currentLocation.altitude,currentLocation.longitude );
+    print(placemarks[0].administrativeArea);
 
+    //-----------------------------
+    var distanceBetween = Geolocator.distanceBetween(currentLocation.altitude,currentLocation.longitude , lat,  long);
+    dynamic distanceKM = distanceBetween/1000;
+    print(distanceKM);
+    return distanceKM;
+  }
 }
