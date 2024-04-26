@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
 
       providers: [
-        BlocProvider( create: (BuildContext context) => UserCubit(),)
+        BlocProvider( create: (BuildContext context) => UserCubit()..getPosition(context),)
       ],
       child: BlocConsumer<UserCubit,UserStatus>(
           listener: (context , state){},
