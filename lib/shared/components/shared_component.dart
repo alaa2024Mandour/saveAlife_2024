@@ -33,13 +33,14 @@ Widget defaultTextButton({
 Widget defaultButton({
   double width = double.infinity,
   double radius = 10.0,
+  required Color color ,
   required String text,
   required Function function,
 }) =>
     Container(
       width: width,
       decoration: BoxDecoration(
-        color: HexColor('#E01B18'),
+        color: color,
         borderRadius: BorderRadius.circular(radius),
       ),
       child: MaterialButton(
@@ -54,6 +55,29 @@ Widget defaultButton({
           ),
         ),
       ),
+    );
+
+
+Widget borderButton({
+  required String text,
+  required Function function,
+}) =>
+    OutlinedButton(
+      style: ButtonStyle(
+          side: MaterialStateProperty.all(BorderSide(
+              color: Colors.white,
+              width: 1.0,
+              style: BorderStyle.solid))),
+      onPressed: () {
+        function();
+      },
+        child: Text(
+          text.toUpperCase(),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 11,
+          ),
+        ),
     );
 
 Widget defaultImageButton({

@@ -18,7 +18,7 @@ class UserHomePage extends StatelessWidget {
         var cubit = UserCubit.get(context);
         return Scaffold(
           extendBody: true,
-          floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+          floatingActionButtonLocation: cubit.currentIndex ==4 ? FloatingActionButtonLocation.startTop : FloatingActionButtonLocation.miniEndFloat,
           floatingActionButton: FloatingActionButton(
 
             onPressed: () {  },
