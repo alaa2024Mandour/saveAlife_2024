@@ -172,11 +172,14 @@ class UserProfile extends StatelessWidget {
                                         }
                                     ),
                                     SizedBox(height: 15,),
-                                    borderButton(
+                                    defaultButton(
                                         text: "الخصومات",
                                         function: (){
                                           navegateAndFinish(context,Rewards());
-                                        })
+                                        },
+                                        color: Colors.white,
+                                        textColor: defultColor,
+                                    )
 
                                   ],
                                 ),
