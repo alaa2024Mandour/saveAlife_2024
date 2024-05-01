@@ -77,7 +77,7 @@ class UserHome extends StatelessWidget {
                 Stack(
                   //alignment: Alignment.center,
                   children: [
-                    Image(
+                    const Image(
                       image: AssetImage(
                           'assets/images/cerves pages/before verified user page.png'),
                       height: 150,
@@ -94,12 +94,12 @@ class UserHome extends StatelessWidget {
                         onPressed: () {
                           //navigateTo(context, cubit.bottomScreen[4]);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.menu,
                           color: Colors.white,
                         ),
                       ),
-                      actions: [
+                      actions: const [
                         CircleAvatar(
                           radius: 35,
                           backgroundImage: AssetImage(
@@ -110,8 +110,8 @@ class UserHome extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      padding: EdgeInsetsDirectional.only(top: 80),
-                      child: Row(
+                      padding: const EdgeInsetsDirectional.only(top: 80),
+                      child: const Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,26 +142,26 @@ class UserHome extends StatelessWidget {
                     //
                     // );
                   },
-                  child: Image(
+                  child: const Image(
                     image:
                         AssetImage('assets/images/icons/icons8-alert-100.png'),
                     width: 35,
                   ),
                 ),
-                SizedBox(height:10),
+                const SizedBox(height:10),
                 Expanded(
                   flex: 4,
                   child: Container(
-                    padding: EdgeInsetsDirectional.symmetric(horizontal: 20),
+                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                     child: MediaQuery.removePadding(
                       removeTop: true,
                       removeBottom: true,
                       context: context,
                       child: ListView.separated(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) =>
-                              Notification(notificationList[index]),
-                          separatorBuilder: (context, index) => SizedBox(
+                              notification(notificationList[index]),
+                          separatorBuilder: (context, index) => const SizedBox(
                                 height: 10,
                               ),
                           itemCount: notificationList.length),
@@ -169,7 +169,7 @@ class UserHome extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
                   child: Container(
                     height: 34,
                     width: 430,
@@ -232,72 +232,36 @@ class UserHome extends StatelessWidget {
                           ),
                         ),
                       ),
-                    // child: ListTile(
-                    //   title: Text(
-                    //       "بحث عن المحافظه",
-                    //     style: TextStyle(
-                    //       fontSize: 10,
-                    //       color: HexColor('#ADADAD')
-                    //     ),
-                    //   ),
-                    //   trailing: PopupMenuButton(
-                    //     itemBuilder: (BuildContext context) => [
-                    //       PopupMenuItem(
-                    //           child: Text(
-                    //               "الاسكندريه",
-                    //             style: TextStyle(
-                    //                 fontSize: 10,
-                    //                 color: HexColor('#ADADAD')
-                    //             ),
-                    //           ),
-                    //           value: "الاسكندريه",
-                    //       ),
-                    //       PopupMenuItem(
-                    //         child: Text(
-                    //           "البحيره",
-                    //           style: TextStyle(
-                    //               fontSize: 10,
-                    //               color: HexColor('#ADADAD')
-                    //           ),
-                    //         ),
-                    //         value: "البحيره",
-                    //       ),
-                    //     ],
-                    //     onSelected: (String newValue){
-                    //       cubit.citySearch(cubit.Title,newValue);
-                    //     },
-                    //   ),
-                    // ),
                   ),
                 ),
                 Expanded(
                   child: Container(
                     height: 48,
-                    padding: EdgeInsetsDirectional.symmetric(horizontal: 20),
+                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                     child: ListView.separated(
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) =>
-                            BloodType(bloodTypeList[index]),
-                        separatorBuilder: (context, index) => SizedBox(
+                            bloodType(bloodTypeList[index]),
+                        separatorBuilder: (context, index) => const SizedBox(
                               width: 10,
                             ),
                         itemCount: bloodTypeList.length),
                   ),
                 ),
-                SizedBox(height:10),
+                const SizedBox(height:10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     children: [
-                      Text(
+                      const Text(
                           "المتبرعين",
                         style:TextStyle(
                           fontSize: 19,
                           color: Colors.black,
                         ) ,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
                         "الكل",
                         style:TextStyle(
@@ -308,19 +272,19 @@ class UserHome extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height:10),
+                const SizedBox(height:10),
                 Expanded(
                   flex: 5,
                   child: Container(
-                    padding: EdgeInsetsDirectional.symmetric(horizontal: 20),
+                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                     child:  MediaQuery.removePadding(
                       removeTop: true,
                       removeBottom: true,
                       context: context,
                       child: ListView.separated(
-                          physics: BouncingScrollPhysics(),
-                          itemBuilder: (context, index) => Donors(),
-                          separatorBuilder: (context, index) => SizedBox(height: 10,),
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) => donors(),
+                          separatorBuilder: (context, index) => const SizedBox(height: 10,),
                           itemCount: 10),
                     ),
                   ),
@@ -334,8 +298,8 @@ class UserHome extends StatelessWidget {
 
 //------------------------------------------------
 
-Widget Notification(notificationModel model) => Container(
-      padding: EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 5),
+Widget notification(notificationModel model) => Container(
+      padding: const EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: HexColor("#D9D9D9"),
@@ -362,11 +326,11 @@ Widget Notification(notificationModel model) => Container(
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Text(
-                '${model.title}',
+                model.title,
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
@@ -376,7 +340,7 @@ Widget Notification(notificationModel model) => Container(
             ],
           ),
           Text(
-            '${model.explainNotifi}',
+            model.explainNotifi,
             style: TextStyle(
               fontSize: 9,
               fontWeight: FontWeight.w700,
@@ -387,7 +351,7 @@ Widget Notification(notificationModel model) => Container(
       ),
     );
 
-Widget BloodType(bloodTypesModel model) => GestureDetector(
+Widget bloodType(bloodTypesModel model) => GestureDetector(
       onTap: () {},
       child: Container(
         width: 57,
@@ -396,8 +360,8 @@ Widget BloodType(bloodTypesModel model) => GestureDetector(
             color: defultColor, borderRadius: BorderRadius.circular(9)),
         child: Center(
           child: Text(
-            '${model.bloodType}',
-            style: TextStyle(
+            model.bloodType,
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -407,8 +371,8 @@ Widget BloodType(bloodTypesModel model) => GestureDetector(
       ),
     );
 
-Widget Donors() => Container(
-  padding: EdgeInsetsDirectional.all(10),
+Widget donors() => Container(
+  padding: const EdgeInsetsDirectional.all(10),
   color: Colors.white,
       child: Row(
         children: [
@@ -416,19 +380,19 @@ Widget Donors() => Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(35)
             ),
-            child: Image(
+            child: const Image(
               image: AssetImage('assets/images/icons/male.jpg'),
               width: 70,
               height: 70,
               fit: BoxFit.fill,
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text(
+              const Text(
                   'Mohammed Ahmad',
                 style: TextStyle(
                   fontSize: 15,
@@ -438,7 +402,7 @@ Widget Donors() => Container(
               ),
               Row(
                 children: [
-                  Text(
+                  const Text(
                     'الحاله',
                     style: TextStyle(
                       fontSize: 13,
@@ -466,7 +430,7 @@ Widget Donors() => Container(
               )
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Text(
               "+B",
             style: TextStyle(

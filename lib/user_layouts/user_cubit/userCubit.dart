@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
+import '../../shared/style/colors.dart';
 import '../appointment/appointment.dart';
 import '../home_page/userHome.dart';
 import '../nearst_blood_bank/nearst_blood_bank.dart';
@@ -138,3 +140,112 @@ Future getPosition(context) async {
     return distanceKM;
   }
 }
+
+class bloodTypesModel {
+  final String bloodType;
+
+  bloodTypesModel({required this.bloodType}) {}
+}
+
+List<bloodTypesModel> bloodTypeList = [
+  bloodTypesModel(bloodType: '+A'),
+  bloodTypesModel(bloodType: '-A'),
+  bloodTypesModel(bloodType: '+B'),
+  bloodTypesModel(bloodType: '-B'),
+  bloodTypesModel(bloodType: '+AB'),
+  bloodTypesModel(bloodType: '-AB'),
+  bloodTypesModel(bloodType: '+O'),
+  bloodTypesModel(bloodType: '-O'),
+];
+
+Widget BloodType(bloodTypesModel model) => GestureDetector(
+  onTap: () {},
+  child: Container(
+    width: 57,
+    height: 48,
+    decoration: BoxDecoration(
+        color: defultColor, borderRadius: BorderRadius.circular(9)),
+    child: Center(
+      child: Text(
+        '${model.bloodType}',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+        ),
+      ),
+    ),
+  ),
+);
+
+Widget Donors() => Container(
+  padding: EdgeInsetsDirectional.all(10),
+  color: Colors.white,
+  child: Row(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35)
+        ),
+        child: Image(
+          image: AssetImage('assets/images/icons/male.jpg'),
+          width: 70,
+          height: 70,
+          fit: BoxFit.fill,
+        ),
+      ),
+      Spacer(),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Text(
+            'Mohammed Ahmad',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          Row(
+            children: [
+              Text(
+                'الحاله',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.green,
+                ),
+              ),
+              Text(
+                ', النوع,',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+              Text(
+                ' 01112602464',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+      Spacer(),
+      Text(
+        "+B",
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 24,
+          color: defultColor,
+        ),
+      ),
+    ],
+  ),
+);

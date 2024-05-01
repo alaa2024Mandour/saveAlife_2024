@@ -202,7 +202,7 @@ class EnterCode extends StatelessWidget {
                                           text:'أكتمل',
                                           function: (){
                                           navegateAndFinish(context, const LoginForm());
-                                          }
+                                          }, color: defultColor,
                                       ),
                                     ),
 
@@ -210,7 +210,7 @@ class EnterCode extends StatelessWidget {
                                 ),
                               ),
                             ));
-                      }),
+                      }, color: defultColor,),
                 ],
               ),
             ),

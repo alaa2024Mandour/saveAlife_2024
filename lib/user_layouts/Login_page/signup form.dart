@@ -319,7 +319,7 @@ class SignUpForm extends StatelessWidget {
                                       if(formKey.currentState!.validate()) {
                                         navigateTo(context, const LoginForm());
                                       }
-                                    }
+                                    }, color: defultColor,
                                  ),
                                ],
                              ),

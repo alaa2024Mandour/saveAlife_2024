@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:save_a_life_2024/shared/style/colors.dart';
 import 'package:save_a_life_2024/user_layouts/Login_page/forgetPass/verification.dart';
 import '../../../shared/components/shared_component.dart';
 import '../signup form.dart';
@@ -92,7 +93,7 @@ class ForgetScreen extends StatelessWidget {
                     function: ()
                     {
                       navigateTo(context, EnterCode());
-                    },
+                    }, color: defultColor,
                   )),
             ],
           ),

@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:save_a_life_2024/user_layouts/Login_page/login%20form.dart';
 import 'package:save_a_life_2024/user_layouts/home_page/home_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../shared/components/shared_component.dart';
 import '../../shared/style/colors.dart';
-
-
 
 class BoardingModel {
   late final String icon;
@@ -80,7 +79,11 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
               color: defultColor
             ),
           ],
-          leading: Icon(Icons.arrow_back_ios,color: defultColor,),
+          leading: IconButton(
+              onPressed: () {
+                navigateTo(context, LoginForm());
+              },
+              icon: Icon(Icons.arrow_back_ios,color: defultColor,)),
         ),
         body:Column(
           children: [
