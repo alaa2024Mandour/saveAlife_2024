@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:save_a_life_2024/admin_cubit/cubit.dart';
 import 'package:save_a_life_2024/shared/components/localization/appLocal.dart';
 import 'package:save_a_life_2024/shared/style/themes.dart';
 import 'package:save_a_life_2024/splash_screen/splash_screen.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
 
       providers: [
-        BlocProvider( create: (BuildContext context) => UserCubit()..getPosition(context),)
+        BlocProvider( create: (BuildContext context) => UserCubit()..getPosition(context),),
+        BlocProvider( create: (BuildContext context) => AdminCubit())
       ],
       child: BlocConsumer<UserCubit,UserStatus>(
           listener: (context , state){},

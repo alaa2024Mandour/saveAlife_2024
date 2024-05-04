@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bloc/bloc.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -147,6 +148,31 @@ Future getPosition(context) async {
   uploadImage(XFile image ) async{
     profilePicture = image;
     emit(SignUpGetProfileImage());
+  }
+
+  // -------------- AdminController ----------------
+  // -------------- Upload files controller ----------------
+  var donorEmail = TextEditingController();
+  var FileController = TextEditingController();
+
+
+  String ?fileName;
+  Future uploadFile () async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if(result != null){
+      File file= File(result.files.single.path ?? " ");
+
+      fileName =file!.path.split('/').last;
+      String filePath = file!.path;
+
+      onSendProgress:(int send, int total){
+        print("$send , $total");
+      };
+      emit(UploadResult());
+    }else{
+      print("Result is null");
+    }
+
   }
 
 }

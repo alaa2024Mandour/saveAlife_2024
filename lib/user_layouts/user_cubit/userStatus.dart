@@ -17,3 +17,5 @@ class UserChangePassStatus extends UserStatus {}
 class UserLocationStatus extends UserStatus {}
 
 class SignUpGetProfileImage extends UserStatus {}
+
+class UploadResult extends UserStatus {}
