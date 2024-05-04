@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
 import '../../shared/style/colors.dart';
 import '../appointment/appointment.dart';
@@ -139,6 +142,13 @@ Future getPosition(context) async {
     print(distanceKM);
     return distanceKM;
   }
+  //============== UploadProfileImage Function ===============
+  XFile?  profilePicture ;
+  uploadImage(XFile image ) async{
+    profilePicture = image;
+    emit(SignUpGetProfileImage());
+  }
+
 }
 
 class bloodTypesModel {
@@ -160,16 +170,14 @@ List<bloodTypesModel> bloodTypeList = [
 
 Widget BloodType(bloodTypesModel model) => GestureDetector(
   onTap: () {},
-  child: Container(
-    width: 57,
-    height: 48,
-    decoration: BoxDecoration(
-        color: defultColor, borderRadius: BorderRadius.circular(9)),
+  child: CircleAvatar(
+    radius: 25,
+    backgroundColor: defultColor,
     child: Center(
       child: Text(
         '${model.bloodType}',
         style: TextStyle(
-          fontSize: 24,
+          fontSize: 20,
           fontWeight: FontWeight.w700,
           color: Colors.white,
         ),
@@ -178,74 +186,89 @@ Widget BloodType(bloodTypesModel model) => GestureDetector(
   ),
 );
 
-Widget Donors() => Container(
-  padding: EdgeInsetsDirectional.all(10),
-  color: Colors.white,
-  child: Row(
-    children: [
-      Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(35)
-        ),
-        child: Image(
-          image: AssetImage('assets/images/icons/male.jpg'),
-          width: 70,
-          height: 70,
-          fit: BoxFit.fill,
-        ),
-      ),
-      Spacer(),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Text(
-            'Mohammed Ahmad',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
-            ),
+Widget Donors() => Padding(
+  padding:EdgeInsetsDirectional.symmetric(horizontal: 5 , vertical: 10),
+  child: Container(
+    padding: EdgeInsetsDirectional.all(10),
+    decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(19),
+        boxShadow: [
+          BoxShadow(
+            color: HexColor('#C4C4C4'),
+            blurRadius: 4.0,
+            spreadRadius: 2.0,
           ),
-          Row(
-            children: [
-              Text(
-                'الحاله',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.green,
-                ),
-              ),
-              Text(
-                ', النوع,',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
-              Text(
-                ' 01112602464',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-      Spacer(),
-      Text(
-        "+B",
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 24,
-          color: defultColor,
+        ]
+    ),
+    child: Row(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(35)
+          ),
+          child:
+          Image(
+            image: AssetImage('assets/images/icons/male.jpg'),
+            width: 70,
+            height: 70,
+            fit: BoxFit.fill,
+          ),
         ),
-      ),
-    ],
+        Spacer(),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              'Mohammed Ahmad',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  'الحاله',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.green,
+                  ),
+                ),
+                Text(
+                  ', النوع,',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: HexColor("#D9D9D9"),
+                  ),
+                ),
+                Text(
+                  ' 01112602464',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: HexColor("#D9D9D9"),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+        Spacer(),
+        Text(
+          "+B",
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 24,
+            color: defultColor,
+          ),
+        ),
+      ],
+    ),
   ),
 );
+

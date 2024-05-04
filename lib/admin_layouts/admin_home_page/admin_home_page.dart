@@ -1,12 +1,15 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:save_a_life_2024/shared/components/shared_component.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
 import '../../user_layouts/user_cubit/userCubit.dart';
 import '../../user_layouts/user_cubit/userStatus.dart';
+
+var donorEmail = TextEditingController();
 
 class AdminHome extends StatelessWidget {
   const AdminHome({Key? key}) : super(key: key);
@@ -14,93 +17,254 @@ class AdminHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  BlocConsumer<UserCubit,UserStatus>(
-        listener: (BuildContext context, UserStatus state) {  },
+        listener: (BuildContext context, UserStatus state) { },
         builder: (BuildContext context, UserStatus state) {
           var cubit = UserCubit.get(context);
           return   AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent,),
+            value: SystemUiOverlayStyle.light.copyWith(statusBarColor:defultColor,),
             child: Scaffold(
-              appBar: AppBar(
-                leadingWidth: double.infinity,
-                backgroundColor: Colors.transparent,
-                actions: const[
-                   Padding(
-                     padding: EdgeInsets.only(left: 15.0),
-                     child: CircleAvatar(
-                      radius: 25,
-                      backgroundColor: Colors.white,
-                      backgroundImage: AssetImage("assets/images/icons/icons8-doctor-40.png"),),
-                   ),
-                ],
-                leading: const Padding(
-                  padding: EdgeInsets.only(right: 15.0),
-                  child:  Text("ألاء ياسر",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 15, color: Colors.black),),
-                ),
-              ),
                 body: SizedBox(
                   width: double.infinity,
                   child:  Column(
                     children: [
-                      const SizedBox(height:10),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: (){},
-                            child: Container(
-                              width: 94,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(19),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: HexColor('#C4C4C4'),
-                                      blurRadius: 4.0,
-                                      spreadRadius: 2.0,
-                                    ),
-                                  ]),
-                              child: Center(
-                                child: Image.asset("assets/images/icons/Ellipse 104.png",width: double.infinity,),
+                      Container(
+                        child: Column(
+                          children: [
+                            AppBar(
+                              scrolledUnderElevation:0.0,
+                              leadingWidth: double.infinity,
+                              backgroundColor: Colors.white,
+                              actions: const[
+                                Padding(
+                                  padding: EdgeInsets.only(left: 15.0),
+                                  child: CircleAvatar(
+                                    radius: 25,
+                                    backgroundColor: Colors.white,
+                                    backgroundImage: AssetImage("assets/images/icons/icons8-doctor-40.png"),),
+                                ),
+                              ],
+                              leading: const Padding(
+                                padding: EdgeInsets.only(right: 15.0),
+                                child:  Text("ألاء ياسر",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 15, color: Colors.black),),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 35,),
-                          Container(
-                            width: 94,
-                            height: 80,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(19),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: HexColor('#C4C4C4'),
-                                    blurRadius: 4.0,
-                                    spreadRadius: 2.0,
+                            const SizedBox(height:20),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: (){},
+                                  child: Container(
+                                    width: 94,
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(19),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: HexColor('#C4C4C4'),
+                                            blurRadius: 4.0,
+                                            spreadRadius: 2.0,
+                                          ),
+                                        ]),
+                                    child: Center(
+                                      child: Image.asset("assets/images/icons/Ellipse 104.png",width: double.infinity,),
+                                    ),
                                   ),
-                                ]),
-                            child: Center(
-                              child: Stack(
-                                alignment: Alignment.bottomRight,
-                                children: [
-                                  Image.asset("assets/images/icons/Group 52.png"),
-                                  GestureDetector(
-                                    onTap: (){},
-                                    child: CircleAvatar(
-                                        radius: 15,
-                                        backgroundColor: defultColor,
-                                        child: const Icon(Icons.add,color: Colors.white70,)
+                                ),
+                                const SizedBox(width: 35,),
+                                Container(
+                                  width: 94,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(19),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: HexColor('#C4C4C4'),
+                                          blurRadius: 4.0,
+                                          spreadRadius: 2.0,
+                                        ),
+                                      ]),
+                                  child: Center(
+                                    child: Stack(
+                                      alignment: Alignment.bottomRight,
+                                      children: [
+                                        Image.asset("assets/images/icons/Group 52.png"),
+                                        Transform.translate(
+                                          offset: Offset(3,0),
+                                          child:GestureDetector(
+                                              onTap: (){
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) => AlertDialog(
+                                                        contentPadding: EdgeInsets.zero,
+                                                      backgroundColor: Colors.white,
+                                                      content: Center(
+                                                        child: Container(
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                                                                width: double.infinity,
+                                                                decoration: BoxDecoration(
+                                                                  color: defultColor,
+                                                                  borderRadius: BorderRadius.circular(15)
+                                                                ),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    'إرسال نتيجه فحص الدم للمتبرع ',
+                                                                    style: TextStyle(
+                                                                      fontWeight: FontWeight.w900,
+                                                                      color: Colors.white
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(height: 20,),
+                                                              Container(
+                                                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                                                child: Form(
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Container(
+                                                                        child: Row(
+                                                                          children: [
+                                                                            Text(
+                                                                              "البريد الالكتروني للمتبرع : ",
+                                                                              style: TextStyle(
+                                                                                fontSize: 10
+                                                                              ),
+                                                                            ),
+                                                                            Expanded(
+                                                                              child: TextFormField(
+                                                                                keyboardType: TextInputType.emailAddress,
+                                                                                controller: donorEmail,
+                                                                                decoration: InputDecoration(
+                                                                                  labelStyle: TextStyle(fontSize: 12, color: Colors.grey, ),
+                                                                                  fillColor: Colors.transparent,
+                                                                                  border: InputBorder.none,
+                                                                                ),
+                                                                                style: TextStyle(
+                                                                                  fontSize: 15,
+                                                                                  fontFamily: 'Tajawal',
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        padding: EdgeInsets.symmetric(horizontal: 5),
+                                                                        decoration: BoxDecoration(
+                                                                          color: Colors.white,
+                                                                            borderRadius: BorderRadius.circular(19),
+                                                                            boxShadow: [
+                                                                              BoxShadow(
+                                                                                color: HexColor('#C4C4C4'),
+                                                                                blurRadius: 4.0,
+                                                                                spreadRadius: 2.0,
+                                                                              ),
+                                                                            ]
+                                                                        ),
+                                                                        ),
+                                                                      SizedBox(height: 15,),
+                                                                      Container(
+                                                                        child: Row(
+                                                                          children: [
+                                                                            Text(
+                                                                              " ملف الفحص : ",
+                                                                              style: TextStyle(
+                                                                                  fontSize: 10
+                                                                              ),
+                                                                            ),
+                                                                            Expanded(
+                                                                              child: TextFormField(
+                                                                                keyboardType: TextInputType.emailAddress,
+                                                                                controller: donorEmail,
+                                                                                decoration: InputDecoration(
+                                                                                  labelStyle: TextStyle(fontSize: 12, color: Colors.grey, ),
+                                                                                  fillColor: Colors.transparent,
+                                                                                  border: InputBorder.none,
+                                                                                ),
+                                                                                style: TextStyle(
+                                                                                  fontSize: 15,
+                                                                                  fontFamily: 'Tajawal',
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        padding: EdgeInsets.symmetric(horizontal: 5),
+                                                                        decoration: BoxDecoration(
+                                                                            color: Colors.white,
+                                                                            borderRadius: BorderRadius.circular(19),
+                                                                            boxShadow: [
+                                                                              BoxShadow(
+                                                                                color: HexColor('#C4C4C4'),
+                                                                                blurRadius: 4.0,
+                                                                                spreadRadius: 2.0,
+                                                                              ),
+                                                                            ]
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )
+                                                )
+                                                );
+                                              },
+                                              child: CircleAvatar(
+                                                  radius: 15,
+                                                  backgroundColor: defultColor,
+                                                  child: const Icon(Icons.add,color: Colors.white70,)
+                                              ),
+                                            ),
+                                        ),
+
+                                      ],
                                     ),
-                                  )
-                                ],
-                              ),
+                                  ),
+                                ),
+                                const SizedBox(width: 35,),
+                                Container(
+                                  width: 94,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(19),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: HexColor('#C4C4C4'),
+                                          blurRadius: 4.0,
+                                          spreadRadius: 2.0,
+                                        ),
+                                      ]),
+                                  child: Center(
+                                    child: GestureDetector(
+                                      onTap: (){
+
+                                      },
+                                      child: Stack(
+                                        alignment: Alignment.bottomRight,
+                                        children: [
+                                          Image.asset("assets/images/icons/donor.png",width: 60,),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
+                        padding: EdgeInsets.only( top: 40,right: 20,left: 20,bottom:10 ),
                         child: Container(
                           height: 34,
                           width: 430,
@@ -180,7 +344,7 @@ class AdminHome extends StatelessWidget {
                               itemCount: bloodTypeList.length),
                         ),
                       ),
-                      const SizedBox(height:10),
+                      const SizedBox(height:20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Row(

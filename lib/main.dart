@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:save_a_life_2024/shared/components/localization/appLocal.dart';
 import 'package:save_a_life_2024/shared/style/themes.dart';
 import 'package:save_a_life_2024/splash_screen/splash_screen.dart';
-import 'package:save_a_life_2024/user_layouts/nearst_blood_bank/nearst_blood_bank.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userCubit.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
 
@@ -56,7 +55,6 @@ class MyApp extends StatelessWidget {
           }
       ),
     );
-
   }
 }
 
