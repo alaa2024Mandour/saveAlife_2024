@@ -1,8 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:save_a_life_2024/shared/components/shared_component.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
-import 'package:save_a_life_2024/user_layouts/profile_setting/profile.dart';
-
 import '../home_page/home_page.dart';
 
 class Rewards extends StatelessWidget {
@@ -74,7 +74,87 @@ class Rewards extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Image(image: AssetImage('assets/images/icons/icons8-qr-code-64.png')),
+                              GestureDetector(
+                                onTap: (){
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => SingleChildScrollView(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(bottom: 25.0),
+                                          child: Column(
+                                            children: [
+                                              AlertDialog(
+                                          contentPadding: const EdgeInsets.all(0),
+                                                content: Container(
+                                                  width: MediaQuery.of(context).size.width,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                    gradient: LinearGradient(
+                                                        colors: [
+                                                        Colors.green ,
+                                                          Colors.white,
+                                                        ],
+                                                        begin: const FractionalOffset(0.0, 0.0),
+                                                        end: const FractionalOffset(1.0, 0.0),
+                                                        stops: [0.0, 1.0],
+                                                        tileMode: TileMode.clamp),
+                                                  ),
+                                                  child:  Center(
+                                                    child: Container(
+                                                      padding: EdgeInsets.symmetric(horizontal: 20),
+                                                      child: Stack(
+                                                        children: [
+                                                          Transform.translate(
+                                                            offset: Offset(-90,-50),
+                                                            child: Image(
+                                                              image: AssetImage("assets/images/icons/splash.png"),width: 150,
+                                                            ),
+                                                          ),
+                                                          Column(
+                                                            children: [
+                                                              AppBar(
+                                                                leading: IconButton(
+                                                                  onPressed: () {
+                                                                    navigateTo(context, Rewards());
+                                                                  },
+                                                                  icon: Icon(Icons.dangerous_outlined , color: Colors.red,),),
+                                                                backgroundColor: Colors.transparent,
+                                                              ),
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  flex: 3,
+                                                                    child: Column(
+                                                                      children: [
+                                                                        bloodCheckInfo("رقم العمليه : ","12345"),
+                                                                        bloodCheckInfo(" اسم المتبرع :  ","الاء ياسر محمد"),
+                                                                        bloodCheckInfo("الرقم القومي للمتبرع : ","3024454956594"),
+                                                                        bloodCheckInfo("فصيله الدم : ","+AB"),
+                                                                        bloodCheckInfo("اسم بنك الدم : ","كوم الدكه"),
+                                                                      ],
+                                                                    )
+                                                                ),
+                                                              ],
+                                                            ),
+                                                              Container(
+                                                                height: 50,
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                insetPadding: const EdgeInsets.all(10),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                  );
+                                },
+                                  child: Image(image: AssetImage('assets/images/icons/icons8-qr-code-64.png'))),
                               SizedBox(height: 20,),
                               Text('أنقر علي الرمز \n لتحصل علي \nشيك الدم',
                                 style: TextStyle(
@@ -113,3 +193,28 @@ class Rewards extends StatelessWidget {
     );
   }
 }
+Widget bloodCheckInfo(String title ,var value) => Padding(
+  padding: const EdgeInsets.symmetric(vertical: 10.0),
+  child: Row(
+    children: [
+      Expanded(
+        child: Text(
+          title,
+        style: TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w900,
+        ),
+        ),
+      ),
+      SizedBox(width: 10,),
+      Text(
+          "${value}",
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w900,
+          color: defultColor
+        ),
+      )
+    ],
+  ),
+);

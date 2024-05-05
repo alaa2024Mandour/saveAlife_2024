@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
@@ -84,30 +85,38 @@ class UserHome extends StatelessWidget {
                       width: double.infinity,
                       fit: BoxFit.fill,
                     ),
-                    AppBar(
-                      systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
-                        statusBarColor: Colors.transparent,
-                      ),
-                      backgroundColor: Colors.transparent,
-                      elevation: 0.0,
-                      leading: IconButton(
-                        onPressed: () {
-                          //navigateTo(context, cubit.bottomScreen[4]);
-                        },
-                        icon: const Icon(
-                          Icons.menu,
-                          color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: AppBar(
+                        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+                          statusBarColor: Colors.transparent,
                         ),
-                      ),
-                      actions: const [
-                        CircleAvatar(
-                          radius: 35,
-                          backgroundImage: AssetImage(
-                            'assets/images/icons/female.jpeg',
+                        backgroundColor: Colors.transparent,
+                        elevation: 0.0,
+                        leading: IconButton(
+                          onPressed: () {
+                            //navigateTo(context, cubit.bottomScreen[4]);
+                          },
+                          icon: const Icon(
+                            Icons.menu,
+                            color: Colors.white,
                           ),
-                          backgroundColor: Colors.transparent,
                         ),
-                      ],
+                        actions:  [
+                          cubit.profilePicture == null?
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundImage: AssetImage(
+                              'assets/images/icons/avatar2.png',
+                            ),
+                            backgroundColor: Colors.transparent,
+                          )
+                              :   CircleAvatar(
+                            radius: 35,
+                            backgroundImage: FileImage(File(cubit.profilePicture!.path)),
+                          )
+                        ],
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsetsDirectional.only(top: 80),

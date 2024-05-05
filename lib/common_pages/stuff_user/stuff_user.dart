@@ -144,7 +144,7 @@ class _StuffSAndUserState extends State<StuffSAndUser> {
                                 padding: const EdgeInsets.all(15.0),
                                 child: Column(
                                   children: [
-                                    Image(image: AssetImage('assets/images/icons/avatar.png'),
+                                    Image(image: AssetImage('assets/images/icons/user.png'),
                                     width: 60,),
                                     Text(
                                       "مستخدم",

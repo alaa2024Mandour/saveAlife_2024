@@ -104,9 +104,9 @@ class AdminHome extends StatelessWidget {
                                                           child: Column(
                                                             children: [
                                                               AlertDialog(
-                                                                  contentPadding: EdgeInsets.zero,
-                                                                  backgroundColor: Colors.white,
-                                                                  content: Center(
+                                                                content: SizedBox(
+                                                                  width: MediaQuery.of(context).size.width,
+                                                                  child:  Center(
                                                                     child: Container(
                                                                       child: Column(
                                                                         children: [
@@ -284,7 +284,9 @@ class AdminHome extends StatelessWidget {
                                                                         ],
                                                                       ),
                                                                     ),
-                                                                  )
+                                                                  ),
+                                                                ),
+                                                                insetPadding: const EdgeInsets.all(10),
                                                               ),
                                                             ],
                                                           ),

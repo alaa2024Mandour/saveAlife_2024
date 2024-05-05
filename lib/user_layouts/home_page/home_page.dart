@@ -4,9 +4,12 @@ import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:save_a_life_2024/shared/components/shared_component.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userCubit.dart';
+
+import '../chat_bot/intro_screen.dart';
 
 class UserHomePage extends StatelessWidget {
 
@@ -18,10 +21,11 @@ class UserHomePage extends StatelessWidget {
         var cubit = UserCubit.get(context);
         return Scaffold(
           extendBody: true,
-          floatingActionButtonLocation: cubit.currentIndex ==4 ? FloatingActionButtonLocation.startTop : FloatingActionButtonLocation.miniEndFloat,
+          floatingActionButtonLocation: cubit.currentIndex == 4 ? FloatingActionButtonLocation.startTop : FloatingActionButtonLocation.miniEndFloat,
           floatingActionButton: FloatingActionButton(
-
-            onPressed: () {  },
+            onPressed: () {
+                navigateTo(context, ChatBotIntroScreen());
+            },
             child: Image(image: AssetImage('assets/images/icons/icons8-robot-60.png'),fit: BoxFit.fill,width: 43,),
           ),
           body: cubit.bottomScreen[cubit.currentIndex],
