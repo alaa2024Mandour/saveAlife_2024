@@ -33,10 +33,11 @@ class UserProfile extends StatelessWidget {
                   Stack(
                     alignment: Alignment.bottomRight,
                     children:[
-                      cubit.profilePicture==null?
+                      cubit.profilePicture == null?
                       const CircleAvatar(
                         radius: 64,
-                        backgroundImage: AssetImage("assets/images/avatar.png"),
+                        backgroundImage: AssetImage("assets/images/icons/avatar.png"),
+                        backgroundColor: Colors.white,
                       )
                           :CircleAvatar(
                         radius: 64,
@@ -47,9 +48,8 @@ class UserProfile extends StatelessWidget {
                           onPressed: () {
                             ImagePicker().pickImage(source: ImageSource.gallery)
                                 .then((value) => cubit.uploadImage(value!));
-
                           },
-                          icon: const Icon( Icons.add_a_photo , color: Colors.white,),),)
+                          icon: const Icon( Icons.add_a_photo , color: Colors.black,),),)
                     ],
                   ),
                   Text('يارا',
