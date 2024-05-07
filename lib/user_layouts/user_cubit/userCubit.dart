@@ -27,7 +27,7 @@ class UserCubit extends Cubit<UserStatus> {
 
   List<Widget> bottomScreen = [
     NearestBank(),
-    const Appointment(),
+      Appointment(),
      UserHome(),
     const SharingApp(),
     const UserProfile(),
