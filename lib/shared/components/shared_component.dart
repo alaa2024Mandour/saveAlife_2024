@@ -142,9 +142,11 @@ Widget defaultTextFormField({
   bool isPassword = false,
 }) =>
     TextFormField(
+
       controller: controller,
       keyboardType: type,
       obscureText: isPassword,
+
       //=======for Password=========
       onFieldSubmitted: (s) {
         onSubmit!(s);
@@ -184,6 +186,7 @@ Widget defaultTextFormField({
         fontSize: 15,
         fontFamily: 'Tajawal',
       ),
+
     );
 
 //====================== Navigation =========================
