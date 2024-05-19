@@ -29,8 +29,8 @@ class UserCubit extends Cubit<UserStatus> {
     NearestBank(),
       Appointment(),
      UserHome(),
-    const SharingApp(),
     const UserProfile(),
+    const SharingApp(),
   ];
 
   void changeNavBottom(int index) {
