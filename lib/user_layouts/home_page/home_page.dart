@@ -8,6 +8,7 @@ import 'package:save_a_life_2024/shared/components/shared_component.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userCubit.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../chat_bot/intro_screen.dart';
 
@@ -56,12 +57,16 @@ class UserHomePage extends StatelessWidget {
                      label: "الرئيسيه"
                  ),
                 CurvedNavigationBarItem(
-                    child: Icon(Icons.share,),
-                    label: "شارك"
-                ),
-                CurvedNavigationBarItem(
                     child: Icon(Icons.person,),
                     label: "معلوماتك"
+                ),
+                CurvedNavigationBarItem(
+                    child: IconButton(
+                      onPressed: () {
+                        Share.share('app link');
+                      },
+                      icon: Icon(Icons.share),),
+                    label: "شارك"
                 ),
               ],
             ),
