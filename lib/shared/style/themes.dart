@@ -26,13 +26,5 @@ ThemeData lightTheme =ThemeData(
     backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
   ),
-  textTheme: TextTheme(
-    bodyText1: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w900,
-        color: Colors.black
-    ),
-
-  ),
   fontFamily: 'Lemonada',
 );

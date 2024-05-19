@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
-
 import '../../shared/components/shared_component.dart';
 import '../home_page/home_page.dart';
+import 'chatting_page.dart';
+
 
 class ChatBotIntroScreen extends StatelessWidget {
   const ChatBotIntroScreen({Key? key}) : super(key: key);
@@ -54,7 +54,9 @@ class ChatBotIntroScreen extends StatelessWidget {
                color: defultColor,
                text: "اسال روبوتو",
                width: 180,
-               function: (){}
+               function: (){
+                 navegateAndFinish(context, ChatScreen());
+               }
            ),
 
             Expanded(child: Image.asset("assets/images/cerves pages/DOTS APP.png")),
