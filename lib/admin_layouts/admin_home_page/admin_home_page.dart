@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:save_a_life_2024/admin_layouts/Blood_Banks/blood_banks.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
 import '../../shared/components/shared_component.dart';
 import '../../user_layouts/user_cubit/userCubit.dart';
@@ -69,7 +70,11 @@ class AdminHome extends StatelessWidget {
                                               ),
                                             ]),
                                         child: Center(
-                                          child: Image.asset("assets/images/icons/Ellipse 104.png",width: double.infinity,),
+                                          child:IconButton(
+                                              onPressed: (){
+                                                navegateAndFinish(context,BloodBanks() );
+                                              },
+                                              icon: Image.asset('assets/images/icons/Ellipse 104.png')),
                                         ),
                                       ),
                                     ),
