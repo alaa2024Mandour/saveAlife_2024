@@ -21,3 +21,21 @@ class SignUpGetProfileImage extends UserStatus {}
 class UploadResult extends UserStatus {}
 
 class TogelUserDonor extends UserStatus {}
+
+class selectBloodBank extends UserStatus {}
+
+class bihira_selectBloodBank extends UserStatus {}
+
+class selectAlexBloodPageQuantities extends UserStatus {}
+
+class selectBihiraBloodPageQuantities extends UserStatus {}
+
+class bloodPagesCity extends UserStatus {}
+
+class addAlexQuantities extends UserStatus {}
+
+class minsAlexQuantities extends UserStatus {}
+
+class addBihiraQuantities extends UserStatus {}
+
+class minsBihiraQuantities extends UserStatus {}

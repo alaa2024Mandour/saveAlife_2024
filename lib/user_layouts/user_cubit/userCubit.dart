@@ -184,6 +184,70 @@ bool isUser = false;
     isUser=!isUser;
     emit(TogelUserDonor());
   }
+
+// -------------- Blood Pages Control ----------------
+  //------------Alex Blood Pages------------
+  int selectedIndex = 0;
+
+  List<String> tabs = ["الشاطبي", "كوم الدكة", "الهلال الأحمر"];
+  List<double> bloodQuantities = [458, 254, 356, 320, 342, 34, 50];
+  List<String> bloodTypes = ['B+', 'B-', 'A+', 'A-', 'AB+', 'O+', 'O-'];
+
+  void onTabPressed(int index) {
+      selectedIndex = index;
+      emit(selectBloodBank());
+  }
+
+  void changeQuantities(index,value){
+   bloodQuantities[index] = value;
+   emit(selectAlexBloodPageQuantities());
+  }
+
+  void addAlex(index){
+    bloodQuantities[index] ++;
+    emit(addAlexQuantities());
+  }
+
+  void minsAlex(index){
+    bloodQuantities[index] --;
+    emit(minsAlexQuantities());
+  }
+//------------Behira Blood Pages------------
+  int bihira_selectedIndex = 0;
+
+  List<String> bihira_tabs = [ "بنك دم دمنهور", "بنك دم ابو حمص"];
+  List<double> bihira_bloodQuantities = [458, 254, 356, 320, 342, 34, 50];
+  List<String> bihira_bloodTypes = ['B+', 'B-', 'A+', 'A-', 'AB+', 'O+', 'O-'];
+
+  void bihira_onTabPressed(int index) {
+    bihira_selectedIndex = index;
+    emit(bihira_selectBloodBank());
+  }
+
+  void bihira_changeQuantities(index,value){
+    bihira_bloodQuantities[index] = value;
+    emit(selectBihiraBloodPageQuantities());
+  }
+
+  void addBihira(index){
+    bihira_bloodQuantities[index] ++;
+    emit(addBihiraQuantities());
+  }
+
+  void minsBihira(index){
+    bihira_bloodQuantities[index] --;
+    emit(minsBihiraQuantities());
+  }
+  //------------City Blood Pages------------
+  final List<String> bloodPagesItems = [
+    'الاسكندريه',
+    'البحيره',
+  ];
+  String bloodPagesValue = 'الاسكندريه';
+  void bloodPagesMenu(String value){
+    bloodPagesValue = value;
+    emit(bloodPagesCity());
+  }
 }
 
 class bloodTypesModel {

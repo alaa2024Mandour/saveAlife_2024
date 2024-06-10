@@ -60,6 +60,25 @@ Widget defaultButton({
       ),
     );
 
+Widget addMinButton({
+  double width = 25,
+  Color = Colors.grey ,
+  required IconData icon,
+  required Function function,
+}) =>GestureDetector(
+  onTap: (){
+    function();
+  },
+  child: CircleAvatar(
+    radius: 10,
+      backgroundColor:Color,
+      child: Icon(
+        icon,
+        size: 15,
+      )
+  ),
+);
+
 
 Widget borderButton({
   required String text,
