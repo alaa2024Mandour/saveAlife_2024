@@ -34,6 +34,7 @@ Widget defaultButton({
   double width = double.infinity,
   double radius = 10.0,
   Color textColor = Colors.white,
+  double fontSize = 11,
   required Color color ,
   required String text,
   required Function function,
@@ -52,7 +53,7 @@ Widget defaultButton({
           text.toUpperCase(),
           style: TextStyle(
             color: textColor,
-            fontSize: 11,
+            fontSize: fontSize,
             fontWeight: FontWeight.w900,
           ),
         ),

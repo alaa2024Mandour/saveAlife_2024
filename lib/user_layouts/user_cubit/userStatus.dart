@@ -19,3 +19,5 @@ class UserLocationStatus extends UserStatus {}
 class SignUpGetProfileImage extends UserStatus {}
 
 class UploadResult extends UserStatus {}
+
+class TogelUserDonor extends UserStatus {}
