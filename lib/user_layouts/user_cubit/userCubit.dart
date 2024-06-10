@@ -162,8 +162,8 @@ Future getPosition(context) async {
     if(result != null){
       File file= File(result.files.single.path ?? " ");
 
-      fileName =file!.path.split('/').last;
-      String filePath = file!.path;
+      fileName =file.path.split('/').last;
+      String filePath = file.path;
 
       onSendProgress:(int send, int total){
         print("$send , $total");
@@ -175,6 +175,15 @@ Future getPosition(context) async {
 
   }
 
+
+// -------------- Togel between user and donor ----------------
+bool isUser = false;
+  Color isUserColor = Colors.grey;
+  Color isDonorColor = defultColor;
+  void togeleUserDonor(){
+    isUser=!isUser;
+    emit(TogelUserDonor());
+  }
 }
 
 class bloodTypesModel {
