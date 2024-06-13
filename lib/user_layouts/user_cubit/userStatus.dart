@@ -70,3 +70,13 @@ class errorSignUp extends UserStatus {
 
   errorSignUp(this.errorMessage);
 }
+//--------------------- Admin connection status ----------------------------
+class AdminloadingSignIn extends UserStatus {}
+
+class AdminsucssesSignIn extends UserStatus {}
+
+class AdminerrorSignIn extends UserStatus {
+  final String errorMessage ;
+
+  AdminerrorSignIn(this.errorMessage);
+}

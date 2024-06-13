@@ -1,7 +1,8 @@
 class EndPoints {
   static String basURL="https://blood-bank.aboomarmediclub.com/",
                 logIn = "api/auth/login",
-                signUp="api/auth/register";
+                signUp="api/auth/register",
+                adminLogIn = "api/auth/admin/login";
   static String getUserDataEndPoint(id){
     return "user/get-user/$id";
 }

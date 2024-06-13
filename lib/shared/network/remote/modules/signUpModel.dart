@@ -1,6 +1,5 @@
 
 import '../../endPoints/end_points.dart';
-
 class SignUpModel {
    String name;String birthday;String city;String address;String phone;String bloodType;
    String gender;String email;String password;String password_confirmation; String avatar;String message;

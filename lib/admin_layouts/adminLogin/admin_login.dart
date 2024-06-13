@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -130,7 +131,28 @@ class AdminLogin extends StatelessWidget {
                                     radius: 35,
                                     function: (){
                                       if(formKey.currentState!.validate()) {
-                                        navigateTo(context, AdminHome());
+                                        print(adminPassController.text);
+                                        print(adminEmailController.text);
+                                        cubit.adminSignIn(
+                                            adminEmailController.text,
+                                            adminPassController.text,
+                                            context
+                                        );
+                                        if(state is AdminerrorSignIn){
+                                          return AwesomeDialog(
+                                              context: context,
+                                              animType: AnimType.scale,
+                                              dialogType: DialogType.info,
+                                              body: Center(child: Text(
+                                                'هناك خطا في البيانات المدخله',
+                                                style: TextStyle(fontStyle: FontStyle.italic),
+                                              ),),
+                                              title: 'ملحوظه ',
+                                              btnOkOnPress: () {},
+                                              btnOkColor: defultColor,
+                                              dialogBackgroundColor: Colors.white
+                                          )..show();
+                                        }
                                       }
                                     }, color: defultColor,
                                 ),
