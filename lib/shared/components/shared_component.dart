@@ -151,8 +151,6 @@ Widget defaultImageButton({
 Widget defaultTextFormField({
   required TextEditingController controller,
   required TextInputType type,
-  Function? onSubmit,
-  Function? onTap,
   required String hintText,
   required String labelText,
   required IconData preFix,
@@ -168,13 +166,6 @@ Widget defaultTextFormField({
       obscureText: isPassword,
 
       //=======for Password=========
-      onFieldSubmitted: (s) {
-        onSubmit!(s);
-      },
-
-      onTap: () {
-        onTap!();
-      },
       validator: (value) {
         if (value == null || value.isEmpty) return 'لابد من ملئ هذا الحقل';
         return null;
@@ -198,6 +189,67 @@ Widget defaultTextFormField({
                   color: defultColor,
                 ),
               )
+            : null,
+        //=======for Password=========
+        fillColor: Colors.transparent,
+      ),
+      style: TextStyle(
+        fontSize: 15,
+        fontFamily: 'Tajawal',
+      ),
+
+    );
+
+Widget defaultTextFormFieldOnTaped({
+  required TextEditingController controller,
+  required TextInputType type,
+  // Function? onSubmit,
+  Function? onTap,
+  required String hintText,
+  required String labelText,
+  required IconData preFix,
+//=======for Password=========
+  IconData? suFix,
+  Function? suffixOnPressed,
+  bool isPassword = false,
+}) =>
+    TextFormField(
+
+      controller: controller,
+      keyboardType: type,
+      obscureText: isPassword,
+
+      //=======for Password=========
+      // onFieldSubmitted: (s) {
+      //   onSubmit!(s);
+      // },
+
+      onTap: () {
+        onTap!();
+      },
+      validator: (value) {
+        if (value == null || value.isEmpty) return 'لابد من ملئ هذا الحقل';
+        return null;
+      },
+
+      decoration: InputDecoration(
+        hintText: hintText,
+        labelText: labelText,
+        labelStyle: TextStyle(fontSize: 12, color: Colors.grey, ),
+        prefixIcon: Icon(
+          preFix,
+          color: defultColor,
+        ),
+        suffix: suFix != null
+            ? IconButton(
+          onPressed: () {
+            suffixOnPressed!();
+          },
+          icon: Icon(
+            suFix,
+            color: defultColor,
+          ),
+        )
             : null,
         //=======for Password=========
         fillColor: Colors.transparent,

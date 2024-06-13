@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:save_a_life_2024/shared/components/localization/appLocal.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
@@ -16,20 +20,24 @@ class SignUpForm extends StatelessWidget {
  var emailController = TextEditingController();
  var passController = TextEditingController();
  var rePassController = TextEditingController();
- var fNameController = TextEditingController();
- var lNameController = TextEditingController();
+ var nameController = TextEditingController();
  var phoneController = TextEditingController();
  var birthDayController = TextEditingController();
  var addressController = TextEditingController();
- var genderController = TextEditingController();
- var bloodTypeController = TextEditingController();
+   var cityController = TextEditingController();
 
    var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit,UserStatus>(
-        listener: (BuildContext context, UserStatus state) {  },
+        listener: (BuildContext context, UserStatus state) {
+          if (state is sucssesSignIn){
+            ScaffoldMessenger.of(context).showSnackBar( SnackBar(content:Text("تم انشاء حساب بنجاح ")));
+          }else if (state is errorSignIn){
+            ScaffoldMessenger.of(context).showSnackBar( SnackBar(content:Text("هناك خطأ في انشاء الحساب   ")));
+          }
+        },
     builder: (BuildContext context, UserStatus state) {
       var cubit = UserCubit.get(context);
       return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -111,8 +119,30 @@ class SignUpForm extends StatelessWidget {
                                          child: Column(
                                            crossAxisAlignment: CrossAxisAlignment.center,
                                            children: [
+                                             Stack(
+                                               alignment: Alignment.bottomRight,
+                                               children:[
+                                                 cubit.profilePicture == null?
+                                                 const CircleAvatar(
+                                                   radius: 64,
+                                                   backgroundImage: AssetImage("assets/images/icons/avatar.png"),
+                                                   backgroundColor: Colors.white,
+                                                 )
+                                                     :CircleAvatar(
+                                                   radius: 64,
+                                                   backgroundImage: FileImage(File(cubit.profilePicture!.path)),
+                                                 ) ,
+                                                 Positioned(
+                                                   child: IconButton(
+                                                     onPressed: () {
+                                                       ImagePicker().pickImage(source: ImageSource.gallery)
+                                                           .then((value) => cubit.uploadImage(value!));
+                                                     },
+                                                     icon: const Icon( Icons.add_a_photo , color: Colors.black,),),)
+                                               ],
+                                             ),
                                              defaultTextFormField(
-                                                 controller: fNameController,
+                                                 controller: nameController,
                                                  type: TextInputType.name,
                                                  hintText: 'الاسم',
                                                  labelText: 'الاسم',
@@ -146,7 +176,7 @@ class SignUpForm extends StatelessWidget {
                                                preFix: Icons.lock_outline,
                                                isPassword: cubit.isPassword,
                                              ),
-                                             defaultTextFormField(
+                                             defaultTextFormFieldOnTaped(
                                                  controller: birthDayController,
                                                  type: TextInputType.datetime,
                                                  hintText: 'تاريخ الميلاد',
@@ -172,12 +202,87 @@ class SignUpForm extends StatelessWidget {
                                                  labelText: 'رقم الهاتف',
                                                  preFix: Icons.phone_android),
                                              const SizedBox(height: 10,),
+                                             Row(
+                                               children: [
+                                                 Text('المدينه',
+                                                   style: TextStyle(
+                                                     fontSize: 10,
+                                                     fontWeight: FontWeight.w900,
+                                                     color: Colors.grey
+                                                   ),
+                                                 ),
+                                                 Expanded(
+                                                   child: DropdownButtonHideUnderline(
+                                                     child: DropdownButton2<String>(
+                                                       items: cubit.donorCityitems.map((String item) =>
+                                                           DropdownMenuItem<String>(
+                                                             value: item,
+                                                             child: Text(
+                                                               item,
+                                                               style: const TextStyle(
+                                                                 fontSize: 14,
+                                                                 fontWeight: FontWeight.bold,
+                                                                 color: Colors.grey,
+                                                               ),
+                                                               overflow: TextOverflow.ellipsis,
+                                                             ),
+                                                           ))
+                                                           .toList(),
+                                                       value: cubit.donorCityMenuValue,
+                                                       onChanged: (value) {
+                                                         cubit.donorCityMenu(value!);
+                                                       },
+                                                       buttonStyleData: ButtonStyleData(
+                                                         padding: const EdgeInsets.only(left: 14, right: 14),
+                                                         decoration: BoxDecoration(
+                                                           color: Colors.white,
+                                                           borderRadius: BorderRadius.circular(14),
+                                                           boxShadow: kElevationToShadow[2],
+                                                         ),
+                                                       ),
+                                                       iconStyleData: const IconStyleData(
+                                                         icon: Icon(
+                                                           Icons.menu,
+                                                         ),
+                                                         iconSize: 14,
+                                                         iconEnabledColor: Colors.red,
+                                                       ),
+                                                       dropdownStyleData: DropdownStyleData(
+                                                         maxHeight: 200,
+                                                         width: 150,
+                                                         decoration: BoxDecoration(
+                                                           borderRadius: BorderRadius.circular(14),
+                                                           color: Colors.white,
+                                                         ),
+                                                         offset: const Offset(-20, 0),
+                                                         scrollbarTheme: ScrollbarThemeData(
+                                                           radius: const Radius.circular(40),
+                                                           thickness: MaterialStateProperty.all(5),
+                                                           thumbVisibility: MaterialStateProperty.all(true),
+                                                         ),
+                                                       ),
+                                                       menuItemStyleData: const MenuItemStyleData(
+                                                         height: 30,
+                                                         padding: EdgeInsets.only(left: 14, right: 14),
+                                                       ),
+                                                     ),
+                                                   ),
+                                                 ),
+                                               ],
+                                             ),
                                              defaultTextFormField(
                                                  controller: addressController,
                                                  type: TextInputType.streetAddress,
                                                  hintText: 'المدينه',
                                                  labelText: 'المدينه',
                                                  preFix: Icons.location_on_outlined),
+                                             const SizedBox(height: 10,),
+                                             defaultTextFormField(
+                                                 controller: cityController,
+                                                 type: TextInputType.streetAddress,
+                                                 hintText: 'العنوان',
+                                                 labelText: 'العنوان',
+                                                 preFix: Icons.location_city),
                                              const SizedBox(height: 10,),
                                              Row(
                                                children: [
@@ -317,7 +422,34 @@ class SignUpForm extends StatelessWidget {
                                     radius: 35,
                                     function: (){
                                       if(formKey.currentState!.validate()) {
-                                        navigateTo(context, const LoginForm());
+                                        if (passController.toString() != rePassController.toString()){
+                                          AwesomeDialog(
+                                              context: context,
+                                              animType: AnimType.scale,
+                                              dialogType: DialogType.info,
+                                              body: Center(child: Text(
+                                                ' لابد مت تطابق كلمه السر',
+                                                style: TextStyle(fontStyle: FontStyle.italic),
+                                              ),),
+                                              title: 'ملحوظه ',
+                                              btnOkOnPress: () {},
+                                              btnOkColor: defultColor,
+                                              dialogBackgroundColor: Colors.white
+                                          )..show();
+                                        }
+                                          cubit.signUp(
+                                              name:nameController.text,
+                                              birthday:  birthDayController.text,
+                                              city:  cityController.text,
+                                              address: addressController.text,
+                                              phone: phoneController.text,
+                                              bloodType:cubit.dropdownBloodMenuValue,
+                                              gender:cubit.Gender,
+                                              email:   emailController.toString(),
+                                              password: passController.toString(),
+                                              password_confirmation: rePassController.toString(),
+                                              avatar: '');
+                                          navigateTo(context, const LoginForm());
                                       }
                                     }, color: defultColor,
                                  ),

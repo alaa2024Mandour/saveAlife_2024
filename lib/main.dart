@@ -1,17 +1,23 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:save_a_life_2024/admin_cubit/cubit.dart';
 import 'package:save_a_life_2024/shared/components/localization/appLocal.dart';
+import 'package:save_a_life_2024/shared/network/core/API/dio_consumer.dart';
+import 'package:save_a_life_2024/shared/network/local/cachHelper.dart';
+import 'package:save_a_life_2024/shared/network/remote/blocObserver.dart';
 import 'package:save_a_life_2024/shared/style/themes.dart';
 import 'package:save_a_life_2024/splash_screen/splash_screen.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userCubit.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
-import 'package:save_a_life_2024/admin_layouts/users_donors_list/users_donors_list.dart';
 
 
 void main() {
   runApp(const MyApp());
+  Bloc.observer = MyBlocObserver();
+  WidgetsFlutterBinding.ensureInitialized();
+  CachHelper.init();
 }
 
 class MyApp extends StatelessWidget {
@@ -23,7 +29,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
 
       providers: [
-        BlocProvider( create: (BuildContext context) => UserCubit()..getPosition(context),),
+        BlocProvider( create: (BuildContext context) => UserCubit(DioConsumer(Dio()))..getPosition(context),),
         BlocProvider( create: (BuildContext context) => AdminCubit())
       ],
       child: BlocConsumer<UserCubit,UserStatus>(

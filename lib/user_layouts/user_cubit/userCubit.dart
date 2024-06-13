@@ -1,5 +1,5 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
@@ -9,17 +9,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:save_a_life_2024/shared/network/core/API/api_consumer.dart';
+import 'package:save_a_life_2024/shared/network/endPoints/end_points.dart';
+import 'package:save_a_life_2024/shared/network/core/errors/ErrorModel.dart';
+import 'package:save_a_life_2024/shared/network/core/errors/Exceptions.dart';
+import 'package:save_a_life_2024/shared/network/local/cachHelper.dart';
+import 'package:save_a_life_2024/shared/network/remote/dioHelper.dart';
+import 'package:save_a_life_2024/shared/network/remote/modules/signInModel.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
+import '../../shared/components/shared_component.dart';
+import '../../shared/network/remote/modules/signUpModel.dart';
 import '../../shared/style/colors.dart';
+import '../OnBording/on_bording.dart';
 import '../appointment/appointment.dart';
 import '../home_page/userHome.dart';
 import '../nearst_blood_bank/nearst_blood_bank.dart';
 import '../profile_setting/profile.dart';
 import '../sharingApp/share.dart';
-
 class UserCubit extends Cubit<UserStatus> {
-  UserCubit() : super(UserInitState());
+  UserCubit(this.api) : super(UserInitState());
 
   static UserCubit get(context) => BlocProvider.of(context);
 
@@ -27,8 +38,8 @@ class UserCubit extends Cubit<UserStatus> {
 
   List<Widget> bottomScreen = [
     NearestBank(),
-      Appointment(),
-     UserHome(),
+    Appointment(),
+    UserHome(),
     const UserProfile(),
     const SharingApp(),
   ];
@@ -37,9 +48,10 @@ class UserCubit extends Cubit<UserStatus> {
     currentIndex = index;
     emit(UserChangeBottomNavState());
   }
+
   //---------Choose Gender--------------
   String Gender = "ذكر";
-  void ChooseGender( String value){
+  void ChooseGender(String value) {
     Gender = value;
     emit(UserGenderState());
     print(Gender);
@@ -52,7 +64,7 @@ class UserCubit extends Cubit<UserStatus> {
     'البحيره',
   ];
   String donorCityMenuValue = 'البحث عن متبرعين في محافظه';
-  void donorCityMenu(String value){
+  void donorCityMenu(String value) {
     donorCityMenuValue = value;
     emit(DonorCityState());
   }
@@ -62,7 +74,7 @@ class UserCubit extends Cubit<UserStatus> {
     'البحيره',
   ];
   String bloodBankValue = 'الاسكندريه';
-  void bloodBankMenu(String value){
+  void bloodBankMenu(String value) {
     bloodBankValue = value;
     emit(DonorCityState());
   }
@@ -80,7 +92,7 @@ class UserCubit extends Cubit<UserStatus> {
     '-O',
   ];
   String dropdownBloodMenuValue = '+A';
-  void BloodTypeMenu(String value){
+  void BloodTypeMenu(String value) {
     dropdownBloodMenuValue = value;
     emit(UserBloodTypeState());
   }
@@ -88,64 +100,70 @@ class UserCubit extends Cubit<UserStatus> {
   //===========password login form =============
   IconData suffixIcon = Icons.visibility_outlined;
   bool isPassword = true;
-  void changePasswordVisibility(){
+  void changePasswordVisibility() {
     isPassword = !isPassword;
-    suffixIcon=isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+    suffixIcon =
+        isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
     emit(UserChangePassStatus());
   }
 
 //=========== Nearest blood bank =============
 //------------- open location ---------------
-Future getPosition(context) async {
+  Future getPosition(context) async {
     bool services;
     LocationPermission per;
     services = await Geolocator.isLocationServiceEnabled();
     print(services);
-    if(!services){
-       AwesomeDialog(
-          context: context,
-          title: "Services",
-          body: Text ("Services Not Enable"),
+    if (!services) {
+      AwesomeDialog(
+        context: context,
+        title: "Services",
+        body: Text("Services Not Enable"),
       ).show();
     }
 
     per = await Geolocator.checkPermission();
 
-    if(per == LocationPermission.denied){
+    if (per == LocationPermission.denied) {
       per = await Geolocator.requestPermission();
-      if(per == LocationPermission.whileInUse || per == LocationPermission.always ){
+      if (per == LocationPermission.whileInUse ||
+          per == LocationPermission.always) {
         getLatitudeAndLongitude();
-       }
+      }
     }
     print(per);
     emit(UserLocationStatus());
-}
+  }
 
- Future<Position> getLatitudeAndLongitude() async{
-     return await Geolocator.getCurrentPosition().then((value) => value);
- }
- var KomEdekaLat = 53.35;
+  Future<Position> getLatitudeAndLongitude() async {
+    return await Geolocator.getCurrentPosition().then((value) => value);
+  }
+
+  var KomEdekaLat = 53.35;
   var KomEdekaLong = 9.6;
   var ElHelalaLat = 53.4833;
   var ElHelalaLong = 10.3667;
   var ElshatbyaLat = 55.5833;
   var ElshatbyLong = 12.95;
-  Future <dynamic> getDistance (lat,long) async{
+  Future<dynamic> getDistance(lat, long) async {
     var currentLocation = await getLatitudeAndLongitude();
     // print("Latitude ${currentLocation.altitude}");
     // print("Longitude ${currentLocation.longitude}");
-    List<Placemark> placemarks = await placemarkFromCoordinates(currentLocation.altitude,currentLocation.longitude );
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        currentLocation.altitude, currentLocation.longitude);
     print(placemarks[0].administrativeArea);
 
     //-----------------------------
-    var distanceBetween = Geolocator.distanceBetween(currentLocation.altitude,currentLocation.longitude , lat,  long);
-    dynamic distanceKM = distanceBetween/1000;
+    var distanceBetween = Geolocator.distanceBetween(
+        currentLocation.altitude, currentLocation.longitude, lat, long);
+    dynamic distanceKM = distanceBetween / 1000;
     print(distanceKM);
     return distanceKM;
   }
+
   //============== UploadProfileImage Function ===============
-  XFile?  profilePicture ;
-  uploadImage(XFile image ) async{
+  XFile? profilePicture;
+  uploadImage(XFile image) async {
     profilePicture = image;
     emit(SignUpGetProfileImage());
   }
@@ -155,33 +173,31 @@ Future getPosition(context) async {
   var donorEmail = TextEditingController();
   var FileController = TextEditingController();
 
-
-  String ?fileName;
-  Future uploadFile () async {
+  String? fileName;
+  Future uploadFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if(result != null){
-      File file= File(result.files.single.path ?? " ");
+    if (result != null) {
+      File file = File(result.files.single.path ?? " ");
 
-      fileName =file.path.split('/').last;
+      fileName = file.path.split('/').last;
       String filePath = file.path;
 
-      onSendProgress:(int send, int total){
+      onSendProgress:
+      (int send, int total) {
         print("$send , $total");
       };
       emit(UploadResult());
-    }else{
+    } else {
       print("Result is null");
     }
-
   }
 
-
 // -------------- Togel between user and donor ----------------
-bool isUser = false;
+  bool isUser = false;
   Color isUserColor = Colors.grey;
   Color isDonorColor = defultColor;
-  void togeleUserDonor(){
-    isUser=!isUser;
+  void togeleUserDonor() {
+    isUser = !isUser;
     emit(TogelUserDonor());
   }
 
@@ -194,28 +210,29 @@ bool isUser = false;
   List<String> bloodTypes = ['B+', 'B-', 'A+', 'A-', 'AB+', 'O+', 'O-'];
 
   void onTabPressed(int index) {
-      selectedIndex = index;
-      emit(selectBloodBank());
+    selectedIndex = index;
+    emit(selectBloodBank());
   }
 
-  void changeQuantities(index,value){
-   bloodQuantities[index] = value;
-   emit(selectAlexBloodPageQuantities());
+  void changeQuantities(index, value) {
+    bloodQuantities[index] = value;
+    emit(selectAlexBloodPageQuantities());
   }
 
-  void addAlex(index){
-    bloodQuantities[index] ++;
+  void addAlex(index) {
+    bloodQuantities[index]++;
     emit(addAlexQuantities());
   }
 
-  void minsAlex(index){
-    bloodQuantities[index] --;
+  void minsAlex(index) {
+    bloodQuantities[index]--;
     emit(minsAlexQuantities());
   }
+
 //------------Behira Blood Pages------------
   int bihira_selectedIndex = 0;
 
-  List<String> bihira_tabs = [ "بنك دم دمنهور", "بنك دم ابو حمص"];
+  List<String> bihira_tabs = ["بنك دم دمنهور", "بنك دم ابو حمص"];
   List<double> bihira_bloodQuantities = [458, 254, 356, 320, 342, 34, 50];
   List<String> bihira_bloodTypes = ['B+', 'B-', 'A+', 'A-', 'AB+', 'O+', 'O-'];
 
@@ -224,30 +241,180 @@ bool isUser = false;
     emit(bihira_selectBloodBank());
   }
 
-  void bihira_changeQuantities(index,value){
+  void bihira_changeQuantities(index, value) {
     bihira_bloodQuantities[index] = value;
     emit(selectBihiraBloodPageQuantities());
   }
 
-  void addBihira(index){
-    bihira_bloodQuantities[index] ++;
+  void addBihira(index) {
+    bihira_bloodQuantities[index]++;
     emit(addBihiraQuantities());
   }
 
-  void minsBihira(index){
-    bihira_bloodQuantities[index] --;
+  void minsBihira(index) {
+    bihira_bloodQuantities[index]--;
     emit(minsBihiraQuantities());
   }
+
   //------------City Blood Pages------------
   final List<String> bloodPagesItems = [
     'الاسكندريه',
     'البحيره',
   ];
   String bloodPagesValue = 'الاسكندريه';
-  void bloodPagesMenu(String value){
+  void bloodPagesMenu(String value) {
     bloodPagesValue = value;
     emit(bloodPagesCity());
   }
+
+  //===============================================================
+  //=================== Database connections  ======================
+//=================================================================
+//   static const dynamic baseURL = 'https://blood-bank.aboomarmediclub.com/';
+//   static final Uri loginURL = Uri.parse('https://blood-bank.aboomarmediclub.com/api/auth/login') ;
+//   Future<Response> login(
+//       String email,
+//       String password,
+//       ) async {
+//     final Response response = await post(loginURL ,
+//         body: jsonEncode(<String, dynamic>{
+//           'email': email,
+//           'password': password,
+//         }));
+//
+//     if (response.statusCode == 200) {
+//       emit(sucssesSignIn());
+//       print(response.body);
+//       return response;
+//       // return SignUpModel.fromJson(jsonDecode(response.body));
+//     } else {
+//       emit(errorSignIn());
+//       print("Error");
+//       return response;
+//     }
+//   }
+//   Future<SignUpModel?> createAcount(
+//     String name,
+//     String birthday,
+//     String city,
+//     String address,
+//     String phone,
+//     String bloodType,
+//     String gender,
+//     String email,
+//     String password,
+//     String password_confirmation,
+//   ) async {
+//     final Response response = await post('$baseURL/auth/register' as Uri ,
+//         body: jsonEncode(<String, dynamic>{
+//           'name': name,
+//           'birthday': birthday,
+//           'city': city,
+//           'address': address,
+//           'phone': phone,
+//           'bloodtype': bloodType,
+//           'gender': gender,
+//           'email': email,
+//           'password': password,
+//           'password_confirmation': password_confirmation,
+//         }));
+//
+//     if (response.statusCode == 200) {
+//       emit(sucssesSignUp());
+//       return SignUpModel.fromJson(jsonDecode(response.body));
+//     } else {
+//       emit(errorSignUp());
+//       return null;
+//     }
+//   }
+ final ApiConsumer api;
+  //===================== SignIn Function ======================
+SignInModel? user;
+void signIn(String email, String password,context) async{
+   try {
+     emit(loadingSignIn());
+     final response = await api.post(
+       EndPoints.logIn,
+       data: {
+         ApiKeys.email:email,
+         ApiKeys.password:password
+       },
+     );
+     user = SignInModel.fromJson(response);
+     final decodedToken = JwtDecoder.decode(user!.token);
+     CachHelper.saveData(key: ApiKeys.token, value: user!.token);
+     CachHelper.saveData(key: ApiKeys.id, value: decodedToken[ApiKeys.id]);
+     emit(sucssesSignIn());
+     navigateTo(context, onBoardingScreen());
+   } on ServerException catch (e) {
+     // TODO
+     emit(errorSignIn(e.errorModel.ErrorMessage));
+   }
+}
+
+  //===================== SignUp Function ======================
+  SignUpModel? userSignUp;
+  void signUp({
+    required String name,
+    required String birthday,
+    required String city,
+    required String address,
+    required String phone,
+    required String bloodType,
+    required String gender,
+    required String email,
+    required String password,
+    required String password_confirmation,
+    required String avatar,
+}) async{
+    try {
+      emit(loadingSignUp());
+      final response = await api.post(
+        EndPoints.signUp,
+        isFormData: true,
+        data: {
+          ApiKeys.name:name,
+          ApiKeys.email:email,
+          ApiKeys.phone:phone,
+          ApiKeys.password:password,
+          ApiKeys.confirmPassword:password_confirmation,
+          ApiKeys.gender:gender,
+          ApiKeys.address:address,
+          ApiKeys.city:city,
+          ApiKeys.bloodtype:bloodType,
+          ApiKeys.birthday:birthday,
+          ApiKeys.avatar:avatar,
+        },
+      );
+      user = SignInModel.fromJson(response);
+      final decodedToken = JwtDecoder.decode(user!.token);
+      print(decodedToken['id']);
+      emit(sucssesSignUp());
+    } on ServerException catch (e) {
+      // TODO
+      emit(errorSignUp(e.errorModel.ErrorMessage));
+    }
+  }
+// void signIn({
+//   required String email,
+//   required String password
+// } ){
+//   emit(loadingSignIn());
+//   DioHelper.postData(
+//       url: EndPoints.logIn,
+//       data: {
+//         'email':email,
+//         'password':password
+//       }
+//       ).then((onValue){
+//         print(onValue.data);
+//         emit(sucssesSignIn());
+//   }).catchError((onError){
+//     print(onError.toString());
+//     emit(errorSignIn(onError.toString()));
+//   });
+// }
+
 }
 
 class bloodTypesModel {
@@ -268,106 +435,102 @@ List<bloodTypesModel> bloodTypeList = [
 ];
 
 Widget BloodType(bloodTypesModel model) => GestureDetector(
-  onTap: () {},
-  child: CircleAvatar(
-    radius: 25,
-    backgroundColor: defultColor,
-    child: Center(
-      child: Text(
-        '${model.bloodType}',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
+      onTap: () {},
+      child: CircleAvatar(
+        radius: 25,
+        backgroundColor: defultColor,
+        child: Center(
+          child: Text(
+            '${model.bloodType}',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
-    ),
-  ),
-);
+    );
 
 Widget Donors() => Padding(
-  padding:EdgeInsetsDirectional.symmetric(horizontal: 5 , vertical: 10),
-  child: Container(
-    padding: EdgeInsetsDirectional.all(10),
-    decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(19),
-        boxShadow: [
-          BoxShadow(
-            color: HexColor('#C4C4C4'),
-            blurRadius: 4.0,
-            spreadRadius: 2.0,
-          ),
-        ]
-    ),
-    child: Row(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(35)
-          ),
-          child:
-          Image(
-            image: AssetImage('assets/images/icons/male.jpg'),
-            width: 70,
-            height: 70,
-            fit: BoxFit.fill,
-          ),
-        ),
-        Spacer(),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
+      padding: EdgeInsetsDirectional.symmetric(horizontal: 5, vertical: 10),
+      child: Container(
+        padding: EdgeInsetsDirectional.all(10),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(19),
+            boxShadow: [
+              BoxShadow(
+                color: HexColor('#C4C4C4'),
+                blurRadius: 4.0,
+                spreadRadius: 2.0,
+              ),
+            ]),
+        child: Row(
           children: [
-            Text(
-              'Mohammed Ahmad',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
+            Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(35)),
+              child: Image(
+                image: AssetImage('assets/images/icons/male.jpg'),
+                width: 70,
+                height: 70,
+                fit: BoxFit.fill,
               ),
             ),
-            Row(
+            Spacer(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Text(
-                  'الحاله',
+                  'Mohammed Ahmad',
                   style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.green,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
                   ),
                 ),
-                Text(
-                  ', النوع,',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: HexColor("#D9D9D9"),
-                  ),
-                ),
-                Text(
-                  ' 01112602464',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: HexColor("#D9D9D9"),
-                  ),
-                ),
+                Row(
+                  children: [
+                    Text(
+                      'الحاله',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.green,
+                      ),
+                    ),
+                    Text(
+                      ', النوع,',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: HexColor("#D9D9D9"),
+                      ),
+                    ),
+                    Text(
+                      ' 01112602464',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: HexColor("#D9D9D9"),
+                      ),
+                    ),
+                  ],
+                )
               ],
-            )
+            ),
+            Spacer(),
+            Text(
+              "+B",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 24,
+                color: defultColor,
+              ),
+            ),
           ],
         ),
-        Spacer(),
-        Text(
-          "+B",
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 24,
-            color: defultColor,
-          ),
-        ),
-      ],
-    ),
-  ),
-);
-
+      ),
+    );

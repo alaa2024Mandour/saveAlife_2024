@@ -1,6 +1,10 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:save_a_life_2024/shared/network/core/API/dio_consumer.dart';
 import 'package:save_a_life_2024/user_layouts/Login_page/signup%20form.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userCubit.dart';
 import '../../shared/components/shared_component.dart';
@@ -9,10 +13,11 @@ import '../OnBording/on_bording.dart';
 import '../user_cubit/userStatus.dart';
 import 'forgetPass/forget_password.dart';
 
-var loginEmailController = TextEditingController();
-var loginPassController = TextEditingController();
 
 var formKey = GlobalKey<FormState>();
+
+var loginEmailController = TextEditingController();
+var loginPassController = TextEditingController();
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -20,7 +25,7 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => UserCubit(),
+      create: (BuildContext context) => UserCubit(DioConsumer(Dio())),
       child: BlocConsumer<UserCubit,UserStatus>(
           listener: (BuildContext context, UserStatus state) {  },
           builder: (BuildContext context, UserStatus state) {
@@ -143,15 +148,45 @@ class LoginForm extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      defaultButton(
-                                          text: "تسجيل الدخول",
-                                          width: 140,
-                                          radius: 35,
-                                          function: (){
-                                            if(formKey.currentState!.validate()) {
-                                              navigateTo(context, onBoardingScreen());
-                                            }
-                                          }, color: defultColor
+                                      ConditionalBuilder(
+                                        condition: state is! loadingSignIn,
+                                        builder: (BuildContext context) {
+                                          return defaultButton(
+                                              text: "تسجيل الدخول",
+                                              width: 140,
+                                              radius: 35,
+                                              function: (){
+                                                 if(formKey.currentState!.validate()) {
+                                                     print(loginPassController.text);
+                                                     print(loginEmailController.text);
+                                                     cubit.signIn(
+                                                         loginEmailController.text,
+                                                         loginPassController.text,
+                                                       context
+                                                     );
+                                                     if(state is errorSignIn){
+                                                     return AwesomeDialog(
+                                                         context: context,
+                                                         animType: AnimType.scale,
+                                                         dialogType: DialogType.info,
+                                                         body: Center(child: Text(
+                                                           'هناك خطا في البيانات المدخله',
+                                                           style: TextStyle(fontStyle: FontStyle.italic),
+                                                         ),),
+                                                         title: 'ملحوظه ',
+                                                         btnOkOnPress: () {},
+                                                         btnOkColor: defultColor,
+                                                         dialogBackgroundColor: Colors.white
+                                                     )..show();
+                                                   } }
+                                                 }
+                                              , color: defultColor
+                                          );
+
+                                        },
+                                        fallback: (BuildContext context) {
+                                          return Center(child: CircularProgressIndicator());
+                                        },
                                       ),
                                     ],
                                   ),

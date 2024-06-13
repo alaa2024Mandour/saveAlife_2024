@@ -1,9 +1,11 @@
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:save_a_life_2024/shared/components/shared_component.dart';
+import 'package:save_a_life_2024/shared/network/core/API/dio_consumer.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
 
 import '../../user_layouts/user_cubit/userCubit.dart';
@@ -16,7 +18,7 @@ class DonorsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => UserCubit(),
+      create: (BuildContext context) => UserCubit(DioConsumer(Dio())),
       child: BlocConsumer<UserCubit,UserStatus>(
           listener: (BuildContext context, UserStatus state) {  },
           builder: (BuildContext context, UserStatus state) {
