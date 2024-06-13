@@ -59,7 +59,11 @@ class errorSignIn extends UserStatus {
 
 class loadingSignUp extends UserStatus {}
 
-class sucssesSignUp extends UserStatus {}
+class sucssesSignUp extends UserStatus {
+  final String message ;
+
+  sucssesSignUp(this.message);
+}
 
 class errorSignUp extends UserStatus {
   final String errorMessage ;
