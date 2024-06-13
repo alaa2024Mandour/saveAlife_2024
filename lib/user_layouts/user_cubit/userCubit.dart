@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -50,7 +51,7 @@ class UserCubit extends Cubit<UserStatus> {
   }
 
   //---------Choose Gender--------------
-  String Gender = "ذكر";
+  String Gender = "male";
   void ChooseGender(String value) {
     Gender = value;
     emit(UserGenderState());
@@ -313,6 +314,7 @@ class UserCubit extends Cubit<UserStatus> {
     registerGovernmentElbihiraValue = value;
     emit(RegisterGovernmentElbihiraState());
   }
+
   //===============================================================
   //=================== Database connections  ======================
 //=================================================================
@@ -397,45 +399,60 @@ void signIn(String email, String password,context) async{
      emit(errorSignIn(e.errorModel.ErrorMessage));
    }
 }
+//   Future uploadImageToAPI(XFile image) async{
+//   return MultipartFile.fromPath(image.path, image.path.split('/').last);
+//   }
+  var emailController = TextEditingController();
+  var passController = TextEditingController();
+  var rePassController = TextEditingController();
+  var nameController = TextEditingController();
+  var phoneController = TextEditingController();
+  var birthDayController = TextEditingController();
+  var addressController = TextEditingController();
+  var cityController = TextEditingController();
+//========================== uploading image to api networking ==========================
+  Future<MultipartFile?> uploadImageToAPI(XFile? image) async {
+    if (image == null) {
+      return null; // Handle the case when no image is selected
+    }
 
+    final file = File(image.path);
+    if (!file.existsSync()) {
+      throw Exception('File not found at path: ${file.path}'); // Throw an exception if the file is not found
+    }
+
+    return MultipartFile.fromBytes(
+      'avatar',
+      await file.readAsBytes(),
+      filename: image.path.split('/').last,
+    );
+  }
   //===================== SignUp Function ======================
   SignUpModel? userSignUp;
-  void signUp({
-    required String name,
-    required String birthday,
-    required String city,
-    required String address,
-    required String phone,
-    required String bloodType,
-    required String gender,
-    required String email,
-    required String password,
-    required String password_confirmation,
-    required String avatar,
-}) async{
+  void signUp() async{
     try {
       emit(loadingSignUp());
       final response = await api.post(
         EndPoints.signUp,
         isFormData: true,
         data: {
-          ApiKeys.name:name,
-          ApiKeys.email:email,
-          ApiKeys.phone:phone,
-          ApiKeys.password:password,
-          ApiKeys.confirmPassword:password_confirmation,
-          ApiKeys.gender:gender,
-          ApiKeys.address:address,
-          ApiKeys.city:city,
-          ApiKeys.bloodtype:bloodType,
-          ApiKeys.birthday:birthday,
-          ApiKeys.avatar:avatar,
+          ApiKeys.name:nameController.text,
+          ApiKeys.birthday:  birthDayController.text,
+          ApiKeys.city:  cityController.text,
+          ApiKeys.phone: phoneController.text,
+          ApiKeys.bloodtype:dropdownBloodMenuValue,
+          ApiKeys.gender:Gender,
+          ApiKeys.email:emailController.toString(),
+          ApiKeys.password: passController.toString(),
+          ApiKeys.confirmPassword: rePassController.toString(),
+          ApiKeys.avatar: await uploadImageToAPI(profilePicture!),
+          ApiKeys.government: registerCityMenuValue == 'الاسكندريه' ? registerGovernmentAlexValue : registerGovernmentElbihiraValue,
         },
       );
-      user = SignInModel.fromJson(response);
+      userSignUp = SignUpModel.fromJson(response);
       final decodedToken = JwtDecoder.decode(user!.token);
       print(decodedToken['id']);
-      emit(sucssesSignUp());
+      emit(sucssesSignUp(userSignUp!.message));
     } on ServerException catch (e) {
       // TODO
       emit(errorSignUp(e.errorModel.ErrorMessage));

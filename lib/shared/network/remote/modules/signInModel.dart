@@ -26,7 +26,7 @@ class SignInModel {
   name: signInJson[ApiKeys.name],
   birthday: signInJson[ApiKeys.birthday],
   city: signInJson[ApiKeys.city],
-  address: signInJson[ApiKeys.address],
+  address: signInJson[ApiKeys.government],
   phone:signInJson[ApiKeys.phone],
   bloodType:signInJson[ApiKeys.bloodtype],
   gender:signInJson[ApiKeys.gender],

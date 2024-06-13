@@ -18,15 +18,6 @@ import 'login form.dart';
 
 class SignUpForm extends StatelessWidget {
    SignUpForm({super.key});
- var emailController = TextEditingController();
- var passController = TextEditingController();
- var rePassController = TextEditingController();
- var nameController = TextEditingController();
- var phoneController = TextEditingController();
- var birthDayController = TextEditingController();
- var addressController = TextEditingController();
-   var cityController = TextEditingController();
-
    var formKey = GlobalKey<FormState>();
 
   @override
@@ -143,21 +134,21 @@ class SignUpForm extends StatelessWidget {
                                                ],
                                              ),
                                              defaultTextFormField(
-                                                 controller: nameController,
+                                                 controller: cubit.nameController,
                                                  type: TextInputType.name,
                                                  hintText: 'الاسم',
                                                  labelText: 'الاسم',
                                                  preFix: Icons.person),
                                              const SizedBox(height: 10,),
                                              defaultTextFormField(
-                                                 controller: emailController,
+                                                 controller: cubit.emailController,
                                                  type: TextInputType.emailAddress,
                                                  hintText: 'البريد الالكتروني',
                                                  labelText: 'البريد الالكتروني',
                                                  preFix: Icons.email),
                                              const SizedBox(height: 10,),
                                              defaultTextFormField(
-                                               controller: passController,
+                                               controller: cubit.passController,
                                                type: TextInputType.visiblePassword,
                                                hintText: 'كلمه السر',
                                                labelText: 'كلمه السر',
@@ -170,7 +161,7 @@ class SignUpForm extends StatelessWidget {
                                              ),
                                              const SizedBox(height: 10,),
                                              defaultTextFormField(
-                                               controller: rePassController,
+                                               controller: cubit.rePassController,
                                                type: TextInputType.visiblePassword,
                                                hintText: 'اعاده كلمه السر',
                                                labelText: 'اعاده كلمه السر',
@@ -178,7 +169,7 @@ class SignUpForm extends StatelessWidget {
                                                isPassword: cubit.isPassword,
                                              ),
                                              defaultTextFormFieldOnTaped(
-                                                 controller: birthDayController,
+                                                 controller: cubit.birthDayController,
                                                  type: TextInputType.datetime,
                                                  hintText: 'تاريخ الميلاد',
                                                  labelText: 'تاريخ الميلاد',
@@ -189,7 +180,7 @@ class SignUpForm extends StatelessWidget {
                                                        firstDate: DateTime(1930),
                                                        lastDate: DateTime.now(),
                                                    ).then((value) {
-                                                     birthDayController.text=DateFormat.yMMMd().format(value!);
+                                                     cubit.birthDayController.text=DateFormat.yMMMd().format(value!);
                                                      print(DateFormat.yMMMd().format(value));
                                                    });
                                                  },
@@ -197,7 +188,7 @@ class SignUpForm extends StatelessWidget {
                                              ),
                                              const SizedBox(height: 10,),
                                              defaultTextFormField(
-                                                 controller: phoneController,
+                                                 controller: cubit.phoneController,
                                                  type: TextInputType.phone,
                                                  hintText: 'رقم الهاتف',
                                                  labelText: 'رقم الهاتف',
@@ -439,8 +430,8 @@ class SignUpForm extends StatelessWidget {
                                                          ),
                                                        ),
                                                        activeColor: defultColor,
-                                                       selected: cubit.Gender == "ذكر" ? true : false,
-                                                       value: "ذكر",
+                                                       selected: cubit.Gender == "male" ? true : false,
+                                                       value: "male",
                                                        groupValue: cubit.Gender,
                                                        onChanged: (val){
                                                          cubit.ChooseGender(val!);
@@ -454,9 +445,9 @@ class SignUpForm extends StatelessWidget {
                                                            fontSize: 12,
                                                          ),
                                                        ),
-                                                       selected: cubit.Gender == "انثي" ? true : false,
+                                                       selected: cubit.Gender == "fmail" ? true : false,
                                                        activeColor: defultColor,
-                                                       value: "انثي",
+                                                       value: "fmail",
                                                        groupValue: cubit.Gender,
                                                        onChanged: (val){
                                                          cubit.ChooseGender(val!);
@@ -549,7 +540,7 @@ class SignUpForm extends StatelessWidget {
                                     radius: 35,
                                     function: (){
                                       if(formKey.currentState!.validate()) {
-                                        if (passController.toString() != rePassController.toString()){
+                                        if (cubit.passController.toString() != cubit.rePassController.toString()){
                                           AwesomeDialog(
                                               context: context,
                                               animType: AnimType.scale,
@@ -564,18 +555,7 @@ class SignUpForm extends StatelessWidget {
                                               dialogBackgroundColor: Colors.white
                                           )..show();
                                         }
-                                          cubit.signUp(
-                                              name:nameController.text,
-                                              birthday:  birthDayController.text,
-                                              city:  cityController.text,
-                                              address: addressController.text,
-                                              phone: phoneController.text,
-                                              bloodType:cubit.dropdownBloodMenuValue,
-                                              gender:cubit.Gender,
-                                              email:   emailController.toString(),
-                                              password: passController.toString(),
-                                              password_confirmation: rePassController.toString(),
-                                              avatar: '');
+                                          cubit.signUp();
                                           navigateTo(context, const LoginForm());
                                       }
                                     }, color: defultColor,

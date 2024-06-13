@@ -21,7 +21,7 @@ class ApiKeys {
                 phone="phone",
                 confirmPassword="confirmPassword",
                 city="city",
-                address="address",
+                government="address",
                 profilePic="avatar",
                 gender="gender",
                 avatar="avatar",
