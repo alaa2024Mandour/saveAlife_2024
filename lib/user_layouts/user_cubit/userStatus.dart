@@ -39,3 +39,24 @@ class minsAlexQuantities extends UserStatus {}
 class addBihiraQuantities extends UserStatus {}
 
 class minsBihiraQuantities extends UserStatus {}
+
+//--------------------- connection status ----------------------------
+class loadingSignIn extends UserStatus {}
+
+class sucssesSignIn extends UserStatus {}
+
+class errorSignIn extends UserStatus {
+  final String errorMessage ;
+
+  errorSignIn(this.errorMessage);
+}
+
+class loadingSignUp extends UserStatus {}
+
+class sucssesSignUp extends UserStatus {}
+
+class errorSignUp extends UserStatus {
+  final String errorMessage ;
+
+  errorSignUp(this.errorMessage);
+}
