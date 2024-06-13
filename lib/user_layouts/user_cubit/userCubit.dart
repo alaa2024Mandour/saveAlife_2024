@@ -267,6 +267,52 @@ class UserCubit extends Cubit<UserStatus> {
     emit(bloodPagesCity());
   }
 
+  //--------------signup city and goverment----------------
+  final List<String> regesterCityitems = [
+    'الاسكندريه',
+    'البحيره',
+  ];
+  String registerCityMenuValue = 'الاسكندريه';
+  void registerCityMenu(String value) {
+    registerCityMenuValue = value;
+    emit(RegisterCityState());
+  }
+
+  final List<String> registerGovernmentAlexItems = [
+     'حي العامرية',
+     'حي الجمرك',
+     'حي المنتزه',
+     'حي غرب اسكندرية',
+    'حي شرق اسكندرية',
+    'حي وسط اسكندرية',
+  ];
+  String registerGovernmentAlexValue = 'حي العامرية';
+  void registerGovernmentAlexMenu(String value) {
+    registerGovernmentAlexValue = value;
+    emit(RegisterGovernmentAlexState());
+  }
+
+  final List<String> registerGovernmentElbihiraItems = [
+    'أبو المطامير',
+    'أبو حمص',
+    'إيتاي البارود',
+  'بدر',
+  'حوش عيسى',
+  'دلنجات',
+  'دمنهور',
+  'الرحمانية',
+  'رشيد',
+  'شبراخيت',
+  'كفر الدوار',
+  'كوم حمادة',
+  'المحمودية',
+  'وادى النطرون',
+  ];
+  String registerGovernmentElbihiraValue = 'دمنهور';
+  void registerGovernmentElbihiraMenu(String value) {
+    registerGovernmentElbihiraValue = value;
+    emit(RegisterGovernmentElbihiraState());
+  }
   //===============================================================
   //=================== Database connections  ======================
 //=================================================================

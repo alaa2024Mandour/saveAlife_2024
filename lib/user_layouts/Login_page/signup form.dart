@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -204,6 +205,8 @@ class SignUpForm extends StatelessWidget {
                                              const SizedBox(height: 10,),
                                              Row(
                                                children: [
+                                                 Icon(Icons.location_on_outlined, color: defultColor,),
+                                                 SizedBox(width: 12,),
                                                  Text('المدينه',
                                                    style: TextStyle(
                                                      fontSize: 10,
@@ -211,16 +214,17 @@ class SignUpForm extends StatelessWidget {
                                                      color: Colors.grey
                                                    ),
                                                  ),
+                                                 SizedBox(width: 20,),
                                                  Expanded(
                                                    child: DropdownButtonHideUnderline(
                                                      child: DropdownButton2<String>(
-                                                       items: cubit.donorCityitems.map((String item) =>
+                                                       items: cubit.regesterCityitems.map((String item) =>
                                                            DropdownMenuItem<String>(
                                                              value: item,
                                                              child: Text(
                                                                item,
                                                                style: const TextStyle(
-                                                                 fontSize: 14,
+                                                                 fontSize: 12,
                                                                  fontWeight: FontWeight.bold,
                                                                  color: Colors.grey,
                                                                ),
@@ -228,9 +232,9 @@ class SignUpForm extends StatelessWidget {
                                                              ),
                                                            ))
                                                            .toList(),
-                                                       value: cubit.donorCityMenuValue,
+                                                       value: cubit.registerCityMenuValue,
                                                        onChanged: (value) {
-                                                         cubit.donorCityMenu(value!);
+                                                         cubit.registerCityMenu(value!);
                                                        },
                                                        buttonStyleData: ButtonStyleData(
                                                          padding: const EdgeInsets.only(left: 14, right: 14),
@@ -270,19 +274,142 @@ class SignUpForm extends StatelessWidget {
                                                  ),
                                                ],
                                              ),
-                                             defaultTextFormField(
-                                                 controller: addressController,
-                                                 type: TextInputType.streetAddress,
-                                                 hintText: 'المدينه',
-                                                 labelText: 'المدينه',
-                                                 preFix: Icons.location_on_outlined),
                                              const SizedBox(height: 10,),
-                                             defaultTextFormField(
-                                                 controller: cityController,
-                                                 type: TextInputType.streetAddress,
-                                                 hintText: 'العنوان',
-                                                 labelText: 'العنوان',
-                                                 preFix: Icons.location_city),
+                                             Row(
+                                               children: [
+                                                 Icon(Icons.location_city, color: defultColor,),
+                                                 SizedBox(width: 12,),
+                                                 Text('العنوان',
+                                                   style: TextStyle(
+                                                       fontSize: 10,
+                                                       fontWeight: FontWeight.w900,
+                                                       color: Colors.grey
+                                                   ),
+                                                 ),
+                                                 SizedBox(width: 10,),
+                                                 Expanded(
+                                                   child: ConditionalBuilder(
+                                                     condition: cubit.registerCityMenuValue == 'الاسكندريه',
+                                                     builder: (BuildContext context) {
+                                                       return DropdownButtonHideUnderline(
+                                                         child: DropdownButton2<String>(
+                                                           items: cubit.registerGovernmentAlexItems.map((String item) =>
+                                                               DropdownMenuItem<String>(
+                                                                 value: item,
+                                                                 child: Text(
+                                                                   item,
+                                                                   style: const TextStyle(
+                                                                     fontSize: 10,
+                                                                     fontWeight: FontWeight.bold,
+                                                                     color: Colors.grey,
+                                                                   ),
+                                                                   overflow: TextOverflow.ellipsis,
+                                                                 ),
+                                                               ))
+                                                               .toList(),
+                                                           value: cubit.registerGovernmentAlexValue,
+                                                           onChanged: (value) {
+                                                             cubit.registerGovernmentAlexMenu(value!);
+                                                           },
+                                                           buttonStyleData: ButtonStyleData(
+                                                             padding: const EdgeInsets.only(left: 14, right: 14),
+                                                             decoration: BoxDecoration(
+                                                               color: Colors.white,
+                                                               borderRadius: BorderRadius.circular(14),
+                                                               boxShadow: kElevationToShadow[2],
+                                                             ),
+                                                           ),
+                                                           iconStyleData: const IconStyleData(
+                                                             icon: Icon(
+                                                               Icons.menu,
+                                                             ),
+                                                             iconSize: 10,
+                                                             iconEnabledColor: Colors.red,
+                                                           ),
+                                                           dropdownStyleData: DropdownStyleData(
+                                                             maxHeight: 300,
+                                                             width: 200,
+                                                             decoration: BoxDecoration(
+                                                               borderRadius: BorderRadius.circular(14),
+                                                               color: Colors.white,
+                                                             ),
+                                                             offset: const Offset(-20, 0),
+                                                             scrollbarTheme: ScrollbarThemeData(
+                                                               radius: const Radius.circular(40),
+                                                               thickness: MaterialStateProperty.all(5),
+                                                               thumbVisibility: MaterialStateProperty.all(true),
+                                                             ),
+                                                           ),
+                                                           menuItemStyleData: const MenuItemStyleData(
+                                                             height: 30,
+                                                             padding: EdgeInsets.only(left: 14, right: 14),
+                                                           ),
+                                                         ),
+                                                       );
+                                                     },
+                                                     fallback: (BuildContext context) {
+                                                       return DropdownButtonHideUnderline(
+                                                         child: DropdownButton2<String>(
+                                                           items: cubit.registerGovernmentElbihiraItems.map((String item) =>
+                                                               DropdownMenuItem<String>(
+                                                                 value: item,
+                                                                 child: Text(
+                                                                   item,
+                                                                   style: const TextStyle(
+                                                                     fontSize: 10,
+                                                                     fontWeight: FontWeight.bold,
+                                                                     color: Colors.grey,
+                                                                   ),
+                                                                   overflow: TextOverflow.ellipsis,
+                                                                 ),
+                                                               ))
+                                                               .toList(),
+                                                           value: cubit.registerGovernmentElbihiraValue,
+                                                           onChanged: (value) {
+                                                             cubit.registerGovernmentElbihiraMenu(value!);
+                                                           },
+                                                           buttonStyleData: ButtonStyleData(
+                                                             padding: const EdgeInsets.only(left: 14, right: 14),
+                                                             decoration: BoxDecoration(
+                                                               color: Colors.white,
+                                                               borderRadius: BorderRadius.circular(14),
+                                                               boxShadow: kElevationToShadow[2],
+                                                             ),
+                                                           ),
+                                                           iconStyleData: const IconStyleData(
+                                                             icon: Icon(
+                                                               Icons.menu,
+                                                             ),
+                                                             iconSize: 10,
+                                                             iconEnabledColor: Colors.red,
+                                                           ),
+                                                           dropdownStyleData: DropdownStyleData(
+                                                             maxHeight: 200,
+                                                             width: 200,
+                                                             decoration: BoxDecoration(
+                                                               borderRadius: BorderRadius.circular(14),
+                                                               color: Colors.white,
+                                                             ),
+                                                             offset: const Offset(-20, 0),
+                                                             scrollbarTheme: ScrollbarThemeData(
+                                                               radius: const Radius.circular(40),
+                                                               thickness: MaterialStateProperty.all(5),
+                                                               thumbVisibility: MaterialStateProperty.all(true),
+                                                             ),
+                                                           ),
+                                                           menuItemStyleData: const MenuItemStyleData(
+                                                             height: 30,
+                                                             padding: EdgeInsets.only(left: 14, right: 14),
+                                                           ),
+                                                         ),
+                                                       );
+                                                     },
+
+                                                   ),
+                                                 ),
+                                               ],
+                                             ),
+
                                              const SizedBox(height: 10,),
                                              Row(
                                                children: [

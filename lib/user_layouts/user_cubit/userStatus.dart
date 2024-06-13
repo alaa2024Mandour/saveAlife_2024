@@ -8,6 +8,12 @@ class UserShoeNotificationState extends UserStatus {}
 
 class DonorCityState extends UserStatus {}
 
+class RegisterCityState extends UserStatus {}
+
+class RegisterGovernmentAlexState extends UserStatus {}
+
+class RegisterGovernmentElbihiraState extends UserStatus {}
+
 class UserGenderState extends UserStatus {}
 
 class UserBloodTypeState extends UserStatus {}
