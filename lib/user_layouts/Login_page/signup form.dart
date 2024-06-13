@@ -279,7 +279,7 @@ class SignUpForm extends StatelessWidget {
                                                children: [
                                                  Icon(Icons.location_city, color: defultColor,),
                                                  SizedBox(width: 12,),
-                                                 Text('العنوان',
+                                                 Text('المركز',
                                                    style: TextStyle(
                                                        fontSize: 10,
                                                        fontWeight: FontWeight.w900,
