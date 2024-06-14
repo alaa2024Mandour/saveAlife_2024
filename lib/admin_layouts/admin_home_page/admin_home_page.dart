@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:save_a_life_2024/admin_layouts/Blood_Banks/blood_banks.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
 import '../../shared/components/shared_component.dart';
+import '../../shared/network/remote/modules/admi_send_medicalhistory.dart';
 import '../../user_layouts/user_cubit/userCubit.dart';
 import '../../user_layouts/user_cubit/userStatus.dart';
 import '../users_donors_list/users_donors_list.dart';
@@ -163,7 +165,7 @@ class AdminHome extends StatelessWidget {
                                                                                         Expanded(
                                                                                           child: TextFormField(
                                                                                             keyboardType: TextInputType.emailAddress,
-                                                                                            controller: userCubit.donorEmail,
+                                                                                            controller: userCubit.donorID,
                                                                                             decoration: InputDecoration(
                                                                                               labelStyle: TextStyle(fontSize: 12, color: Colors.grey, ),
                                                                                               fillColor: Colors.transparent,
@@ -196,23 +198,32 @@ class AdminHome extends StatelessWidget {
                                                                                   ),
                                                                                   SizedBox(height: 15,),
                                                                                   Container(
-                                                                                    height: 45,
                                                                                     child: Row(
                                                                                       children: [
                                                                                         Text(
-                                                                                          " ملف الفحص : ",
+                                                                                          "ملف الفحص : ",
                                                                                           style: TextStyle(
                                                                                               fontSize: 10
                                                                                           ),
                                                                                         ),
                                                                                         Expanded(
-                                                                                            child: Text(
-                                                                                              userCubit.fileName == null?  "اسم الملف" : " ${userCubit.fileName}",
-                                                                                              style: TextStyle(
-                                                                                                  fontSize: 11,
-                                                                                                  color: Colors.grey
-                                                                                              ),
-                                                                                            )
+                                                                                          child: TextFormField(
+                                                                                            keyboardType: TextInputType.emailAddress,
+                                                                                            controller: userCubit.donorReport,
+                                                                                            decoration: InputDecoration(
+                                                                                              labelStyle: TextStyle(fontSize: 12, color: Colors.grey, ),
+                                                                                              fillColor: Colors.transparent,
+                                                                                              border: InputBorder.none,
+                                                                                            ),
+                                                                                            style: TextStyle(
+                                                                                              fontSize: 15,
+                                                                                              fontFamily: 'Tajawal',
+                                                                                            ),
+                                                                                            validator: (value) {
+                                                                                              if (value == null || value.isEmpty) return 'لابد من ملئ هذا الحقل';
+                                                                                              return null;
+                                                                                            },
+                                                                                          ),
                                                                                         ),
                                                                                       ],
                                                                                     ),
@@ -249,7 +260,7 @@ class AdminHome extends StatelessWidget {
                                                                                         GestureDetector(
                                                                                           child: Image.asset("assets/images/icons/icons8-add-file-96.png"),
                                                                                           onTap: (){
-                                                                                            userCubit.uploadFile();
+                                                                                          //  userCubit.uploadFile();
                                                                                           },
                                                                                         ),
                                                                                         SizedBox(height: 15,),
@@ -269,15 +280,24 @@ class AdminHome extends StatelessWidget {
                                                                                   Row(
                                                                                     children: [
                                                                                       Expanded(
-                                                                                          child: defaultButton(
-                                                                                              color: defultColor,
-                                                                                              text: "إرسال",
-                                                                                              function: (){
-                                                                                                if(fileFormKey.currentState!.validate()) {
-                                                                                                  navigateTo(context, AdminHome());
-                                                                                                }
-                                                                                              },
-                                                                                              width: 350
+                                                                                          child: ConditionalBuilder(
+                                                                                            condition: state is AdminloadingSendData,
+                                                                                            builder: (BuildContext context) {
+                                                                                              return  CircularProgressIndicator();
+                                                                                            },
+                                                                                            fallback: (BuildContext context) {
+                                                                                              return
+                                                                                                defaultButton(
+                                                                                                    color: defultColor,
+                                                                                                    text: "إرسال",
+                                                                                                    function: (){
+                                                                                                      if(fileFormKey.currentState!.validate()) {
+                                                                                                        userCubit.adminSendDatafun(context);
+                                                                                                      }
+                                                                                                    },
+                                                                                                    width: 350
+                                                                                                );
+                                                                                            },
                                                                                           )),
                                                                                       SizedBox(width: 25,),
                                                                                       Expanded(child: defaultButton(color: Colors.grey, text: "إلغاء", function: (){},width: 350)),

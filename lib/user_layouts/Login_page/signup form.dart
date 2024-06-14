@@ -168,24 +168,31 @@ class SignUpForm extends StatelessWidget {
                                                preFix: Icons.lock_outline,
                                                isPassword: cubit.isPassword,
                                              ),
-                                             defaultTextFormFieldOnTaped(
+                                             // defaultTextFormFieldOnTaped(
+                                             //     controller: cubit.birthDayController,
+                                             //     type: TextInputType.datetime,
+                                             //     hintText: 'تاريخ الميلاد',
+                                             //     labelText: 'تاريخ الميلاد',
+                                             //     onTap: ( ) {
+                                             //       showDatePicker(
+                                             //           context: context,
+                                             //           initialDate: DateTime.now(),
+                                             //           firstDate: DateTime(1930),
+                                             //           lastDate: DateTime.now(),
+                                             //       ).then((value) {
+                                             //         cubit.birthDayController.text=DateFormat.yMMMd().format(value!);
+                                             //         print(DateFormat.yMMMd().format(value));
+                                             //       });
+                                             //     },
+                                             //     preFix: Icons.date_range_rounded
+                                             // ),
+                                             defaultTextFormField(
                                                  controller: cubit.birthDayController,
                                                  type: TextInputType.datetime,
-                                                 hintText: 'تاريخ الميلاد',
-                                                 labelText: 'تاريخ الميلاد',
-                                                 onTap: ( ) {
-                                                   showDatePicker(
-                                                       context: context,
-                                                       initialDate: DateTime.now(),
-                                                       firstDate: DateTime(1930),
-                                                       lastDate: DateTime.now(),
-                                                   ).then((value) {
-                                                     cubit.birthDayController.text=DateFormat.yMMMd().format(value!);
-                                                     print(DateFormat.yMMMd().format(value));
-                                                   });
-                                                 },
-                                                 preFix: Icons.date_range_rounded
-                                             ),
+                                                 hintText: 'التاريخ',
+                                                 labelText: 'التاريخ',
+                                                 preFix: Icons.date_range_rounded),
+
                                              const SizedBox(height: 10,),
                                              defaultTextFormField(
                                                  controller: cubit.phoneController,
@@ -445,9 +452,9 @@ class SignUpForm extends StatelessWidget {
                                                            fontSize: 12,
                                                          ),
                                                        ),
-                                                       selected: cubit.Gender == "fmail" ? true : false,
+                                                       selected: cubit.Gender == "female" ? true : false,
                                                        activeColor: defultColor,
-                                                       value: "fmail",
+                                                       value: "female",
                                                        groupValue: cubit.Gender,
                                                        onChanged: (val){
                                                          cubit.ChooseGender(val!);
@@ -539,24 +546,25 @@ class SignUpForm extends StatelessWidget {
                                     width: 140,
                                     radius: 35,
                                     function: (){
-                                      if(formKey.currentState!.validate()) {
-                                        if (cubit.passController.toString() != cubit.rePassController.toString()){
-                                          AwesomeDialog(
-                                              context: context,
-                                              animType: AnimType.scale,
-                                              dialogType: DialogType.info,
-                                              body: Center(child: Text(
-                                                ' لابد مت تطابق كلمه السر',
-                                                style: TextStyle(fontStyle: FontStyle.italic),
-                                              ),),
-                                              title: 'ملحوظه ',
-                                              btnOkOnPress: () {},
-                                              btnOkColor: defultColor,
-                                              dialogBackgroundColor: Colors.white
-                                          )..show();
-                                        }
-                                          cubit.signUp();
-                                          navigateTo(context, const LoginForm());
+                                      print(cubit.uploadImageToAPI);
+                                      if(formKey.currentState!.validate()){
+                                        // if (cubit.passController.text != cubit.rePassController.text){
+                                        //   AwesomeDialog(
+                                        //       context: context,
+                                        //       animType: AnimType.scale,
+                                        //       dialogType: DialogType.info,
+                                        //       body: Center(child: Text(
+                                        //         ' لابد مت تطابق كلمه السر',
+                                        //         style: TextStyle(fontStyle: FontStyle.italic),
+                                        //       ),),
+                                        //       title: 'ملحوظه ',
+                                        //       btnOkOnPress: () {},
+                                        //       btnOkColor: defultColor,
+                                        //       dialogBackgroundColor: Colors.white
+                                        //   )..show();
+                                        // }else{
+                                        //   cubit.signUp(context);
+                                        // }
                                       }
                                     }, color: defultColor,
                                  ),
