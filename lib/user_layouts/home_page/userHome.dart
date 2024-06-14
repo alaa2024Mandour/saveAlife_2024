@@ -126,13 +126,7 @@ class UserHome extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'مرحبا , ',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            ' أسماء ',
+                            'مرحبا , بك ',
                             style: TextStyle(
                               color: Colors.white,
                             ),

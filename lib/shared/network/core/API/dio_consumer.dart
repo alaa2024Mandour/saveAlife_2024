@@ -45,7 +45,6 @@ class DioConsumer extends ApiConsumer {
         path,
         data: isFormData? FormData.fromMap(data) : data,
         queryParameters: queryParameters,
-
       );
       print(response.data);
       return response.data;

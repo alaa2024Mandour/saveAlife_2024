@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
-
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import '../../common_pages/stuff_user/stuff_user.dart';
 import '../../shared/components/shared_component.dart';
 import '../../user_layouts/Login_page/forgetPass/forget_password.dart';
@@ -125,36 +125,44 @@ class AdminLogin extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 10,),
-                                defaultButton(
-                                    text: "تسجيل الدخول",
-                                    width: 140,
-                                    radius: 35,
-                                    function: (){
-                                      if(formKey.currentState!.validate()) {
-                                        print(adminPassController.text);
-                                        print(adminEmailController.text);
-                                        cubit.adminSignIn(
-                                            adminEmailController.text,
-                                            adminPassController.text,
-                                            context
-                                        );
-                                        if(state is AdminerrorSignIn){
-                                          return AwesomeDialog(
-                                              context: context,
-                                              animType: AnimType.scale,
-                                              dialogType: DialogType.info,
-                                              body: Center(child: Text(
-                                                'هناك خطا في البيانات المدخله',
-                                                style: TextStyle(fontStyle: FontStyle.italic),
-                                              ),),
-                                              title: 'ملحوظه ',
-                                              btnOkOnPress: () {},
-                                              btnOkColor: defultColor,
-                                              dialogBackgroundColor: Colors.white
-                                          )..show();
-                                        }
-                                      }
-                                    }, color: defultColor,
+                                ConditionalBuilder(
+                                  condition: state is! AdminloadingSignIn,
+                                  builder: (BuildContext context) {
+                                    return  defaultButton(
+                                          text: "تسجيل الدخول",
+                                          width: 140,
+                                          radius: 35,
+                                          function: (){
+                                            if(formKey.currentState!.validate()) {
+                                              print(adminPassController.text);
+                                              print(adminEmailController.text);
+                                              cubit.adminSignIn(
+                                                  adminEmailController.text,
+                                                  adminPassController.text,
+                                                  context
+                                              );
+                                              if(state is AdminerrorSignIn){
+                                                return AwesomeDialog(
+                                                    context: context,
+                                                    animType: AnimType.scale,
+                                                    dialogType: DialogType.info,
+                                                    body: Center(child: Text(
+                                                      'هناك خطا في البيانات المدخله',
+                                                      style: TextStyle(fontStyle: FontStyle.italic),
+                                                    ),),
+                                                    title: 'ملحوظه ',
+                                                    btnOkOnPress: () {},
+                                                    btnOkColor: defultColor,
+                                                    dialogBackgroundColor: Colors.white
+                                                )..show();
+                                              }
+                                            }
+                                          }, color: defultColor,
+                                    );
+                                  },
+                                  fallback: (BuildContext context) {
+                                    return Center(child: CircularProgressIndicator());
+                                  },
                                 ),
                               ],
                             )

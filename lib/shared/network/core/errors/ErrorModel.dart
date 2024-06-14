@@ -13,8 +13,6 @@ class ErrorModel {
         status : jsonData[ApiKeys.status] ,
         ErrorMessage : jsonData[ApiKeys.errorMessage]);
   }
-
-
 }
 
 handeDioException (DioException e ){

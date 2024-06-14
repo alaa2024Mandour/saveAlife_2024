@@ -2,7 +2,8 @@ class EndPoints {
   static String basURL="https://blood-bank.aboomarmediclub.com/",
                 logIn = "api/auth/login",
                 signUp="api/auth/register",
-                adminLogIn = "api/auth/admin/login";
+                adminLogIn = "api/auth/admin/login",
+                adminSendData = "api/auth/admin/upload-medical-reports";
   static String getUserDataEndPoint(id){
     return "user/get-user/$id";
 }
@@ -20,12 +21,14 @@ class ApiKeys {
                 id="id",
                 name="name",
                 phone="phone",
-                confirmPassword="confirmPassword",
+                confirmPassword="password_confirmation",
                 city="city",
                 government="address",
                 profilePic="avatar",
                 gender="gender",
                 avatar="avatar",
-                bloodtype="bloodtype";
+                bloodtype="bloodtype",
+                report_link="report_link",
+                user_id="user_id";
 
 }

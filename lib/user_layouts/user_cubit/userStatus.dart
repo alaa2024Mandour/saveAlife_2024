@@ -45,7 +45,16 @@ class minsAlexQuantities extends UserStatus {}
 class addBihiraQuantities extends UserStatus {}
 
 class minsBihiraQuantities extends UserStatus {}
+//------------------------- for booking -----------------------------------
+class BookingGenderState extends UserStatus {}
 
+class BookingHemoglobineState extends UserStatus {}
+
+class BookingTatooState extends UserStatus {}
+
+class BookingdrugsState extends UserStatus {}
+
+class BookingSnizeState extends UserStatus {}
 //--------------------- connection status ----------------------------
 class loadingSignIn extends UserStatus {}
 
@@ -79,4 +88,15 @@ class AdminerrorSignIn extends UserStatus {
   final String errorMessage ;
 
   AdminerrorSignIn(this.errorMessage);
+}
+
+//--------------------- Admin send data status ----------------------------
+class AdminloadingSendData extends UserStatus {}
+
+class AdminsucssesSendData extends UserStatus {}
+
+class AdminerrorSendData extends UserStatus {
+  final String errorMessage ;
+
+  AdminerrorSendData(this.errorMessage);
 }

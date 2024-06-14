@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
@@ -23,12 +21,15 @@ import '../../shared/components/shared_component.dart';
 import '../../shared/network/remote/modules/admin_signIn_model.dart';
 import '../../shared/network/remote/modules/signUpModel.dart';
 import '../../shared/style/colors.dart';
+import '../Login_page/login form.dart';
 import '../OnBording/on_bording.dart';
 import '../appointment/appointment.dart';
 import '../home_page/userHome.dart';
 import '../nearst_blood_bank/nearst_blood_bank.dart';
 import '../profile_setting/profile.dart';
 import '../sharingApp/share.dart';
+import '../../shared/network/remote/modules/admi_send_medicalhistory.dart';
+
 class UserCubit extends Cubit<UserStatus> {
   UserCubit(this.api) : super(UserInitState());
 
@@ -57,6 +58,9 @@ class UserCubit extends Cubit<UserStatus> {
     print(Gender);
   }
 
+  //--------------Booking Appointment------------------
+
+
   //---------City Search--------------
   final List<String> donorCityitems = [
     'البحث عن متبرعين في محافظه',
@@ -82,16 +86,16 @@ class UserCubit extends Cubit<UserStatus> {
   //---------Choose blood type--------------
 
   final List<String> items = [
-    '+A',
-    '-A',
-    '+AB',
-    '-AB',
-    '+B',
-    '-B',
-    '+O',
-    '-O',
+    'A+',
+    'A-',
+    'AB-',
+    'AB+',
+    'B+',
+    'B+',
+    'O+',
+    'O-',
   ];
-  String dropdownBloodMenuValue = '+A';
+  String dropdownBloodMenuValue = 'A+';
   void BloodTypeMenu(String value) {
     dropdownBloodMenuValue = value;
     emit(UserBloodTypeState());
@@ -170,8 +174,8 @@ class UserCubit extends Cubit<UserStatus> {
 
   // -------------- AdminController ----------------
   // -------------- Upload files controller ----------------
-  var donorEmail = TextEditingController();
-  var FileController = TextEditingController();
+  var donorID = TextEditingController();
+  var donorReport = TextEditingController();
 
   String? fileName;
   Future uploadFile() async {
@@ -343,26 +347,16 @@ void signIn(String email, String password,context) async{
 }
 
 //========================== uploading image to api networking ==========================
-  //   Future uploadImageToAPI(XFile image) async{
-//   return MultipartFile.fromPath(image.path, image.path.split('/').last);
-//   }
 
-  Future<MultipartFile?> uploadImageToAPI(XFile? image) async {
-    if (image == null) {
-      return null; // Handle the case when no image is selected
-    }
-
-    final file = File(image.path);
-    if (!file.existsSync()) {
-      throw Exception('File not found at path: ${file.path}'); // Throw an exception if the file is not found
-    }
-
-    return MultipartFile.fromBytes(
-      'avatar',
-      await file.readAsBytes(),
-      filename: image.path.split('/').last,
-    );
+    Future uploadImageToAPI(XFile image) async{
+      final file = File(image.path);
+      MultipartFile.fromPath(
+        'avatar',
+        file.path,
+        filename: image.path.split('/').last,
+      );
   }
+
   //===================== SignUp Function ======================
   var emailController = TextEditingController();
   var passController = TextEditingController();
@@ -371,25 +365,26 @@ void signIn(String email, String password,context) async{
   var phoneController = TextEditingController();
   var birthDayController = TextEditingController();
   var addressController = TextEditingController();
-  var cityController = TextEditingController();
-  SignUpModel? userSignUp;
-  void signUp() async{
+
+  SignUpModel ? userSignUp;
+  void signUp(context) async{
     try {
       emit(loadingSignUp());
+      final avatarFile = await uploadImageToAPI(profilePicture!);
       final response = await api.post(
         EndPoints.signUp,
         isFormData: true,
         data: {
           ApiKeys.name:nameController.text,
-          ApiKeys.birthday:  birthDayController.text,
-          ApiKeys.city:  cityController.text,
+          ApiKeys.birthday: birthDayController.text,
+          ApiKeys.city: registerCityMenuValue,
           ApiKeys.phone: phoneController.text,
           ApiKeys.bloodtype:dropdownBloodMenuValue,
           ApiKeys.gender:Gender,
-          ApiKeys.email:emailController.toString(),
-          ApiKeys.password: passController.toString(),
-          ApiKeys.confirmPassword: rePassController.toString(),
-          ApiKeys.avatar: await uploadImageToAPI(profilePicture!),
+          ApiKeys.email:emailController.text,
+          ApiKeys.password: passController.text,
+          ApiKeys.confirmPassword: rePassController.text,
+          ApiKeys.avatar: avatarFile,
           ApiKeys.government: registerCityMenuValue == 'الاسكندريه' ? registerGovernmentAlexValue : registerGovernmentElbihiraValue,
         },
       );
@@ -397,11 +392,13 @@ void signIn(String email, String password,context) async{
       final decodedToken = JwtDecoder.decode(user!.token);
       print(decodedToken['id']);
       emit(sucssesSignUp(userSignUp!.message));
+      navigateTo(context, const LoginForm());
     } on ServerException catch (e) {
       // TODO
       emit(errorSignUp(e.errorModel.ErrorMessage));
     }
   }
+  //======================== Admin Functions ==========================
   //===================== Admin SignIn Function ======================
   AdminSignInModel? admin;
   void adminSignIn(String email, String password,context) async{
@@ -424,7 +421,25 @@ void signIn(String email, String password,context) async{
       emit(AdminerrorSignIn(e.errorModel.ErrorMessage));
     }
   }
-
+//===================== Admin send data ======================
+  void adminSendDatafun(context) async{
+    try {
+      emit(AdminloadingSendData());
+       api.post(
+        EndPoints.adminSendData,
+        isFormData: true,
+        data: {
+          ApiKeys.report_link:donorReport.text,
+          ApiKeys.user_id: donorID.text,
+                },
+      );
+      emit(AdminsucssesSendData());
+      navigateTo(context, AdminHome());
+    } on ServerException catch (e) {
+      // TODO
+      emit(AdminerrorSendData(e.errorModel.ErrorMessage));
+    }
+  }
 }
 
 class bloodTypesModel {
