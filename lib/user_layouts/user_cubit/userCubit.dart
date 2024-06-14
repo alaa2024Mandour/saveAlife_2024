@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bloc/bloc.dart';
@@ -15,13 +14,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:save_a_life_2024/shared/network/core/API/api_consumer.dart';
 import 'package:save_a_life_2024/shared/network/endPoints/end_points.dart';
-import 'package:save_a_life_2024/shared/network/core/errors/ErrorModel.dart';
 import 'package:save_a_life_2024/shared/network/core/errors/Exceptions.dart';
 import 'package:save_a_life_2024/shared/network/local/cachHelper.dart';
-import 'package:save_a_life_2024/shared/network/remote/dioHelper.dart';
 import 'package:save_a_life_2024/shared/network/remote/modules/signInModel.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
+import '../../admin_layouts/admin_home_page/admin_home_page.dart';
 import '../../shared/components/shared_component.dart';
+import '../../shared/network/remote/modules/admin_signIn_model.dart';
 import '../../shared/network/remote/modules/signUpModel.dart';
 import '../../shared/style/colors.dart';
 import '../OnBording/on_bording.dart';
@@ -317,64 +316,7 @@ class UserCubit extends Cubit<UserStatus> {
 
   //===============================================================
   //=================== Database connections  ======================
-//=================================================================
-//   static const dynamic baseURL = 'https://blood-bank.aboomarmediclub.com/';
-//   static final Uri loginURL = Uri.parse('https://blood-bank.aboomarmediclub.com/api/auth/login') ;
-//   Future<Response> login(
-//       String email,
-//       String password,
-//       ) async {
-//     final Response response = await post(loginURL ,
-//         body: jsonEncode(<String, dynamic>{
-//           'email': email,
-//           'password': password,
-//         }));
-//
-//     if (response.statusCode == 200) {
-//       emit(sucssesSignIn());
-//       print(response.body);
-//       return response;
-//       // return SignUpModel.fromJson(jsonDecode(response.body));
-//     } else {
-//       emit(errorSignIn());
-//       print("Error");
-//       return response;
-//     }
-//   }
-//   Future<SignUpModel?> createAcount(
-//     String name,
-//     String birthday,
-//     String city,
-//     String address,
-//     String phone,
-//     String bloodType,
-//     String gender,
-//     String email,
-//     String password,
-//     String password_confirmation,
-//   ) async {
-//     final Response response = await post('$baseURL/auth/register' as Uri ,
-//         body: jsonEncode(<String, dynamic>{
-//           'name': name,
-//           'birthday': birthday,
-//           'city': city,
-//           'address': address,
-//           'phone': phone,
-//           'bloodtype': bloodType,
-//           'gender': gender,
-//           'email': email,
-//           'password': password,
-//           'password_confirmation': password_confirmation,
-//         }));
-//
-//     if (response.statusCode == 200) {
-//       emit(sucssesSignUp());
-//       return SignUpModel.fromJson(jsonDecode(response.body));
-//     } else {
-//       emit(errorSignUp());
-//       return null;
-//     }
-//   }
+//================================================================
  final ApiConsumer api;
   //===================== SignIn Function ======================
 SignInModel? user;
@@ -399,18 +341,12 @@ void signIn(String email, String password,context) async{
      emit(errorSignIn(e.errorModel.ErrorMessage));
    }
 }
-//   Future uploadImageToAPI(XFile image) async{
+
+//========================== uploading image to api networking ==========================
+  //   Future uploadImageToAPI(XFile image) async{
 //   return MultipartFile.fromPath(image.path, image.path.split('/').last);
 //   }
-  var emailController = TextEditingController();
-  var passController = TextEditingController();
-  var rePassController = TextEditingController();
-  var nameController = TextEditingController();
-  var phoneController = TextEditingController();
-  var birthDayController = TextEditingController();
-  var addressController = TextEditingController();
-  var cityController = TextEditingController();
-//========================== uploading image to api networking ==========================
+
   Future<MultipartFile?> uploadImageToAPI(XFile? image) async {
     if (image == null) {
       return null; // Handle the case when no image is selected
@@ -428,6 +364,14 @@ void signIn(String email, String password,context) async{
     );
   }
   //===================== SignUp Function ======================
+  var emailController = TextEditingController();
+  var passController = TextEditingController();
+  var rePassController = TextEditingController();
+  var nameController = TextEditingController();
+  var phoneController = TextEditingController();
+  var birthDayController = TextEditingController();
+  var addressController = TextEditingController();
+  var cityController = TextEditingController();
   SignUpModel? userSignUp;
   void signUp() async{
     try {
@@ -458,25 +402,28 @@ void signIn(String email, String password,context) async{
       emit(errorSignUp(e.errorModel.ErrorMessage));
     }
   }
-// void signIn({
-//   required String email,
-//   required String password
-// } ){
-//   emit(loadingSignIn());
-//   DioHelper.postData(
-//       url: EndPoints.logIn,
-//       data: {
-//         'email':email,
-//         'password':password
-//       }
-//       ).then((onValue){
-//         print(onValue.data);
-//         emit(sucssesSignIn());
-//   }).catchError((onError){
-//     print(onError.toString());
-//     emit(errorSignIn(onError.toString()));
-//   });
-// }
+  //===================== Admin SignIn Function ======================
+  AdminSignInModel? admin;
+  void adminSignIn(String email, String password,context) async{
+    try {
+      emit(AdminloadingSignIn());
+      final response = await api.post(
+        EndPoints.adminLogIn,
+        data: {
+          ApiKeys.email:email,
+          ApiKeys.password:password
+        },
+      );
+      admin = AdminSignInModel.fromJson(response);
+      final decodedToken = JwtDecoder.decode(admin!.token);
+      CachHelper.saveData(key: ApiKeys.token, value: admin!.token);
+      CachHelper.saveData(key: ApiKeys.id, value: decodedToken[ApiKeys.id]);
+      emit(AdminsucssesSignIn());
+      navigateTo(context, AdminHome());
+    } on ServerException catch (e) {
+      emit(AdminerrorSignIn(e.errorModel.ErrorMessage));
+    }
+  }
 
 }
 
