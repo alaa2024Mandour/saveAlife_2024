@@ -24,9 +24,9 @@ class SignUpForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit,UserStatus>(
         listener: (BuildContext context, UserStatus state) {
-          if (state is sucssesSignIn){
+          if (state is sucssesSignUp){
             ScaffoldMessenger.of(context).showSnackBar( SnackBar(content:Text("تم انشاء حساب بنجاح ")));
-          }else if (state is errorSignIn){
+          }else if (state is errorSignUp){
             ScaffoldMessenger.of(context).showSnackBar( SnackBar(content:Text("هناك خطأ في انشاء الحساب   ")));
           }
         },
@@ -168,24 +168,6 @@ class SignUpForm extends StatelessWidget {
                                                preFix: Icons.lock_outline,
                                                isPassword: cubit.isPassword,
                                              ),
-                                             // defaultTextFormFieldOnTaped(
-                                             //     controller: cubit.birthDayController,
-                                             //     type: TextInputType.datetime,
-                                             //     hintText: 'تاريخ الميلاد',
-                                             //     labelText: 'تاريخ الميلاد',
-                                             //     onTap: ( ) {
-                                             //       showDatePicker(
-                                             //           context: context,
-                                             //           initialDate: DateTime.now(),
-                                             //           firstDate: DateTime(1930),
-                                             //           lastDate: DateTime.now(),
-                                             //       ).then((value) {
-                                             //         cubit.birthDayController.text=DateFormat.yMMMd().format(value!);
-                                             //         print(DateFormat.yMMMd().format(value));
-                                             //       });
-                                             //     },
-                                             //     preFix: Icons.date_range_rounded
-                                             // ),
                                              defaultTextFormField(
                                                  controller: cubit.birthDayController,
                                                  type: TextInputType.datetime,
@@ -548,23 +530,23 @@ class SignUpForm extends StatelessWidget {
                                     function: (){
                                       print(cubit.uploadImageToAPI);
                                       if(formKey.currentState!.validate()){
-                                        // if (cubit.passController.text != cubit.rePassController.text){
-                                        //   AwesomeDialog(
-                                        //       context: context,
-                                        //       animType: AnimType.scale,
-                                        //       dialogType: DialogType.info,
-                                        //       body: Center(child: Text(
-                                        //         ' لابد مت تطابق كلمه السر',
-                                        //         style: TextStyle(fontStyle: FontStyle.italic),
-                                        //       ),),
-                                        //       title: 'ملحوظه ',
-                                        //       btnOkOnPress: () {},
-                                        //       btnOkColor: defultColor,
-                                        //       dialogBackgroundColor: Colors.white
-                                        //   )..show();
-                                        // }else{
-                                        //   cubit.signUp(context);
-                                        // }
+                                        if (cubit.passController.text != cubit.rePassController.text){
+                                          AwesomeDialog(
+                                              context: context,
+                                              animType: AnimType.scale,
+                                              dialogType: DialogType.info,
+                                              body: Center(child: Text(
+                                                ' لابد مت تطابق كلمه السر',
+                                                style: TextStyle(fontStyle: FontStyle.italic),
+                                              ),),
+                                              title: 'ملحوظه ',
+                                              btnOkOnPress: () {},
+                                              btnOkColor: defultColor,
+                                              dialogBackgroundColor: Colors.white
+                                          )..show();
+                                        }else{
+                                          cubit.signUp(context);
+                                        }
                                       }
                                     }, color: defultColor,
                                  ),

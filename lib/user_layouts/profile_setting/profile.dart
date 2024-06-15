@@ -52,7 +52,7 @@ class UserProfile extends StatelessWidget {
                           icon: const Icon( Icons.add_a_photo , color: Colors.black,),),)
                     ],
                   ),
-                  Text('يارا',
+                  Text('${cubit.userGet?.name}',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -62,7 +62,7 @@ class UserProfile extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('الأسكندرية'),
+                      Text('${cubit.userGet?.city}'),
                       Icon(Icons.location_on),
                     ],
                   ),
@@ -74,7 +74,7 @@ class UserProfile extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Text('A+',
+                          Text('${cubit.userGet?.bloodtype}',
                             style: TextStyle(
                               color: Colors.red,
                               fontSize: 25,
@@ -102,7 +102,7 @@ class UserProfile extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          Text('21 سنه',
+                          Text('${cubit.userGet?.id}',
                             style: TextStyle(
                               color: Colors.red,
                               fontSize: 25,
@@ -111,7 +111,7 @@ class UserProfile extends StatelessWidget {
                           SizedBox(
                             height: 1,),
                           Text(
-                            'العمر',
+                            'ID',
                             style:TextStyle(
                               color: Colors.grey,
                             ),),
@@ -218,12 +218,12 @@ class UserProfile extends StatelessWidget {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        userData("الاسم رباعي",'يارا محمد السيد عبد الحميد'),
-                                        userData("البريد الايكتروني", "yara@yahoo.com"),
-                                        userData("رقم الهاتف", "01284742101"),
-                                        userData("العنوان","السيوف"),
+                                        userData("الاسم رباعي",'${cubit.userGet?.name}'),
+                                        userData("البريد الايكتروني", '${cubit.userGet?.email}'),
+                                        userData("رقم الهاتف", '${cubit.userGet?.phone}'),
+                                        userData("المركز",'${cubit.userGet?.address}'),
                                         userData("فحص الدم","نتيجة الفحص"),
-                                        userData("فصيله الدم","A+"),
+                                        userData("فصيله الدم",'${cubit.userGet?.bloodtype}'),
                                         userData("أخر ميعاد قمت فيه بالتبرع", '1/1/2024')
                                       ],
                                     ),

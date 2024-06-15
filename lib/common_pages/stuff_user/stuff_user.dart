@@ -6,7 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:save_a_life_2024/shared/components/shared_component.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
 import '../../admin_layouts/adminLogin/admin_login.dart';
-import '../../user_layouts/Login_page/signup form.dart';
+import '../../user_layouts/OnBording/on_bording.dart';
 
 
 class StuffSAndUser extends StatefulWidget {
@@ -135,7 +135,7 @@ class _StuffSAndUserState extends State<StuffSAndUser> {
                             });
                             await Future.delayed(Duration(milliseconds: 400), ()
                             {
-                              navigateTo(context, SignUpForm());
+                              navigateTo(context, onBoardingScreen());
                             });
                           },
                             child: CircleAvatar(

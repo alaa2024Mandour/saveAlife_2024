@@ -4,8 +4,10 @@ import 'package:save_a_life_2024/user_layouts/Login_page/login%20form.dart';
 import 'package:save_a_life_2024/user_layouts/home_page/home_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../common_pages/stuff_user/stuff_user.dart';
 import '../../shared/components/shared_component.dart';
 import '../../shared/style/colors.dart';
+import '../Login_page/signup form.dart';
 
 class BoardingModel {
   late final String icon;
@@ -73,7 +75,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
           actions: [
             defaultTextButton(
               function: (){
-                navegateAndFinish(context, UserHomePage());
+                navegateAndFinish(context, SignUpForm());
               },
               buttonlable: "تخطي",
               color: defultColor
@@ -81,7 +83,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
           ],
           leading: IconButton(
               onPressed: () {
-                navigateTo(context, LoginForm());
+                navigateTo(context, StuffSAndUser());
               },
               icon: Icon(Icons.arrow_back_ios,color: defultColor,)),
         ),
@@ -221,7 +223,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             elevation: 0.0,
                             onPressed: (){
                               if(isLastPage){
-                                navegateAndFinish(context, UserHomePage());
+                                navegateAndFinish(context, SignUpForm());
                               }else{
                                 boardController.nextPage(
                                     duration: Duration(milliseconds: 1,),

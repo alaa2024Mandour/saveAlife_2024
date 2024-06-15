@@ -32,6 +32,7 @@ class bloodTypesModel {
   bloodTypesModel({required this.bloodType}) {}
 }
 
+
 class UserHome extends StatelessWidget {
   UserHome({Key? key}) : super(key: key);
 
@@ -73,11 +74,6 @@ class UserHome extends StatelessWidget {
         listener: (BuildContext context, UserStatus state) {},
         builder: (BuildContext context, UserStatus state) {
           var cubit = UserCubit.get(context);
-           if (state is loadingGetData){
-             return Center(child: CircularProgressIndicator());
-           }else if (state is errorGetData){
-             return Container();
-           }else if (state is errorGetData){
              return Scaffold(
                backgroundColor: HexColor('#EAEAEA'),
                body: Column(
@@ -113,7 +109,7 @@ class UserHome extends StatelessWidget {
                              // cubit.profilePicture == null?
                              CircleAvatar(
                                radius: 25,
-                               // backgroundImage: NetworkImage("${cubit.userData!.avatar}"),
+                               //backgroundImage:NetworkImage(Uri.encodeFull('${cubit.userGet?.avatar}')),
                                backgroundColor: Colors.transparent,
                              )
                              //     :   CircleAvatar(
@@ -137,7 +133,7 @@ class UserHome extends StatelessWidget {
                                ),
                              ),
                              Text(
-                               '',
+                               '${cubit.userGet?.name}',
                                // '${cubit.userData!.name}',
                                style: TextStyle(
                                  color: Colors.white,
@@ -256,8 +252,7 @@ class UserHome extends StatelessWidget {
                        child: ListView.separated(
                            physics: const BouncingScrollPhysics(),
                            scrollDirection: Axis.horizontal,
-                           itemBuilder: (context, index) =>
-                               bloodType(bloodTypeList[index]),
+                           itemBuilder: (context, index) => bloodType(bloodTypeList[index]),
                            separatorBuilder: (context, index) => const SizedBox(
                              width: 10,
                            ),
@@ -298,7 +293,7 @@ class UserHome extends StatelessWidget {
                          context: context,
                          child: ListView.separated(
                              physics: const BouncingScrollPhysics(),
-                             itemBuilder: (context, index) => donors(),
+                             itemBuilder: (context, index) => donorsB_Pluse(),
                              separatorBuilder: (context, index) => const SizedBox(height: 10,),
                              itemCount: 10),
                        ),
@@ -307,15 +302,12 @@ class UserHome extends StatelessWidget {
                  ],
                ),
              );
-          }
-          return Container( );
-
         });
   }
 }
 
 //------------------------------------------------
-
+String bloodTypeDonor = '';
 Widget notification(notificationModel model) => Container(
       padding: const EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 5),
       decoration: BoxDecoration(
@@ -370,7 +362,10 @@ Widget notification(notificationModel model) => Container(
     );
 
 Widget bloodType(bloodTypesModel model) => GestureDetector(
-      onTap: () {},
+      onTap: () {
+        bloodTypeDonor= model.bloodType;
+        print(bloodTypeDonor);
+      },
       child: Container(
         width: 57,
         height: 48,
@@ -389,7 +384,7 @@ Widget bloodType(bloodTypesModel model) => GestureDetector(
       ),
     );
 
-Widget donors() => Container(
+Widget donorsB_Pluse() => Container(
   padding: const EdgeInsetsDirectional.all(10),
   color: Colors.white,
       child: Row(
@@ -450,7 +445,7 @@ Widget donors() => Container(
           ),
           const Spacer(),
           Text(
-              "+B",
+              "B+",
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 24,
@@ -460,3 +455,508 @@ Widget donors() => Container(
         ],
       ),
     );
+
+Widget donorsB_min() => Container(
+  padding: const EdgeInsetsDirectional.all(10),
+  color: Colors.white,
+  child: Row(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35)
+        ),
+        child: const Image(
+          image: AssetImage('assets/images/icons/male.jpg'),
+          width: 70,
+          height: 70,
+          fit: BoxFit.fill,
+        ),
+      ),
+      const Spacer(),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const Text(
+            'Mohammed Ahmad',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          Row(
+            children: [
+              const Text(
+                'الحاله',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.green,
+                ),
+              ),
+              Text(
+                ', النوع,',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+              Text(
+                ' 01112602464',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+      const Spacer(),
+      Text(
+        "+B",
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 24,
+          color: defultColor,
+        ),
+      ),
+    ],
+  ),
+);
+
+Widget donorsA_Pluse() => Container(
+  padding: const EdgeInsetsDirectional.all(10),
+  color: Colors.white,
+  child: Row(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35)
+        ),
+        child: const Image(
+          image: AssetImage('assets/images/icons/male.jpg'),
+          width: 70,
+          height: 70,
+          fit: BoxFit.fill,
+        ),
+      ),
+      const Spacer(),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const Text(
+            'Mohammed Ahmad',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          Row(
+            children: [
+              const Text(
+                'الحاله',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.green,
+                ),
+              ),
+              Text(
+                ', النوع,',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+              Text(
+                ' 01112602464',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+      const Spacer(),
+      Text(
+        "+B",
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 24,
+          color: defultColor,
+        ),
+      ),
+    ],
+  ),
+);
+
+Widget donorsA_min() => Container(
+  padding: const EdgeInsetsDirectional.all(10),
+  color: Colors.white,
+  child: Row(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35)
+        ),
+        child: const Image(
+          image: AssetImage('assets/images/icons/male.jpg'),
+          width: 70,
+          height: 70,
+          fit: BoxFit.fill,
+        ),
+      ),
+      const Spacer(),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const Text(
+            'Mohammed Ahmad',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          Row(
+            children: [
+              const Text(
+                'الحاله',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.green,
+                ),
+              ),
+              Text(
+                ', النوع,',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+              Text(
+                ' 01112602464',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+      const Spacer(),
+      Text(
+        "+B",
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 24,
+          color: defultColor,
+        ),
+      ),
+    ],
+  ),
+);
+
+Widget donorsAB_Pluse() => Container(
+  padding: const EdgeInsetsDirectional.all(10),
+  color: Colors.white,
+  child: Row(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35)
+        ),
+        child: const Image(
+          image: AssetImage('assets/images/icons/male.jpg'),
+          width: 70,
+          height: 70,
+          fit: BoxFit.fill,
+        ),
+      ),
+      const Spacer(),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const Text(
+            'Mohammed Ahmad',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          Row(
+            children: [
+              const Text(
+                'الحاله',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.green,
+                ),
+              ),
+              Text(
+                ', النوع,',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+              Text(
+                ' 01112602464',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+      const Spacer(),
+      Text(
+        "+B",
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 24,
+          color: defultColor,
+        ),
+      ),
+    ],
+  ),
+);
+
+Widget donorsAB_min() => Container(
+  padding: const EdgeInsetsDirectional.all(10),
+  color: Colors.white,
+  child: Row(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35)
+        ),
+        child: const Image(
+          image: AssetImage('assets/images/icons/male.jpg'),
+          width: 70,
+          height: 70,
+          fit: BoxFit.fill,
+        ),
+      ),
+      const Spacer(),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const Text(
+            'Mohammed Ahmad',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          Row(
+            children: [
+              const Text(
+                'الحاله',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.green,
+                ),
+              ),
+              Text(
+                ', النوع,',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+              Text(
+                ' 01112602464',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+      const Spacer(),
+      Text(
+        "+B",
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 24,
+          color: defultColor,
+        ),
+      ),
+    ],
+  ),
+);
+
+Widget donorsO_Pluse() => Container(
+  padding: const EdgeInsetsDirectional.all(10),
+  color: Colors.white,
+  child: Row(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35)
+        ),
+        child: const Image(
+          image: AssetImage('assets/images/icons/male.jpg'),
+          width: 70,
+          height: 70,
+          fit: BoxFit.fill,
+        ),
+      ),
+      const Spacer(),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const Text(
+            'Mohammed Ahmad',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          Row(
+            children: [
+              const Text(
+                'الحاله',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.green,
+                ),
+              ),
+              Text(
+                ', النوع,',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+              Text(
+                ' 01112602464',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+      const Spacer(),
+      Text(
+        "+B",
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 24,
+          color: defultColor,
+        ),
+      ),
+    ],
+  ),
+);
+
+Widget donorsO_min() => Container(
+  padding: const EdgeInsetsDirectional.all(10),
+  color: Colors.white,
+  child: Row(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35)
+        ),
+        child: const Image(
+          image: AssetImage('assets/images/icons/male.jpg'),
+          width: 70,
+          height: 70,
+          fit: BoxFit.fill,
+        ),
+      ),
+      const Spacer(),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const Text(
+            'Mohammed Ahmad',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          Row(
+            children: [
+              const Text(
+                'الحاله',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.green,
+                ),
+              ),
+              Text(
+                ', النوع,',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+              Text(
+                ' 01112602464',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: HexColor("#D9D9D9"),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+      const Spacer(),
+      Text(
+        "+B",
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 24,
+          color: defultColor,
+        ),
+      ),
+    ],
+  ),
+);
+
