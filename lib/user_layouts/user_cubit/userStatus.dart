@@ -88,9 +88,9 @@ class errorSignUp extends UserStatus {
 class loadingGetData extends UserStatus {}
 
 class sucssesGetData extends UserStatus {
-  final UserModel user ;
-
-  sucssesGetData({required this.user});
+  // final UserModel user ;
+  //
+  // sucssesGetData({required this.user});
 }
 
 class errorGetData extends UserStatus {

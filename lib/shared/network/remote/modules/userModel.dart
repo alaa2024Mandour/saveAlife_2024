@@ -12,7 +12,7 @@ class UserModel{
   String gender;
 
   UserModel({
-      required this.id,
+    required this.id,
   required this.name,
   required this.address,
   required this.avatar,

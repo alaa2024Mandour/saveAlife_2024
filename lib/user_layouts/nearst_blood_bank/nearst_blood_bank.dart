@@ -247,27 +247,6 @@ Widget bloodBankLocation(BloodBankModel model,context)=>  GestureDetector(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
                   ),),
-                SizedBox(height: 10,),
-                Row(
-                  children: [
-                    Text(
-                      " دقيقه ${model.time}  ,  ",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                      ),),
-                    Expanded(
-                      child: Text(
-                        "${model.distance} كم  ",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                        ),),
-                    ),
-                  ],
-                )
               ],
             ),
           )

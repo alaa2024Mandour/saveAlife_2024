@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
@@ -24,8 +25,9 @@ import '../../shared/network/remote/modules/admin_signIn_model.dart';
 import '../../shared/network/remote/modules/signUpModel.dart';
 import '../../shared/style/colors.dart';
 import '../Login_page/login form.dart';
-import '../OnBording/on_bording.dart';
+
 import '../appointment/appointment.dart';
+import '../home_page/home_page.dart';
 import '../home_page/userHome.dart';
 import '../nearst_blood_bank/nearst_blood_bank.dart';
 import '../profile_setting/profile.dart';
@@ -58,6 +60,9 @@ class UserCubit extends Cubit<UserStatus> {
     emit(UserGenderState());
     print(Gender);
   }
+
+
+
 
   //--------------Booking Appointment------------------
 
@@ -340,8 +345,7 @@ void signIn(String email, String password,context) async{
      CacheHelper().saveData(key: ApiKeys.token, value: user!.token);
      // CacheHelper().saveData(key: ApiKeys.id, value: decodedToken[ApiKeys.id]);
      emit(sucssesSignIn());
-     getUserData();
-     navigateTo(context, onBoardingScreen());
+     getUserData(context);
    } on ServerException catch (e) {
      // TODO
      emit(errorSignIn(e.errorModel.ErrorMessage));
@@ -394,7 +398,6 @@ void signIn(String email, String password,context) async{
       final decodedToken = JwtDecoder.decode(user!.token);
       print(decodedToken['id']);
       emit(sucssesSignUp(userSignUp!.message));
-      navigateTo(context, const LoginForm());
     } on ServerException catch (e) {
       // TODO
       emit(errorSignUp(e.errorModel.ErrorMessage));
@@ -402,14 +405,17 @@ void signIn(String email, String password,context) async{
   }
 
   //===================== Get User Data Function ======================
-  getUserData() async{
+  UserModel ? userGet;
+ getUserData(context) async{
     try {
       emit(loadingGetData());
-      final response = await api.get(
+       final response = await api.get(
         EndPoints.userData,
       );
-      emit(sucssesGetData(user: UserModel.fromjson(response)));
-      return response;
+      emit(sucssesGetData(/*user: UserModel.fromjson(response)*/));
+      userGet = UserModel.fromjson(response);
+      print("==============${userGet!.name}==================");
+      navigateTo(context, UserHomePage());
     } on ServerException catch (e) {
       emit(errorGetData( e.errorModel.ErrorMessage));
     }
