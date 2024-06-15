@@ -17,7 +17,7 @@ void main() {
   runApp(const MyApp());
   Bloc.observer = MyBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
-  CachHelper.init();
+  CacheHelper().init();
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-
       providers: [
         BlocProvider( create: (BuildContext context) => UserCubit(DioConsumer(Dio()))..getPosition(context),),
         BlocProvider( create: (BuildContext context) => AdminCubit())

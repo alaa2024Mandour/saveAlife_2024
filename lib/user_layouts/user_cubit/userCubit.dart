@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:save_a_life_2024/shared/network/endPoints/end_points.dart';
 import 'package:save_a_life_2024/shared/network/core/errors/Exceptions.dart';
 import 'package:save_a_life_2024/shared/network/local/cachHelper.dart';
 import 'package:save_a_life_2024/shared/network/remote/modules/signInModel.dart';
+import 'package:save_a_life_2024/shared/network/remote/modules/userModel.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
 import '../../admin_layouts/admin_home_page/admin_home_page.dart';
 import '../../shared/components/shared_component.dart';
@@ -28,7 +30,6 @@ import '../home_page/userHome.dart';
 import '../nearst_blood_bank/nearst_blood_bank.dart';
 import '../profile_setting/profile.dart';
 import '../sharingApp/share.dart';
-import '../../shared/network/remote/modules/admi_send_medicalhistory.dart';
 
 class UserCubit extends Cubit<UserStatus> {
   UserCubit(this.api) : super(UserInitState());
@@ -336,9 +337,10 @@ void signIn(String email, String password,context) async{
      );
      user = SignInModel.fromJson(response);
      final decodedToken = JwtDecoder.decode(user!.token);
-     CachHelper.saveData(key: ApiKeys.token, value: user!.token);
-     CachHelper.saveData(key: ApiKeys.id, value: decodedToken[ApiKeys.id]);
+     CacheHelper().saveData(key: ApiKeys.token, value: user!.token);
+     // CacheHelper().saveData(key: ApiKeys.id, value: decodedToken[ApiKeys.id]);
      emit(sucssesSignIn());
+     getUserData();
      navigateTo(context, onBoardingScreen());
    } on ServerException catch (e) {
      // TODO
@@ -398,6 +400,21 @@ void signIn(String email, String password,context) async{
       emit(errorSignUp(e.errorModel.ErrorMessage));
     }
   }
+
+  //===================== Get User Data Function ======================
+  getUserData() async{
+    try {
+      emit(loadingGetData());
+      final response = await api.get(
+        EndPoints.userData,
+      );
+      emit(sucssesGetData(user: UserModel.fromjson(response)));
+      return response;
+    } on ServerException catch (e) {
+      emit(errorGetData( e.errorModel.ErrorMessage));
+    }
+  }
+
   //======================== Admin Functions ==========================
   //===================== Admin SignIn Function ======================
   AdminSignInModel? admin;
@@ -413,8 +430,8 @@ void signIn(String email, String password,context) async{
       );
       admin = AdminSignInModel.fromJson(response);
       final decodedToken = JwtDecoder.decode(admin!.token);
-      CachHelper.saveData(key: ApiKeys.token, value: admin!.token);
-      CachHelper.saveData(key: ApiKeys.id, value: decodedToken[ApiKeys.id]);
+      CacheHelper().saveData(key: ApiKeys.token, value: admin!.token);
+      CacheHelper().saveData(key: ApiKeys.id, value: decodedToken[ApiKeys.id]);
       emit(AdminsucssesSignIn());
       navigateTo(context, AdminHome());
     } on ServerException catch (e) {
