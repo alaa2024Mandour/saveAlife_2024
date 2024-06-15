@@ -1,3 +1,5 @@
+import 'package:save_a_life_2024/shared/network/remote/modules/userModel.dart';
+
 abstract class UserStatus{}
 
 class UserInitState extends UserStatus {}
@@ -56,6 +58,7 @@ class BookingdrugsState extends UserStatus {}
 
 class BookingSnizeState extends UserStatus {}
 //--------------------- connection status ----------------------------
+//--------------- SignIn States ---------------
 class loadingSignIn extends UserStatus {}
 
 class sucssesSignIn extends UserStatus {}
@@ -66,6 +69,7 @@ class errorSignIn extends UserStatus {
   errorSignIn(this.errorMessage);
 }
 
+//--------------- Sign Up States ---------------
 class loadingSignUp extends UserStatus {}
 
 class sucssesSignUp extends UserStatus {
@@ -79,6 +83,23 @@ class errorSignUp extends UserStatus {
 
   errorSignUp(this.errorMessage);
 }
+
+//--------------- Sign Up States ---------------
+class loadingGetData extends UserStatus {}
+
+class sucssesGetData extends UserStatus {
+  final UserModel user ;
+
+  sucssesGetData({required this.user});
+}
+
+class errorGetData extends UserStatus {
+  final String errorMessage ;
+
+  errorGetData(this.errorMessage);
+}
+
+
 //--------------------- Admin connection status ----------------------------
 class AdminloadingSignIn extends UserStatus {}
 

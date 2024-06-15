@@ -22,7 +22,7 @@ class SignInModel {
 
   factory SignInModel.fromJson(Map<String,dynamic> signInJson) => SignInModel(
     token: signInJson[ApiKeys.token],
-  // id: signInJson[ApiKeys.id],
+   // id: signInJson[ApiKeys.id],
   name: signInJson[ApiKeys.name],
   birthday: signInJson[ApiKeys.birthday],
   city: signInJson[ApiKeys.city],

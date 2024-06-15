@@ -3,7 +3,8 @@ class EndPoints {
                 logIn = "api/auth/login",
                 signUp="api/auth/register",
                 adminLogIn = "api/auth/admin/login",
-                adminSendData = "api/auth/admin/upload-medical-reports";
+                adminSendData = "api/auth/admin/upload-medical-reports",
+                userData = "api/auth/user/profile";
   static String getUserDataEndPoint(id){
     return "user/get-user/$id";
 }
@@ -17,6 +18,7 @@ class ApiKeys {
                 password="password",
                 message="message",
                 token="access_token",
+                Authorization="Authorization",
                 birthday="birthday",
                 id="id",
                 name="name",
