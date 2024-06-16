@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +14,8 @@ import 'package:save_a_life_2024/shared/network/core/API/api_consumer.dart';
 import 'package:save_a_life_2024/shared/network/endPoints/end_points.dart';
 import 'package:save_a_life_2024/shared/network/core/errors/Exceptions.dart';
 import 'package:save_a_life_2024/shared/network/local/cachHelper.dart';
+import 'package:save_a_life_2024/shared/network/remote/modules/admin_get_data.dart';
+import 'package:save_a_life_2024/shared/network/remote/modules/notefication_model.dart';
 import 'package:save_a_life_2024/shared/network/remote/modules/signInModel.dart';
 import 'package:save_a_life_2024/shared/network/remote/modules/userModel.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
@@ -24,8 +24,6 @@ import '../../shared/components/shared_component.dart';
 import '../../shared/network/remote/modules/admin_signIn_model.dart';
 import '../../shared/network/remote/modules/signUpModel.dart';
 import '../../shared/style/colors.dart';
-import '../Login_page/login form.dart';
-
 import '../appointment/appointment.dart';
 import '../home_page/home_page.dart';
 import '../home_page/userHome.dart';
@@ -65,6 +63,119 @@ class UserCubit extends Cubit<UserStatus> {
 
 
   //--------------Booking Appointment------------------
+  String GenderApointment = "male";
+  void chooseGenderApointment(String value) {
+    GenderApointment = value;
+    emit(BookingGenderState());
+    print(GenderApointment);
+  }
+
+  String himogloben = "0";
+  void himoglobenApointment(String value) {
+    himogloben = value;
+    emit(BookingHemoglobineState());
+    print(himogloben);
+  }
+
+  String tatoo = "0";
+  void tatooApointment(String value) {
+    tatoo = value;
+    emit(BookingTatooState());
+    print(tatoo);
+  }
+
+
+  String drugs = "0";
+  void drugsApointment(String value) {
+    drugs = value;
+    emit(BookingdrugsState());
+    print(drugs);
+  }
+
+  String snize = "0";
+  void snizeApointment(String value) {
+    snize = value;
+    emit(BookingSnizeState());
+    print(snize);
+  }
+
+  String pregnancy = "0";
+  void pregnancyApointment(String value) {
+    pregnancy = value;
+    emit(BookingPregnancyState());
+    print(pregnancy);
+  }
+
+  String menstrual = "0";
+  void menstrualApointment(String value) {
+    menstrual = value;
+    emit(BookingMenstrualState());
+    print(menstrual);
+  }
+
+  String desises = "None";
+  void desisesApointment(String value) {
+    desises = value;
+    emit(BookingMenstrualState());
+    print(desises);
+  }
+
+
+  String have_drugs = "None";
+  void have_drugsAppointment(String value) {
+    have_drugs = value;
+    emit(BookingMenstrualState());
+    print(have_drugs);
+  }
+
+
+  final List<String> bloodTypesBookingItems = [
+    'A+',
+    'A-',
+    'AB-',
+    'AB+',
+    'B+',
+    'B+',
+    'O+',
+    'O-',
+  ];
+  String bloodTypesBookingMenuValue = 'A+';
+  void bloodTypesBookingMenu(String value) {
+    bloodTypesBookingMenuValue = value;
+    emit(BloodTypesBookingState());
+  }
+
+  final List<String> cityBookingItems = [
+    'الاسكندريه',
+    'البحيره',
+  ];
+  String cityBookingValue = 'الاسكندريه';
+  void cityBookingMenu(String value) {
+    cityBookingValue = value;
+    emit(BloodTypesBookingState());
+  }
+
+  final List<String> bloodBanksAlexBookingItems = [
+    'الشاطبي',
+    'كوم الدكه',
+    'الهلال الاحمر',
+  ];
+  String bloodBanksAlexBookingValue = 'الشاطبي';
+  void bloodBanksAlexBookingMenu(String value) {
+    bloodBanksAlexBookingValue = value;
+    emit(BloodTypesBookingState());
+  }
+
+
+  final List<String> bloodBanksElbihiraBookingItems = [
+    'ابو حمص',
+    'كوم حماده',
+  ];
+  String bloodBanksElbihiraBookingValue = 'ابو حمص';
+  void bloodBanksElbihiraBookingMenu(String value) {
+    bloodBanksElbihiraBookingValue = value;
+    emit(BloodTypesBookingState());
+  }
 
 
   //---------City Search--------------
@@ -277,7 +388,7 @@ class UserCubit extends Cubit<UserStatus> {
     emit(bloodPagesCity());
   }
 
-  //--------------signup city and goverment----------------
+  //-------------- signup city and goverment ----------------
   final List<String> regesterCityitems = [
     'الاسكندريه',
     'البحيره',
@@ -376,7 +487,6 @@ void signIn(String email, String password,context) async{
   void signUp(context) async{
     try {
       emit(loadingSignUp());
-      final avatarFile = await uploadImageToAPI(profilePicture!);
       final response = await api.post(
         EndPoints.signUp,
         isFormData: true,
@@ -390,7 +500,7 @@ void signIn(String email, String password,context) async{
           ApiKeys.email:emailController.text,
           ApiKeys.password: passController.text,
           ApiKeys.confirmPassword: rePassController.text,
-          ApiKeys.avatar: avatarFile,
+          ApiKeys.avatar: await uploadImageToAPI(profilePicture!),
           ApiKeys.government: registerCityMenuValue == 'الاسكندريه' ? registerGovernmentAlexValue : registerGovernmentElbihiraValue,
         },
       );
@@ -412,14 +522,68 @@ void signIn(String email, String password,context) async{
        final response = await api.get(
         EndPoints.userData,
       );
-      emit(sucssesGetData(/*user: UserModel.fromjson(response)*/));
+      emit(sucssesGetData());
       userGet = UserModel.fromjson(response);
       print("==============${userGet!.name}==================");
+      getUserNotification();
       navigateTo(context, UserHomePage());
     } on ServerException catch (e) {
       emit(errorGetData( e.errorModel.ErrorMessage));
     }
   }
+
+  NotificationModel ? notification;
+  getUserNotification() async{
+    try {
+      emit(loadingGetNotification());
+      final response = await api.get(
+        EndPoints.userNotification,
+      );
+      notification = NotificationModel.fromjson(response);
+      emit(sucssesGetNotification());
+      print("=======Repooort=======${notification?.notification[0].report_link}==================");
+    } on ServerException catch (e) {
+      emit(errorGetNotification( e.errorModel.ErrorMessage));
+    }
+  }
+
+  //===================== Boking Function ======================
+  var fullNameController = TextEditingController();
+  var nationalId = TextEditingController();
+  var ageController = TextEditingController();
+
+  void Booking(context) async{
+    try {
+      emit(BookingAppointmentLoading());
+      final response = await api.post(
+        EndPoints.booking_endpoint,
+        isFormData: true,
+        data: {
+          ApiKeys.bank_id:"1",
+          ApiKeys.date_id:"2",
+          ApiKeys.time_id:"1",
+          ApiKeys.full_name: fullNameController.text,
+          ApiKeys.national_id:nationalId.text,
+          ApiKeys.age:ageController.text,
+          ApiKeys.gender:GenderApointment,
+          ApiKeys.hemoglobin_less_than_12: himogloben,
+          ApiKeys.has_tattoo: tatoo,
+          ApiKeys.completed_antibiotic_course:drugs,
+          ApiKeys.suffering_from_influenza_or_cough: snize,
+          ApiKeys.medications: have_drugs,
+          ApiKeys.is_pregnant_or_breastfeeding: pregnancy,
+          ApiKeys.is_menstruating: menstrual,
+          ApiKeys.diseases:desises,
+        },
+      );
+      emit(BookingAppointmentSuccess());
+      navigateTo(context, UserHomePage());
+    } on ServerException catch (e) {
+      // TODO
+      emit(BookingAppointmentError(e.errorModel.ErrorMessage));
+    }
+  }
+
 
   //======================== Admin Functions ==========================
   //===================== Admin SignIn Function ======================
@@ -429,7 +593,7 @@ void signIn(String email, String password,context) async{
       emit(AdminloadingSignIn());
       final response = await api.post(
         EndPoints.adminLogIn,
-        data: {
+        data:{
           ApiKeys.email:email,
           ApiKeys.password:password
         },
@@ -439,9 +603,26 @@ void signIn(String email, String password,context) async{
       CacheHelper().saveData(key: ApiKeys.token, value: admin!.token);
       CacheHelper().saveData(key: ApiKeys.id, value: decodedToken[ApiKeys.id]);
       emit(AdminsucssesSignIn());
+      getAdminData();
       navigateTo(context, AdminHome());
     } on ServerException catch (e) {
       emit(AdminerrorSignIn(e.errorModel.ErrorMessage));
+    }
+  }
+
+  //-----------------------GetAdmin data----------------------
+  AdminModel ? adminGet;
+  getAdminData() async{
+    try {
+      emit(loadingAdminGetData());
+      final response = await api.get(
+        EndPoints.AdminData,
+      );
+      emit(sucssesAdminGetData());
+      adminGet = AdminModel.fromjson(response);
+      print("==============${adminGet!.name}==================");
+    } on ServerException catch (e) {
+      emit(errorAdminGetData( e.errorModel.ErrorMessage));
     }
   }
 //===================== Admin send data ======================
@@ -458,7 +639,7 @@ void signIn(String email, String password,context) async{
       );
       emit(AdminsucssesSendData());
       navigateTo(context, AdminHome());
-    } on ServerException catch (e) {
+    } on ServerException catch (e){
       // TODO
       emit(AdminerrorSendData(e.errorModel.ErrorMessage));
     }

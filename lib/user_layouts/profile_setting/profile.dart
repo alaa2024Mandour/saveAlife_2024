@@ -222,7 +222,7 @@ class UserProfile extends StatelessWidget {
                                         userData("البريد الايكتروني", '${cubit.userGet?.email}'),
                                         userData("رقم الهاتف", '${cubit.userGet?.phone}'),
                                         userData("المركز",'${cubit.userGet?.address}'),
-                                        userData("فحص الدم","نتيجة الفحص"),
+                                        userData("فحص الدم",''),
                                         userData("فصيله الدم",'${cubit.userGet?.bloodtype}'),
                                         userData("أخر ميعاد قمت فيه بالتبرع", '1/1/2024')
                                       ],

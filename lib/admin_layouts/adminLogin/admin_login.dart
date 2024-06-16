@@ -11,7 +11,6 @@ import '../../shared/components/shared_component.dart';
 import '../../user_layouts/Login_page/forgetPass/forget_password.dart';
 import '../../user_layouts/user_cubit/userCubit.dart';
 import '../../user_layouts/user_cubit/userStatus.dart';
-import '../admin_home_page/admin_home_page.dart';
 
 var adminEmailController = TextEditingController();
 var adminPassController = TextEditingController();
@@ -178,6 +177,5 @@ class AdminLogin extends StatelessWidget {
       );
     }
     );
-
   }
 }

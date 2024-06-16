@@ -7,7 +7,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:save_a_life_2024/admin_layouts/Blood_Banks/blood_banks.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
 import '../../shared/components/shared_component.dart';
-import '../../shared/network/remote/modules/admi_send_medicalhistory.dart';
 import '../../user_layouts/user_cubit/userCubit.dart';
 import '../../user_layouts/user_cubit/userStatus.dart';
 import '../users_donors_list/users_donors_list.dart';
@@ -21,7 +20,13 @@ class AdminHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit,UserStatus>(
-            listener: (BuildContext context, UserStatus state) { },
+            listener: (BuildContext context, UserStatus state) {
+              if (state is AdminsucssesSendData){
+                ScaffoldMessenger.of(context).showSnackBar( SnackBar(content:Text("تم الارسال بنجاح ")));
+              }else if (state is AdminerrorSendData){
+                ScaffoldMessenger.of(context).showSnackBar( SnackBar(content:Text("هناك خطأ في الارسال")));
+              }
+            },
             builder: (BuildContext context, UserStatus state) {
               var userCubit = UserCubit.get(context);
               return   AnnotatedRegion<SystemUiOverlayStyle>(
@@ -47,9 +52,9 @@ class AdminHome extends StatelessWidget {
                                         backgroundImage: AssetImage("assets/images/icons/icons8-doctor-40.png"),),
                                     ),
                                   ],
-                                  leading: const Padding(
+                                  leading:  Padding(
                                     padding: EdgeInsets.only(right: 15.0),
-                                    child:  Text("ألاء ياسر",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 15, color: Colors.black),),
+                                    child:  Text("${userCubit.adminGet!.name}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 15, color: Colors.black),),
                                   ),
                                 ),
                                 const SizedBox(height:20),
