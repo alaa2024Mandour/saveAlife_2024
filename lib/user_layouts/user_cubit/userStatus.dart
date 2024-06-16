@@ -47,6 +47,9 @@ class minsAlexQuantities extends UserStatus {}
 class addBihiraQuantities extends UserStatus {}
 
 class minsBihiraQuantities extends UserStatus {}
+
+class BloodTypesBookingState extends UserStatus {}
+
 //------------------------- for booking -----------------------------------
 class BookingGenderState extends UserStatus {}
 
@@ -57,6 +60,13 @@ class BookingTatooState extends UserStatus {}
 class BookingdrugsState extends UserStatus {}
 
 class BookingSnizeState extends UserStatus {}
+
+class BookingPregnancyState extends UserStatus {}
+
+class BookingMenstrualState extends UserStatus {}
+
+class BookingCheckboxState extends UserStatus {}
+
 //--------------------- connection status ----------------------------
 //--------------- SignIn States ---------------
 class loadingSignIn extends UserStatus {}
@@ -84,14 +94,10 @@ class errorSignUp extends UserStatus {
   errorSignUp(this.errorMessage);
 }
 
-//--------------- Sign Up States ---------------
+//--------------- Get User Data States ---------------
 class loadingGetData extends UserStatus {}
 
-class sucssesGetData extends UserStatus {
-  // final UserModel user ;
-  //
-  // sucssesGetData({required this.user});
-}
+class sucssesGetData extends UserStatus { }
 
 class errorGetData extends UserStatus {
   final String errorMessage ;
@@ -99,6 +105,27 @@ class errorGetData extends UserStatus {
   errorGetData(this.errorMessage);
 }
 
+//--------------- Booking User States ---------------
+class BookingAppointmentSuccess extends UserStatus {}
+
+class BookingAppointmentLoading extends UserStatus { }
+
+class BookingAppointmentError extends UserStatus {
+  final String errorMessage ;
+
+  BookingAppointmentError(this.errorMessage);
+}
+
+//--------------- Get notification States ---------------
+class loadingGetNotification extends UserStatus {}
+
+class sucssesGetNotification extends UserStatus {}
+
+class errorGetNotification extends UserStatus {
+  final String errorMessage ;
+
+  errorGetNotification(this.errorMessage);
+}
 
 //--------------------- Admin connection status ----------------------------
 class AdminloadingSignIn extends UserStatus {}
@@ -109,6 +136,17 @@ class AdminerrorSignIn extends UserStatus {
   final String errorMessage ;
 
   AdminerrorSignIn(this.errorMessage);
+}
+
+//--------------- Get Admin Data States ---------------
+class loadingAdminGetData extends UserStatus {}
+
+class sucssesAdminGetData extends UserStatus { }
+
+class errorAdminGetData extends UserStatus {
+  final String errorMessage ;
+
+  errorAdminGetData(this.errorMessage);
 }
 
 //--------------------- Admin send data status ----------------------------

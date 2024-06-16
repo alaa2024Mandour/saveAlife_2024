@@ -9,6 +9,7 @@ import 'package:save_a_life_2024/shared/network/local/cachHelper.dart';
 import 'package:save_a_life_2024/shared/network/remote/blocObserver.dart';
 import 'package:save_a_life_2024/shared/style/themes.dart';
 import 'package:save_a_life_2024/splash_screen/splash_screen.dart';
+import 'package:save_a_life_2024/user_layouts/appointment/appointment.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userCubit.dart';
 import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
 
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: lightTheme ,
-              home: const SplashScreen(),
+              home:  SplashScreen(),
               localizationsDelegates:const[
                 AppLocale.delegate,
                 GlobalMaterialLocalizations.delegate,
