@@ -13,6 +13,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../user_cubit/userCubit.dart';
 import '../user_cubit/userStatus.dart';
+import 'package:url_launcher/link.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({super.key});
@@ -222,11 +223,48 @@ class UserProfile extends StatelessWidget {
                                         userData("البريد الايكتروني", '${cubit.userGet?.email}'),
                                         userData("رقم الهاتف", '${cubit.userGet?.phone}'),
                                         userData("المركز",'${cubit.userGet?.address}'),
-                                        userData("فحص الدم",''),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                                "فحص الدم",
+                                                style:TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.bold
+                                                )
+                                            ),
+                                            MediaQuery.removePadding(
+                                              context: context,
+                                              removeTop: true,
+                                              removeBottom: true,
+                                              child: Link(
+                                                target: LinkTarget.blank,
+                                                uri: Uri.parse('${cubit.notification?.notification.first.report_link}'),
+                                                builder: (BuildContext context,
+                                                    Future<void> Function()? followLink) {
+                                                  return TextButton(
+                                                    onPressed: followLink,
+                                                    child:  Text(
+                                                      '${cubit.notification?.notification.first.report_link}',
+                                                      style:TextStyle(
+                                                          color: Colors.amber,
+                                                          fontSize: 10,
+                                                          fontWeight: FontWeight.w900
+                                                      ),
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  );
+                                                }
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                         userData("فصيله الدم",'${cubit.userGet?.bloodtype}'),
                                         userData("أخر ميعاد قمت فيه بالتبرع", '1/1/2024')
                                       ],
                                     ),
+
                                   ),
                                 ],
                               ),
@@ -306,7 +344,8 @@ Widget userData (String title, String value)=>Padding(
               color: Colors.amber,
               fontSize: 10,
               fontWeight: FontWeight.w900
-          )
+          ),
+        overflow: TextOverflow.ellipsis,
       ),
     ],
   ),

@@ -159,3 +159,37 @@ class AdminerrorSendData extends UserStatus {
 
   AdminerrorSendData(this.errorMessage);
 }
+
+
+//--------------------- Admin send data status ----------------------------
+class AdminloadingGetUsersData extends UserStatus {}
+
+class AdminSucssesGetUsersData extends UserStatus {}
+
+class AdminErrorGetUsersData extends UserStatus {
+  final String errorMessage ;
+
+  AdminErrorGetUsersData(this.errorMessage);
+}
+
+//--------------------- Admin send users to donors list status ----------------------------
+class AdminloadingSendUsersToDonors  extends UserStatus {}
+
+class AdminSucssesSendUsersToDonors extends UserStatus {}
+
+class AdminErrorSendUsersToDonors extends UserStatus {
+  final String errorMessage ;
+
+  AdminErrorSendUsersToDonors(this.errorMessage);
+}
+
+//--------------------- Get donors list status ----------------------------
+class AdminloadingGetDonorsData  extends UserStatus {}
+
+class AdminSucssesGetDonorsData extends UserStatus {}
+
+class AdminErrorSendGetDonorsData extends UserStatus {
+  final String errorMessage ;
+
+  AdminErrorSendGetDonorsData(this.errorMessage);
+}
