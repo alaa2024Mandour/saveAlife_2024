@@ -284,12 +284,7 @@ class UserCubit extends Cubit<UserStatus> {
     return distanceKM;
   }
 
-  //============== UploadProfileImage Function ===============
-  XFile? profilePicture;
-  uploadImage(XFile image) async {
-    profilePicture = image;
-    emit(SignUpGetProfileImage());
-  }
+
 
   // -------------- AdminController ----------------
   // -------------- Upload files controller ----------------
@@ -465,8 +460,13 @@ void signIn(String email, String password,context) async{
    }
 }
 
+  //============== UploadProfileImage Function ===============
+  XFile? profilePicture;
+  uploadImage(XFile image) async {
+    profilePicture = image;
+    emit(SignUpGetProfileImage());
+  }
 //========================== uploading image to api networking ==========================
-
     Future uploadImageToAPI(XFile image) async{
       final file = File(image.path);
       MultipartFile.fromPath(
@@ -475,7 +475,6 @@ void signIn(String email, String password,context) async{
         filename: image.path.split('/').last,
       );
   }
-
   //===================== SignUp Function ======================
   var emailController = TextEditingController();
   var passController = TextEditingController();
@@ -558,8 +557,8 @@ void signIn(String email, String password,context) async{
         isFormData: true,
         data: {
           ApiKeys.bank_id:"1",
-          ApiKeys.date_id:"2",
-          ApiKeys.time_id:"1",
+          ApiKeys.date_id:"1",
+          ApiKeys.time_id:"3",
           ApiKeys.full_name: fullNameController.text,
           ApiKeys.national_id:nationalId.text,
           ApiKeys.age:ageController.text,
@@ -661,11 +660,14 @@ void signIn(String email, String password,context) async{
 
 
   //-----------------------Post Donors List data----------------------
-  sendUsers_to_donors_list() async{
+  sendUsers_to_donors_list(booking_id) async{
     try {
       emit(AdminloadingSendUsersToDonors());
       final response = await api.post(
         EndPoints.send_users_to_donors,
+        data: {
+          ApiKeys.book_id:booking_id,
+        },
       );
       emit(AdminSucssesSendUsersToDonors());
     } on ServerException catch (e) {
@@ -683,7 +685,14 @@ void signIn(String email, String password,context) async{
       donorsList = DonorsModel.fromjson(response);
     } on ServerException catch (e) {
       emit(AdminErrorSendGetDonorsData( e.errorModel.ErrorMessage));
-    } } }
+    } }
+
+  void showDonors(booking_id){
+    sendUsers_to_donors_list(booking_id);
+    getDonorsData();
+    emit(AdminSucssesGetDonorsData());
+  }
+}
 
 
 

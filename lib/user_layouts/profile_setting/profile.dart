@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -34,7 +35,7 @@ class UserProfile extends StatelessWidget {
                   Stack(
                     alignment: Alignment.bottomRight,
                     children:[
-                      cubit.profilePicture == null?
+                      cubit.userGet!.avatar == null?
                       const CircleAvatar(
                         radius: 64,
                         backgroundImage: AssetImage("assets/images/icons/avatar.png"),
@@ -42,15 +43,8 @@ class UserProfile extends StatelessWidget {
                       )
                           :CircleAvatar(
                         radius: 64,
-                        backgroundImage: FileImage(File(cubit.profilePicture!.path)),
+                        backgroundImage: NetworkImage('${cubit.userGet!.avatar}'),
                       ) ,
-                      Positioned(
-                        child: IconButton(
-                          onPressed: () {
-                            ImagePicker().pickImage(source: ImageSource.gallery)
-                                .then((value) => cubit.uploadImage(value!));
-                          },
-                          icon: const Icon( Icons.add_a_photo , color: Colors.black,),),)
                     ],
                   ),
                   Text('${cubit.userGet?.name}',
@@ -234,28 +228,42 @@ class UserProfile extends StatelessWidget {
                                                     fontWeight: FontWeight.bold
                                                 )
                                             ),
-                                            MediaQuery.removePadding(
-                                              context: context,
-                                              removeTop: true,
-                                              removeBottom: true,
-                                              child: Link(
-                                                target: LinkTarget.blank,
-                                                uri: Uri.parse('${cubit.notification?.notification.first.report_link}'),
-                                                builder: (BuildContext context,
-                                                    Future<void> Function()? followLink) {
-                                                  return TextButton(
-                                                    onPressed: followLink,
-                                                    child:  Text(
-                                                      '${cubit.notification?.notification.first.report_link}',
-                                                      style:TextStyle(
-                                                          color: Colors.amber,
-                                                          fontSize: 10,
-                                                          fontWeight: FontWeight.w900
-                                                      ),
-                                                      overflow: TextOverflow.ellipsis,
+                                            ConditionalBuilder(
+                                              condition: cubit.notification!.notification.isEmpty,
+                                              builder: (BuildContext context) =>   Text(
+                                                'لا يوجد ',
+                                                style:TextStyle(
+                                                    color: Colors.amber,
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w900
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              fallback: (BuildContext context) => MediaQuery.removePadding(
+                                                context: context,
+                                                removeTop: true,
+                                                removeBottom: true,
+                                                child: Link(
+                                                    target: LinkTarget.blank,
+                                                    uri: Uri.parse(
+                                                        '${cubit.notification?.notification.first.report_link}'
                                                     ),
-                                                  );
-                                                }
+                                                    builder: (BuildContext context,
+                                                        Future<void> Function()? followLink) {
+                                                      return TextButton(
+                                                        onPressed: followLink,
+                                                        child:  Text(
+                                                          '${cubit.notification?.notification.first.report_link}',
+                                                          style:TextStyle(
+                                                              color: Colors.amber,
+                                                              fontSize: 10,
+                                                              fontWeight: FontWeight.w900
+                                                          ),
+                                                          overflow: TextOverflow.ellipsis,
+                                                        ),
+                                                      );
+                                                    }
+                                                ),
                                               ),
                                             )
                                           ],

@@ -54,6 +54,7 @@ class ApiKeys {
                 book_status="book_status",
                 date="date",
                 booking_id="booking_id",
-                time="time"
+                time="time",
+                book_id="book_id"
   ;
 }

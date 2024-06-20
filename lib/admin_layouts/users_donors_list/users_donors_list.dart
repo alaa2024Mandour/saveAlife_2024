@@ -159,8 +159,6 @@ class DonorsScreen extends StatelessWidget {
                                     DonorModelRow(
                                         model: cubit.donorsList!.donors[index],
                                         fun: (){
-                                          cubit.sendUsers_to_donors_list();
-                                          cubit.getDonorsData();
                                         }),
                                 separatorBuilder: (BuildContext context, int index) =>SizedBox(height: 2,),
                                 itemCount: cubit.donorsList!.donors.length,
@@ -231,8 +229,7 @@ class DonorsScreen extends StatelessWidget {
                                 UserModelRow(
                                     model: cubit.usersList!.bookings[index],
                                     fun: (){
-                                      cubit.sendUsers_to_donors_list();
-                                      cubit.getDonorsData();
+                                      cubit.showDonors(cubit.usersList!.bookings[index].booking_id.toString());
                                     }),
                                 separatorBuilder: (BuildContext context, int index) =>SizedBox(height: 2,),
                                 itemCount: cubit.usersList!.bookings.length,
@@ -282,7 +279,7 @@ Widget UserModelRow({required Bookings model,required Function fun}) => Padding(
             color: Colors.blue,
             text: "قبول",
             function: () {
-              fun(){};
+              fun();
             },
             radius: 50,
             fontSize: 10),
@@ -319,7 +316,7 @@ Widget DonorModelRow({required donor.Donors model ,required Function fun}) => Pa
             color: defultColor,
             text: "حذف",
             function: () {
-              fun(){};
+              fun();
             },
             radius: 50,
             fontSize: 10),

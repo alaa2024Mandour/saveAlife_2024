@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:save_a_life_2024/shared/network/endPoints/end_points.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
 import '../../shared/network/remote/modules/userModel.dart';
 import '../user_cubit/userCubit.dart';
@@ -109,7 +110,7 @@ class UserHome extends StatelessWidget {
                              // cubit.profilePicture == null?
                              CircleAvatar(
                                radius: 25,
-                               //backgroundImage:NetworkImage(Uri.encodeFull('${cubit.userGet?.avatar}')),
+                               backgroundImage:NetworkImage('${cubit.userGet!.avatar}'),
                                backgroundColor: Colors.transparent,
                              )
                              //     :   CircleAvatar(

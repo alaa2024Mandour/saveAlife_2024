@@ -528,7 +528,6 @@ class SignUpForm extends StatelessWidget {
                                     width: 140,
                                     radius: 35,
                                     function: (){
-                                      print(cubit.uploadImageToAPI);
                                       if(formKey.currentState!.validate()){
                                         if (cubit.passController.text != cubit.rePassController.text){
                                           AwesomeDialog(
