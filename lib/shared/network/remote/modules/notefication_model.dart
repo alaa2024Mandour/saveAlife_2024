@@ -4,7 +4,11 @@ class NotificationModel{
   List<Notifications> notification = [];
 
   NotificationModel.fromjson(Map<String,dynamic> jsonData){
-    notification =jsonData['notifications'];
+    final List<dynamic> notificationList = jsonData['notifications'];
+    notificationList.forEach((element) {
+      final notification = Notifications.fromjson(element);
+      this.notification.add(notification);
+    });
   }
  }
 
@@ -12,7 +16,6 @@ class NotificationModel{
  class Notifications{
    String ?id ;
    String ?report_link;
-
 
     Notifications.fromjson(Map<String,dynamic> jsonData){
 

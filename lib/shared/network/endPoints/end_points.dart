@@ -6,12 +6,17 @@ class EndPoints {
                 adminSendData = "api/auth/admin/upload-medical-reports",
                 userData = "api/auth/user/profile",
                 AdminData = "api/auth/admin/profile",
-                userNotification = "api/auth/user/profile",
-                booking_endpoint = "api/auth/user/store-booking"
+                userNotification = "api/auth/user/get-all-notifications",
+                booking_endpoint = "api/auth/user/store-booking",
+                get_usersBooking = "api/auth/admin/view-all-bookings",
+                send_users_to_donors = "api/auth/admin/apply-booking",
+                get_donors_donors = "api/auth/admin/view-all-donors"
   ;
-  static String getUserDataEndPoint(id){
-    return "user/get-user/$id";
-}
+
+  static String delete_donor(id){
+    return "api/auth/admin/delete-donors?userId=${id}";
+  }
+
 }
 
 
@@ -49,6 +54,12 @@ class ApiKeys {
                 diseases="diseases",
                 is_pregnant_or_breastfeeding="is_pregnant_or_breastfeeding",
                 is_menstruating="is_menstruating",
-                age="age"
+                age="age",
+                book_status="book_status",
+                date="date",
+                booking_id="booking_id",
+                time="time",
+                book_id="book_id",
+                userId_delete="userId"
   ;
 }

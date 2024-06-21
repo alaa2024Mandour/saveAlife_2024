@@ -22,6 +22,8 @@ import 'package:save_a_life_2024/user_layouts/user_cubit/userStatus.dart';
 import '../../admin_layouts/admin_home_page/admin_home_page.dart';
 import '../../shared/components/shared_component.dart';
 import '../../shared/network/remote/modules/admin_signIn_model.dart';
+import '../../shared/network/remote/modules/bookedUsersModel.dart';
+import '../../shared/network/remote/modules/donors_model.dart';
 import '../../shared/network/remote/modules/signUpModel.dart';
 import '../../shared/style/colors.dart';
 import '../appointment/appointment.dart';
@@ -49,6 +51,24 @@ class UserCubit extends Cubit<UserStatus> {
   void changeNavBottom(int index) {
     currentIndex = index;
     emit(UserChangeBottomNavState());
+  }
+
+  //==============================
+  bool haveNotification = true;
+  bool showNotification = false;
+  void ShowNotification(){
+    showNotification =! showNotification;
+    emit(ShowNotificationState());
+  }
+
+  String bloodTypeValueTest(String value ){
+    emit(TestBloodTypeState());
+    return value;
+  }
+
+  void show (val){
+    bloodTypeValueTest(val);
+
   }
 
   //---------Choose Gender--------------
@@ -282,12 +302,7 @@ class UserCubit extends Cubit<UserStatus> {
     return distanceKM;
   }
 
-  //============== UploadProfileImage Function ===============
-  XFile? profilePicture;
-  uploadImage(XFile image) async {
-    profilePicture = image;
-    emit(SignUpGetProfileImage());
-  }
+
 
   // -------------- AdminController ----------------
   // -------------- Upload files controller ----------------
@@ -314,7 +329,7 @@ class UserCubit extends Cubit<UserStatus> {
   }
 
 // -------------- Togel between user and donor ----------------
-  bool isUser = false;
+  bool isUser = true;
   Color isUserColor = Colors.grey;
   Color isDonorColor = defultColor;
   void togeleUserDonor() {
@@ -454,6 +469,7 @@ void signIn(String email, String password,context) async{
      user = SignInModel.fromJson(response);
      final decodedToken = JwtDecoder.decode(user!.token);
      CacheHelper().saveData(key: ApiKeys.token, value: user!.token);
+     print('==========Error is =${user?.error}==========');
      // CacheHelper().saveData(key: ApiKeys.id, value: decodedToken[ApiKeys.id]);
      emit(sucssesSignIn());
      getUserData(context);
@@ -463,8 +479,13 @@ void signIn(String email, String password,context) async{
    }
 }
 
+  //============== UploadProfileImage Function ===============
+  XFile? profilePicture;
+  uploadImage(XFile image) async {
+    profilePicture = image;
+    emit(SignUpGetProfileImage());
+  }
 //========================== uploading image to api networking ==========================
-
     Future uploadImageToAPI(XFile image) async{
       final file = File(image.path);
       MultipartFile.fromPath(
@@ -473,7 +494,6 @@ void signIn(String email, String password,context) async{
         filename: image.path.split('/').last,
       );
   }
-
   //===================== SignUp Function ======================
   var emailController = TextEditingController();
   var passController = TextEditingController();
@@ -524,13 +544,11 @@ void signIn(String email, String password,context) async{
       );
       emit(sucssesGetData());
       userGet = UserModel.fromjson(response);
-      print("==============${userGet!.name}==================");
       getUserNotification();
       navigateTo(context, UserHomePage());
     } on ServerException catch (e) {
       emit(errorGetData( e.errorModel.ErrorMessage));
-    }
-  }
+    }}
 
   NotificationModel ? notification;
   getUserNotification() async{
@@ -541,13 +559,11 @@ void signIn(String email, String password,context) async{
       );
       notification = NotificationModel.fromjson(response);
       emit(sucssesGetNotification());
-      print("=======Repooort=======${notification?.notification[0].report_link}==================");
     } on ServerException catch (e) {
       emit(errorGetNotification( e.errorModel.ErrorMessage));
-    }
-  }
+    }}
 
-  //===================== Boking Function ======================
+  //===================== Booking Function ======================
   var fullNameController = TextEditingController();
   var nationalId = TextEditingController();
   var ageController = TextEditingController();
@@ -560,8 +576,8 @@ void signIn(String email, String password,context) async{
         isFormData: true,
         data: {
           ApiKeys.bank_id:"1",
-          ApiKeys.date_id:"2",
-          ApiKeys.time_id:"1",
+          ApiKeys.date_id:"17",
+          ApiKeys.time_id:"36",
           ApiKeys.full_name: fullNameController.text,
           ApiKeys.national_id:nationalId.text,
           ApiKeys.age:ageController.text,
@@ -583,7 +599,6 @@ void signIn(String email, String password,context) async{
       emit(BookingAppointmentError(e.errorModel.ErrorMessage));
     }
   }
-
 
   //======================== Admin Functions ==========================
   //===================== Admin SignIn Function ======================
@@ -619,6 +634,8 @@ void signIn(String email, String password,context) async{
         EndPoints.AdminData,
       );
       emit(sucssesAdminGetData());
+      getUsersBookingData();
+      getDonorsData();
       adminGet = AdminModel.fromjson(response);
       print("==============${adminGet!.name}==================");
     } on ServerException catch (e) {
@@ -642,6 +659,72 @@ void signIn(String email, String password,context) async{
     } on ServerException catch (e){
       // TODO
       emit(AdminerrorSendData(e.errorModel.ErrorMessage));
+    }
+  }
+
+  //-----------------------Get Users List data----------------------
+  BookingUsersModel ? usersList;
+  getUsersBookingData() async{
+    try {
+      emit(AdminloadingGetUsersData());
+      final response = await api.get(
+        EndPoints.get_usersBooking,
+      );
+      emit(AdminSucssesGetUsersData());
+      usersList = BookingUsersModel.fromjson(response);
+    } on ServerException catch (e) {
+      emit(AdminErrorGetUsersData( e.errorModel.ErrorMessage));
+    }
+  }
+
+  //-----------------------Post Donors List data----------------------
+  sendUsers_to_donors_list(booking_id) async{
+    try {
+      emit(AdminloadingSendUsersToDonors());
+      final response = await api.post(
+        EndPoints.send_users_to_donors,
+        data: {
+          ApiKeys.book_id:booking_id,
+        },
+      );
+      emit(AdminSucssesSendUsersToDonors());
+    } on ServerException catch (e) {
+      emit(AdminErrorSendUsersToDonors( e.errorModel.ErrorMessage));
+    } }
+  //-----------------------Get Donors List data----------------------
+  DonorsModel ? donorsList;
+  getDonorsData() async{
+    try {
+      emit(AdminloadingGetDonorsData());
+      final response = await api.get(
+        EndPoints.get_donors_donors,
+      );
+      emit(AdminSucssesGetDonorsData());
+      donorsList = DonorsModel.fromjson(response);
+    } on ServerException catch (e) {
+      emit(AdminErrorSendGetDonorsData( e.errorModel.ErrorMessage));
+    } }
+
+  void showDonors(booking_id){
+    sendUsers_to_donors_list(booking_id);
+    getDonorsData();
+    getUsersBookingData();
+    emit(SucssesSendingDonors());
+  }
+
+  //=====================delete donor======================
+  void delete_donor(id) async{
+    try {
+      emit(AdminloadingDeleteDonorsData());
+      final response = await api.delete(
+        EndPoints.delete_donor(id),
+        data:{
+          ApiKeys.userId_delete:id,
+        },
+      );
+      emit(AdminSucssesDeleteDonorsData());
+    } on ServerException catch (e) {
+      emit(AdminErrorSendDeleteDonorsData(e.errorModel.ErrorMessage));
     }
   }
 }

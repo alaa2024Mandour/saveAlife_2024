@@ -1,27 +1,23 @@
 import 'package:save_a_life_2024/shared/network/endPoints/end_points.dart';
 
-class BookingUsersModel{
+class DonorsModel{
   late String message;
-  List<Bookings> bookings = [];
+  List<Donors> donors = [];
 
-  BookingUsersModel.fromjson(Map<String,dynamic> jsonData){
+  DonorsModel.fromjson(Map<String,dynamic> jsonData){
     message = jsonData[ApiKeys.message];
-
-    final List<dynamic> bookingsList = jsonData['bookings'];
+    final List<dynamic> bookingsList = jsonData['donors'];
     bookingsList.forEach((element) {
-      final booking = Bookings.fromjson(element);
-      this.bookings.add(booking);
-    });
-  }
-}
+      final donor = Donors.fromjson(element);
+      this.donors.add(donor);
+    });}}
 
-class Bookings{
+class Donors{
   String ?user_id ; String ?booking_id; String ?name;
   String ?age; String ?gender; String ?bloodtype;
   String ?date; String ?time; String ?book_status;
 
-
-  Bookings.fromjson(Map<String,dynamic> jsonData){
+  Donors.fromjson(Map<String,dynamic> jsonData){
     user_id= jsonData[ApiKeys.user_id].toString();
     booking_id= jsonData[ApiKeys.booking_id].toString();
     name= jsonData[ApiKeys.name];
@@ -30,6 +26,4 @@ class Bookings{
     bloodtype=jsonData[ApiKeys.bloodtype];
     date= jsonData[ApiKeys.date];
     time= jsonData[ApiKeys.time];
-    book_status= jsonData[ApiKeys.book_status];
-  }
-}
+    book_status= jsonData[ApiKeys.book_status];}}
