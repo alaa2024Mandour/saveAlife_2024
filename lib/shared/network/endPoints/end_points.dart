@@ -17,6 +17,10 @@ class EndPoints {
     return "api/auth/admin/delete-donors?userId=${id}";
   }
 
+  static String search_donor(bloodType){
+    return "api/auth/admin/search-donors?search=${bloodType}";
+  }
+
 }
 
 

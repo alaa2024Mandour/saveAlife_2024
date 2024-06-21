@@ -6,10 +6,13 @@ import 'package:save_a_life_2024/shared/components/shared_component.dart';
 import 'package:save_a_life_2024/shared/style/colors.dart';
 import '../../shared/network/remote/modules/bookedUsersModel.dart';
 import '../../shared/network/remote/modules/donors_model.dart' as donor;
+import '../../shared/network/remote/modules/search_model.dart';
 import '../../user_layouts/user_cubit/userCubit.dart';
 import '../../user_layouts/user_cubit/userStatus.dart';
 import '../admin_home_page/admin_home_page.dart';
 
+var searchController = TextEditingController();
+bool search = false;
 class DonorsScreen extends StatelessWidget {
   const DonorsScreen({super.key});
 
@@ -112,8 +115,14 @@ class DonorsScreen extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(20.0),
                               child: TextFormField(
+                                controller:searchController ,
                                 decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.search),
+                                  prefixIcon: IconButton(
+                                    onPressed: () {
+                                      cubit.searchDonorsData(searchController.text);
+                                      search != search;
+                                    },
+                                    icon: Icon(Icons.search),),
                                   labelText: 'بحث ',
                                   border: OutlineInputBorder(),
                                 ),
@@ -153,17 +162,47 @@ class DonorsScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Expanded(
-                              child: ListView.separated(
-                                itemBuilder: (BuildContext context, int index) =>
-                                    DonorModelRow(
-                                        model: cubit.donorsList!.donors[index],
-                                        fun: (){
-                                          cubit.delete_donor(cubit.donorsList!.donors[index].user_id);
-                                        }),
-                                separatorBuilder: (BuildContext context, int index) =>SizedBox(height: 2,),
-                                itemCount: cubit.donorsList!.donors.length,
-                              ),
+                            ConditionalBuilder(
+                              condition: search,
+                              builder: (BuildContext context) {
+                                return Expanded(
+                                  child: ListView.separated(
+                                    itemBuilder: (BuildContext context, int index) =>
+                                        DonorModelRow(
+                                            model: cubit.donorsList!.donors[index],
+                                            fun: (){
+                                              cubit.delete_donor(cubit.donorsList!.donors[index].user_id);
+                                            }),
+                                    separatorBuilder: (BuildContext context, int index) =>SizedBox(height: 2,),
+                                    itemCount: cubit.donorsList!.donors.length,
+                                  ),
+                                );
+                              },
+                              fallback: (BuildContext context) {
+
+                                return ConditionalBuilder(
+                                  condition: cubit.searchList!.donors.isNotEmpty,
+                                  builder: (BuildContext context) {
+                                    return Expanded(
+                                      child: ListView.separated(
+                                        itemBuilder: (BuildContext context, int index) =>
+                                            SearchModelRow(
+                                                model: cubit.searchList!.donors[index],
+                                                fun: (){
+                                                  cubit.delete_donor(cubit.searchList!.donors[index].user_id);
+                                                }),
+                                        separatorBuilder: (BuildContext context, int index) =>SizedBox(height: 2,),
+                                        itemCount: cubit.searchList!.donors.length,
+                                      ),
+                                    );
+                                  },
+                                  fallback: (BuildContext context) {
+                                    return Expanded(child: Center(child: Text("Not Found"),));
+                                  },
+
+                                );
+                              },
+
                             ),
                           ],
                         ),
@@ -178,16 +217,6 @@ class DonorsScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.search),
-                                  labelText: 'بحث ',
-                                  border: OutlineInputBorder(),
-                                ),
                               ),
                             ),
                             SizedBox(
@@ -289,6 +318,43 @@ Widget UserModelRow({required Bookings model,required Function fun}) => Padding(
 );
 
 Widget DonorModelRow({required donor.Donors model ,required Function fun}) => Padding(
+  padding: const EdgeInsets.all(8.0),
+  child: Table(
+    border: TableBorder.all(
+        width: 1, color: Colors.white),
+    children: [
+      TableRow(children: [
+        Text(
+          '${model.name}',
+          style: TextStyle(fontSize: 12),
+          overflow: TextOverflow.ellipsis,
+        ),
+        Text(
+          '${model.age}',
+          style: TextStyle(fontSize: 12),
+        ),
+        Text(
+          '${model.gender}',
+          style: TextStyle(fontSize: 12),
+        ),
+        Text(
+          '${model.bloodtype}',
+          style: TextStyle(fontSize: 12),
+        ),
+        defaultButton(
+            color: defultColor,
+            text: "حذف",
+            function: () {
+              fun();
+            },
+            radius: 50,
+            fontSize: 10),
+      ]),
+    ],
+  ),
+);
+
+Widget SearchModelRow({required DonorsSearch model ,required Function fun}) => Padding(
   padding: const EdgeInsets.all(8.0),
   child: Table(
     border: TableBorder.all(

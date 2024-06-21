@@ -11,7 +11,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
-  final ApiService apiService = ApiService('http://192.168.1.6:5000');
+  final ApiService apiService = ApiService('http://192.168.1.4:5000');
 
   List<Message> messages = [];
 

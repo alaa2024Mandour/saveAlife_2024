@@ -151,23 +151,27 @@ class UserHome extends StatelessWidget {
                       return Expanded(
                         flex: 4,
                         child: Container(
-                          padding: const EdgeInsetsDirectional.symmetric(
-                              horizontal: 20),
-                          child: MediaQuery.removePadding(
-                            removeTop: true,
-                            removeBottom: true,
-                            context: context,
-                            child: ListView.separated(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) =>
-                                    notification(notificationList[index]),
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                itemCount: notificationList.length),
-                          ),
-                        ),
+                              padding: const EdgeInsetsDirectional.only(
+                                  start:20,
+                                end:20,
+                                bottom: 80,
+                              ),
+                              child: MediaQuery.removePadding(
+                                removeTop: true,
+                                removeBottom: true,
+                                context: context,
+                                child: ListView.separated(
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) =>
+                                        notification(notificationList[index]),
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                    itemCount: notificationList.length),
+                              ),
+                            ),
+
                       );
                     } else {
                       return Container(child: Text("لا يوجد اشعار"));

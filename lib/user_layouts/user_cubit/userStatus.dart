@@ -200,6 +200,17 @@ class AdminErrorSendGetDonorsData extends UserStatus {
   AdminErrorSendGetDonorsData(this.errorMessage);
 }
 
+//--------------------- search donors list status ----------------------------
+class AdminloadingsearchDonorsData  extends UserStatus {}
+
+class AdminSucssessearchDonorsData extends UserStatus {}
+
+class AdminErrorSendsearchDonorsData extends UserStatus {
+  final String errorMessage ;
+
+  AdminErrorSendsearchDonorsData(this.errorMessage);
+}
+
 //--------------------- delete donors  status ----------------------------
 class AdminloadingDeleteDonorsData  extends UserStatus {}
 

@@ -24,6 +24,7 @@ import '../../shared/components/shared_component.dart';
 import '../../shared/network/remote/modules/admin_signIn_model.dart';
 import '../../shared/network/remote/modules/bookedUsersModel.dart';
 import '../../shared/network/remote/modules/donors_model.dart';
+import '../../shared/network/remote/modules/search_model.dart';
 import '../../shared/network/remote/modules/signUpModel.dart';
 import '../../shared/style/colors.dart';
 import '../appointment/appointment.dart';
@@ -577,7 +578,7 @@ void signIn(String email, String password,context) async{
         data: {
           ApiKeys.bank_id:"1",
           ApiKeys.date_id:"17",
-          ApiKeys.time_id:"36",
+          ApiKeys.time_id:"35",
           ApiKeys.full_name: fullNameController.text,
           ApiKeys.national_id:nationalId.text,
           ApiKeys.age:ageController.text,
@@ -711,6 +712,22 @@ void signIn(String email, String password,context) async{
     getUsersBookingData();
     emit(SucssesSendingDonors());
   }
+
+  //-----------------------search on Donors List data----------------------
+ SearchModel ? searchList;
+  searchDonorsData(search_bloodType) async{
+    try {
+      emit(AdminloadingGetDonorsData());
+      final response = await api.get(
+        EndPoints.search_donor(search_bloodType),
+      );
+      emit(AdminSucssesGetDonorsData());
+      searchList = SearchModel.fromjson(response);
+      print('===========${searchList?.donors[0].bloodtype}===========');
+    } on ServerException catch (e) {
+      emit(AdminErrorSendGetDonorsData( e.errorModel.ErrorMessage));
+    } }
+
 
   //=====================delete donor======================
   void delete_donor(id) async{
