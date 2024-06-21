@@ -159,6 +159,7 @@ class DonorsScreen extends StatelessWidget {
                                     DonorModelRow(
                                         model: cubit.donorsList!.donors[index],
                                         fun: (){
+                                          cubit.delete_donor(cubit.donorsList!.donors[index].user_id);
                                         }),
                                 separatorBuilder: (BuildContext context, int index) =>SizedBox(height: 2,),
                                 itemCount: cubit.donorsList!.donors.length,
@@ -235,7 +236,6 @@ class DonorsScreen extends StatelessWidget {
                                 itemCount: cubit.usersList!.bookings.length,
                               ),
                             ),
-
                           ],
                         ),
                       );

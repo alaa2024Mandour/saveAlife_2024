@@ -13,6 +13,10 @@ class EndPoints {
                 get_donors_donors = "api/auth/admin/view-all-donors"
   ;
 
+  static String delete_donor(id){
+    return "api/auth/admin/delete-donors?userId=${id}";
+  }
+
 }
 
 
@@ -55,6 +59,7 @@ class ApiKeys {
                 date="date",
                 booking_id="booking_id",
                 time="time",
-                book_id="book_id"
+                book_id="book_id",
+                userId_delete="userId"
   ;
 }

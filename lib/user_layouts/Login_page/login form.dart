@@ -167,21 +167,21 @@ class LoginForm extends StatelessWidget {
                                                        loginPassController.text,
                                                      context
                                                    );
-                                                 //   if(state is ! sucssesSignIn  && state is ! loadingSignIn){
-                                                 //   return AwesomeDialog(
-                                                 //       context: context,
-                                                 //       animType: AnimType.scale,
-                                                 //       dialogType: DialogType.info,
-                                                 //       body: Center(child: Text(
-                                                 //         'هناك خطا في البيانات المدخله',
-                                                 //         style: TextStyle(fontStyle: FontStyle.italic),
-                                                 //       ),),
-                                                 //       title: 'ملحوظه ',
-                                                 //       btnOkOnPress: () {},
-                                                 //       btnOkColor: defultColor,
-                                                 //       dialogBackgroundColor: Colors.white
-                                                 //   )..show();
-                                                 // }
+                                                   if(cubit.user?.error != null){
+                                                   return AwesomeDialog(
+                                                       context: context,
+                                                       animType: AnimType.scale,
+                                                       dialogType: DialogType.info,
+                                                       body: Center(child: Text(
+                                                         'هناك خطا في البيانات المدخله',
+                                                         style: TextStyle(fontStyle: FontStyle.italic),
+                                                       ),),
+                                                       title: 'ملحوظه ',
+                                                       btnOkOnPress: () {},
+                                                       btnOkColor: defultColor,
+                                                       dialogBackgroundColor: Colors.white
+                                                   )..show();
+                                                 }
                                                }
                                                }
                                             , color: defultColor

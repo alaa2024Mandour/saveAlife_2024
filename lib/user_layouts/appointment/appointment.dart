@@ -536,7 +536,7 @@ class Appointment extends StatelessWidget  {
                           const SizedBox(height: 10),
 
                           ConditionalBuilder(
-                            condition: cubit.GenderApointment == "female",
+                            condition: cubit.GenderApointment == "Female",
                             builder: (BuildContext context) => Column(
                               children: [
                                 Row( mainAxisAlignment: MainAxisAlignment.center,

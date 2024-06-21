@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,6 @@ class bloodTypesModel {
 
   bloodTypesModel({required this.bloodType}) {}
 }
-
 
 class UserHome extends StatelessWidget {
   UserHome({Key? key}) : super(key: key);
@@ -68,249 +68,817 @@ class UserHome extends StatelessWidget {
     bloodTypesModel(bloodType: '+O'),
     bloodTypesModel(bloodType: '-O'),
   ];
-  @override
 
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit, UserStatus>(
         listener: (BuildContext context, UserStatus state) {},
         builder: (BuildContext context, UserStatus state) {
           var cubit = UserCubit.get(context);
-             return Scaffold(
-               backgroundColor: HexColor('#EAEAEA'),
-               body: Column(
-                 children: [
-                   Stack(
-                     //alignment: Alignment.center,
-                     children: [
-                       const Image(
-                         image: AssetImage(
-                             'assets/images/cerves pages/before verified user page.png'),
-                         height: 150,
-                         width: double.infinity,
-                         fit: BoxFit.fill,
-                       ),
-                       Padding(
-                         padding: const EdgeInsets.only(left: 20.0),
-                         child: AppBar(
-                           systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
-                             statusBarColor: Colors.transparent,
-                           ),
-                           backgroundColor: Colors.transparent,
-                           elevation: 0.0,
-                           leading: IconButton(
-                             onPressed: () {
-                               //navigateTo(context, cubit.bottomScreen[4]);
-                             },
-                             icon: const Icon(
-                               Icons.menu,
-                               color: Colors.white,
-                             ),
-                           ),
-                           actions:  [
-                             // cubit.profilePicture == null?
-                             CircleAvatar(
-                               radius: 25,
-                               backgroundImage:NetworkImage('${cubit.userGet!.avatar}'),
-                               backgroundColor: Colors.transparent,
-                             )
-                             //     :   CircleAvatar(
-                             //   radius: 35,
-                             //   backgroundImage: FileImage(File(cubit.profilePicture!.path)),
-                             // )
-                           ],
-                         ),
-                       ),
-                       Container(
-                         padding: const EdgeInsetsDirectional.only(top: 80),
-                         child: Row(
-                           mainAxisSize: MainAxisSize.max,
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           crossAxisAlignment: CrossAxisAlignment.center,
-                           children: [
-                             Text(
-                               'مرحبا ,  ',
-                               style: TextStyle(
-                                 color: Colors.white,
-                               ),
-                             ),
-                             Text(
-                               '${cubit.userGet?.name}',
-                               // '${cubit.userData!.name}',
-                               style: TextStyle(
-                                 color: Colors.white,
-                               ),
-                             ),
-                           ],
-                         ),
-                       )
-                     ],
-                   ),
-                   FloatingActionButton(
-                     onPressed: () {
-                       // ConditionalBuilder(
-                       //   condition: null,
-                       //   builder: (BuildContext context) {  },
-                       //   fallback: (BuildContext context) {  },
-                       //
-                       // );
-                     },
-                     child: const Image(
-                       image:
-                       AssetImage('assets/images/icons/icons8-alert-100.png'),
-                       width: 35,
-                     ),
-                   ),
-                   const SizedBox(height:10),
-                   Expanded(
-                     flex: 4,
-                     child: Container(
-                       padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
-                       child: MediaQuery.removePadding(
-                         removeTop: true,
-                         removeBottom: true,
-                         context: context,
-                         child: ListView.separated(
-                             physics: const NeverScrollableScrollPhysics(),
-                             itemBuilder: (context, index) =>
-                                 notification(notificationList[index]),
-                             separatorBuilder: (context, index) => const SizedBox(
-                               height: 10,
-                             ),
-                             itemCount: notificationList.length),
-                       ),
-                     ),
-                   ),
-                   Padding(
-                     padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
-                     child: Container(
-                       height: 34,
-                       width: 430,
-                       decoration: BoxDecoration(
-                         color: Colors.white,
-                         borderRadius: BorderRadius.circular(25),
-                       ),
-                       child: DropdownButtonHideUnderline(
-                         child: DropdownButton2<String>(
-                           items: cubit.donorCityitems.map((String item) =>
-                               DropdownMenuItem<String>(
-                                 value: item,
-                                 child: Text(
-                                   item,
-                                   style: const TextStyle(
-                                     fontSize: 14,
-                                     fontWeight: FontWeight.bold,
-                                     color: Colors.grey,
-                                   ),
-                                   overflow: TextOverflow.ellipsis,
-                                 ),
-                               ))
-                               .toList(),
-                           value: cubit.donorCityMenuValue,
-                           onChanged: (value) {
-                             cubit.donorCityMenu(value!);
-                           },
-                           buttonStyleData: ButtonStyleData(
-                             padding: const EdgeInsets.only(left: 14, right: 14),
-                             decoration: BoxDecoration(
-                               color: Colors.white,
-                               borderRadius: BorderRadius.circular(14),
-                               boxShadow: kElevationToShadow[2],
-                             ),
-                           ),
-                           iconStyleData: const IconStyleData(
-                             icon: Icon(
-                               Icons.menu,
-                             ),
-                             iconSize: 14,
-                             iconEnabledColor: Colors.red,
-                           ),
-                           dropdownStyleData: DropdownStyleData(
-                             maxHeight: 200,
-                             width: 150,
-                             decoration: BoxDecoration(
-                               borderRadius: BorderRadius.circular(14),
-                               color: Colors.white,
-                             ),
-                             offset: const Offset(-20, 0),
-                             scrollbarTheme: ScrollbarThemeData(
-                               radius: const Radius.circular(40),
-                               thickness: MaterialStateProperty.all(5),
-                               thumbVisibility: MaterialStateProperty.all(true),
-                             ),
-                           ),
-                           menuItemStyleData: const MenuItemStyleData(
-                             height: 30,
-                             padding: EdgeInsets.only(left: 14, right: 14),
-                           ),
-                         ),
-                       ),
-                     ),
-                   ),
-                   Expanded(
-                     child: Container(
-                       height: 48,
-                       padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
-                       child: ListView.separated(
-                           physics: const BouncingScrollPhysics(),
-                           scrollDirection: Axis.horizontal,
-                           itemBuilder: (context, index) => bloodType(bloodTypeList[index]),
-                           separatorBuilder: (context, index) => const SizedBox(
-                             width: 10,
-                           ),
-                           itemCount: bloodTypeList.length),
-                     ),
-                   ),
-                   const SizedBox(height:10),
-                   Padding(
-                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                     child: Row(
-                       children: [
-                         const Text(
-                           "المتبرعين",
-                           style:TextStyle(
-                             fontSize: 19,
-                             color: Colors.black,
-                           ) ,
-                         ),
-                         const Spacer(),
-                         Text(
-                           "الكل",
-                           style:TextStyle(
-                             fontSize: 19,
-                             color: HexColor('#F61D19'),
-                           ) ,
-                         ),
-                       ],
-                     ),
-                   ),
-                   const SizedBox(height:10),
-                   Expanded(
-                     flex: 5,
-                     child: Container(
-                       padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
-                       child:  MediaQuery.removePadding(
-                         removeTop: true,
-                         removeBottom: true,
-                         context: context,
-                         child: ListView.separated(
-                             physics: const BouncingScrollPhysics(),
-                             itemBuilder: (context, index) => donorsB_Pluse(),
-                             separatorBuilder: (context, index) => const SizedBox(height: 10,),
-                             itemCount: 10),
-                       ),
-                     ),
-                   ),
-                 ],
-               ),
-             );
+          return Scaffold(
+            backgroundColor: HexColor('#EAEAEA'),
+            body: Column(
+              children: [
+                Stack(
+                  //alignment: Alignment.center,
+                  children: [
+                    const Image(
+                      image: AssetImage(
+                          'assets/images/cerves pages/before verified user page.png'),
+                      height: 150,
+                      width: double.infinity,
+                      fit: BoxFit.fill,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: AppBar(
+                        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+                          statusBarColor: Colors.transparent,
+                        ),
+                        backgroundColor: Colors.transparent,
+                        elevation: 0.0,
+                        actions: [
+                          // cubit.profilePicture == null?
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundImage:
+                                NetworkImage('${cubit.userGet!.avatar}'),
+                            backgroundColor: Colors.transparent,
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsetsDirectional.only(top: 80),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'مرحبا ,  ',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            '${cubit.userGet?.name}',
+                            // '${cubit.userData!.name}',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    cubit.ShowNotification();
+                  },
+                  child: const Image(
+                    image:
+                        AssetImage('assets/images/icons/icons8-alert-100.png'),
+                    width: 35,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ConditionalBuilder(
+                  condition: cubit.showNotification == true,
+                  builder: (BuildContext context) {
+                    if (cubit.user?.user!.numOfDonates != "0") {
+                      return Expanded(
+                        flex: 4,
+                        child: Container(
+                          padding: const EdgeInsetsDirectional.symmetric(
+                              horizontal: 20),
+                          child: MediaQuery.removePadding(
+                            removeTop: true,
+                            removeBottom: true,
+                            context: context,
+                            child: ListView.separated(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) =>
+                                    notification(notificationList[index]),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                itemCount: notificationList.length),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Container(child: Text("لا يوجد اشعار"));
+                    }
+                  },
+                  fallback: (BuildContext context) {
+                    return Container();
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.symmetric(
+                      horizontal: 20, vertical: 10),
+                  child: Container(
+                    height: 34,
+                    width: 430,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        items: cubit.donorCityitems
+                            .map((String item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ))
+                            .toList(),
+                        value: cubit.donorCityMenuValue,
+                        onChanged: (value) {
+                          cubit.donorCityMenu(value!);
+                        },
+                        buttonStyleData: ButtonStyleData(
+                          padding: const EdgeInsets.only(left: 14, right: 14),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            boxShadow: kElevationToShadow[2],
+                          ),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.menu,
+                          ),
+                          iconSize: 14,
+                          iconEnabledColor: Colors.red,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 200,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.white,
+                          ),
+                          offset: const Offset(-20, 0),
+                          scrollbarTheme: ScrollbarThemeData(
+                            radius: const Radius.circular(40),
+                            thickness: MaterialStateProperty.all(5),
+                            thumbVisibility: MaterialStateProperty.all(true),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          height: 30,
+                          padding: EdgeInsets.only(left: 14, right: 14),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                ConditionalBuilder(
+                  condition: cubit.donorCityMenuValue == 'الاسكندريه',
+                  builder: (BuildContext context) => Expanded(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 48,
+                            padding: const EdgeInsetsDirectional.symmetric(
+                                horizontal: 20),
+                            child: ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) =>
+                                    bloodType(bloodTypeList[index]),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                itemCount: bloodTypeList.length),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "المتبرعين",
+                                style: TextStyle(
+                                  fontSize: 19,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const Spacer(),
+                              Text(
+                                "الكل",
+                                style: TextStyle(
+                                  fontSize: 19,
+                                  color: HexColor('#F61D19'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Expanded(
+                            flex: 5,
+                            child: Container(
+                                padding: const EdgeInsetsDirectional.symmetric(
+                                    horizontal: 20),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        padding:
+                                            const EdgeInsetsDirectional.all(10),
+                                        color: Colors.white,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(35)),
+                                              child: const Image(
+                                                image: AssetImage(
+                                                    'assets/images/icons/male.jpg'),
+                                                width: 70,
+                                                height: 70,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                const Text(
+                                                  'محمد احمد',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      'الحاله',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ', ذكر,',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ' 01112602464',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              "${cubit.bloodTypeValueTest(bloodTypeDonor)}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 24,
+                                                color: defultColor,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        padding:
+                                            const EdgeInsetsDirectional.all(10),
+                                        color: Colors.white,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(35)),
+                                              child: const Image(
+                                                image: AssetImage(
+                                                    'assets/images/icons/female.jpeg'),
+                                                width: 70,
+                                                height: 70,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                const Text(
+                                                  'الاء ياسر محمد',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      'الحاله',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ', انثي,',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ' 01112602464',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              "${cubit.bloodTypeValueTest(bloodTypeDonor)}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 24,
+                                                color: defultColor,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        padding:
+                                            const EdgeInsetsDirectional.all(10),
+                                        color: Colors.white,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(35)),
+                                              child: const Image(
+                                                image: AssetImage(
+                                                    'assets/images/icons/female.jpeg'),
+                                                width: 70,
+                                                height: 70,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                const Text(
+                                                  'منة الله محمود',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      'الحاله',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ', انثي,',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ' 01112602464',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              "${cubit.bloodTypeValueTest(bloodTypeDonor)}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 24,
+                                                color: defultColor,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                    ],
+                                  ),
+                                ))),
+                      ],
+                    ),
+                  ),
+                  fallback: (BuildContext context) => Expanded(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 48,
+                            padding: const EdgeInsetsDirectional.symmetric(
+                                horizontal: 20),
+                            child: ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) =>
+                                    bloodType(bloodTypeList[index]),
+                                separatorBuilder: (context, index) =>
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                itemCount: bloodTypeList.length),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "المتبرعين",
+                                style: TextStyle(
+                                  fontSize: 19,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const Spacer(),
+                              Text(
+                                "الكل",
+                                style: TextStyle(
+                                  fontSize: 19,
+                                  color: HexColor('#F61D19'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Expanded(
+                            flex: 5,
+                            child: Container(
+                                padding: const EdgeInsetsDirectional.symmetric(
+                                    horizontal: 20),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        padding:
+                                        const EdgeInsetsDirectional.all(10),
+                                        color: Colors.white,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(35)),
+                                              child: const Image(
+                                                image: AssetImage(
+                                                    'assets/images/icons/male.jpg'),
+                                                width: 70,
+                                                height: 70,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                const Text(
+                                                  'عبد الرحمن',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      'الحاله',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ', ذكر,',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        color:
+                                                        HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ' 01112602464',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        color:
+                                                        HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              "${cubit.bloodTypeValueTest(bloodTypeDonor)}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 24,
+                                                color: defultColor,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        padding:
+                                        const EdgeInsetsDirectional.all(10),
+                                        color: Colors.white,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(35)),
+                                              child: const Image(
+                                                image: AssetImage(
+                                                    'assets/images/icons/male.jpg'),
+                                                width: 70,
+                                                height: 70,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                const Text(
+                                                  'محمد عادل',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      'الحاله',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ', ذكر,',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        color:
+                                                        HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ' 01112602464',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        color:
+                                                        HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              "${cubit.bloodTypeValueTest(bloodTypeDonor)}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 24,
+                                                color: defultColor,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        padding:
+                                        const EdgeInsetsDirectional.all(10),
+                                        color: Colors.white,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(35)),
+                                              child: const Image(
+                                                image: AssetImage(
+                                                    'assets/images/icons/male.jpg'),
+                                                width: 70,
+                                                height: 70,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Column(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                const Text(
+                                                  'مصطفي محمود',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      'الحاله',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ', ذكر,',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        color:
+                                                        HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      ' 01112602464',
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        color:
+                                                        HexColor("#D9D9D9"),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              "${cubit.bloodTypeValueTest(bloodTypeDonor)}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 24,
+                                                color: defultColor,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                    ],
+                                  ),
+                                ))),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
         });
   }
 }
 
 //------------------------------------------------
-String bloodTypeDonor = '';
+String bloodTypeDonor = '+B';
 Widget notification(notificationModel model) => Container(
-      padding: const EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 5),
+      padding:
+          const EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: HexColor("#D9D9D9"),
@@ -364,7 +932,7 @@ Widget notification(notificationModel model) => Container(
 
 Widget bloodType(bloodTypesModel model) => GestureDetector(
       onTap: () {
-        bloodTypeDonor= model.bloodType;
+        bloodTypeDonor = model.bloodType;
         print(bloodTypeDonor);
       },
       child: Container(
@@ -386,14 +954,12 @@ Widget bloodType(bloodTypesModel model) => GestureDetector(
     );
 
 Widget donorsB_Pluse() => Container(
-  padding: const EdgeInsetsDirectional.all(10),
-  color: Colors.white,
+      padding: const EdgeInsetsDirectional.all(10),
+      color: Colors.white,
       child: Row(
         children: [
           Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(35)
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
             child: const Image(
               image: AssetImage('assets/images/icons/male.jpg'),
               width: 70,
@@ -407,7 +973,7 @@ Widget donorsB_Pluse() => Container(
             mainAxisSize: MainAxisSize.max,
             children: [
               const Text(
-                  'Mohammed Ahmad',
+                'Mohammed Ahmad',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
@@ -446,7 +1012,7 @@ Widget donorsB_Pluse() => Container(
           ),
           const Spacer(),
           Text(
-              "B+",
+            "${bloodTypeDonor}",
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 24,
@@ -458,506 +1024,491 @@ Widget donorsB_Pluse() => Container(
     );
 
 Widget donorsB_min() => Container(
-  padding: const EdgeInsetsDirectional.all(10),
-  color: Colors.white,
-  child: Row(
-    children: [
-      Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(35)
-        ),
-        child: const Image(
-          image: AssetImage('assets/images/icons/male.jpg'),
-          width: 70,
-          height: 70,
-          fit: BoxFit.fill,
-        ),
-      ),
-      const Spacer(),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+      padding: const EdgeInsetsDirectional.all(10),
+      color: Colors.white,
+      child: Row(
         children: [
-          const Text(
-            'Mohammed Ahmad',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+          Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
+            child: const Image(
+              image: AssetImage('assets/images/icons/male.jpg'),
+              width: 70,
+              height: 70,
+              fit: BoxFit.fill,
             ),
           ),
-          Row(
+          const Spacer(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
               const Text(
-                'الحاله',
+                'Mohammed Ahmad',
                 style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.green,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
                 ),
               ),
-              Text(
-                ', النوع,',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
-              Text(
-                ' 01112602464',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
+              Row(
+                children: [
+                  const Text(
+                    'الحاله',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Text(
+                    ', النوع,',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                  Text(
+                    ' 01112602464',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                ],
+              )
             ],
-          )
+          ),
+          const Spacer(),
+          Text(
+            "+B",
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 24,
+              color: defultColor,
+            ),
+          ),
         ],
       ),
-      const Spacer(),
-      Text(
-        "+B",
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 24,
-          color: defultColor,
-        ),
-      ),
-    ],
-  ),
-);
+    );
 
 Widget donorsA_Pluse() => Container(
-  padding: const EdgeInsetsDirectional.all(10),
-  color: Colors.white,
-  child: Row(
-    children: [
-      Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(35)
-        ),
-        child: const Image(
-          image: AssetImage('assets/images/icons/male.jpg'),
-          width: 70,
-          height: 70,
-          fit: BoxFit.fill,
-        ),
-      ),
-      const Spacer(),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+      padding: const EdgeInsetsDirectional.all(10),
+      color: Colors.white,
+      child: Row(
         children: [
-          const Text(
-            'Mohammed Ahmad',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+          Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
+            child: const Image(
+              image: AssetImage('assets/images/icons/male.jpg'),
+              width: 70,
+              height: 70,
+              fit: BoxFit.fill,
             ),
           ),
-          Row(
+          const Spacer(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
               const Text(
-                'الحاله',
+                'Mohammed Ahmad',
                 style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.green,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
                 ),
               ),
-              Text(
-                ', النوع,',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
-              Text(
-                ' 01112602464',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
+              Row(
+                children: [
+                  const Text(
+                    'الحاله',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Text(
+                    ', النوع,',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                  Text(
+                    ' 01112602464',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                ],
+              )
             ],
-          )
+          ),
+          const Spacer(),
+          Text(
+            "+A",
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 24,
+              color: defultColor,
+            ),
+          ),
         ],
       ),
-      const Spacer(),
-      Text(
-        "+B",
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 24,
-          color: defultColor,
-        ),
-      ),
-    ],
-  ),
-);
+    );
 
 Widget donorsA_min() => Container(
-  padding: const EdgeInsetsDirectional.all(10),
-  color: Colors.white,
-  child: Row(
-    children: [
-      Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(35)
-        ),
-        child: const Image(
-          image: AssetImage('assets/images/icons/male.jpg'),
-          width: 70,
-          height: 70,
-          fit: BoxFit.fill,
-        ),
-      ),
-      const Spacer(),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+      padding: const EdgeInsetsDirectional.all(10),
+      color: Colors.white,
+      child: Row(
         children: [
-          const Text(
-            'Mohammed Ahmad',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+          Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
+            child: const Image(
+              image: AssetImage('assets/images/icons/male.jpg'),
+              width: 70,
+              height: 70,
+              fit: BoxFit.fill,
             ),
           ),
-          Row(
+          const Spacer(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
               const Text(
-                'الحاله',
+                'Mohammed Ahmad',
                 style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.green,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
                 ),
               ),
-              Text(
-                ', النوع,',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
-              Text(
-                ' 01112602464',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
+              Row(
+                children: [
+                  const Text(
+                    'الحاله',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Text(
+                    ', النوع,',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                  Text(
+                    ' 01112602464',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                ],
+              )
             ],
-          )
+          ),
+          const Spacer(),
+          Text(
+            "A-",
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 24,
+              color: defultColor,
+            ),
+          ),
         ],
       ),
-      const Spacer(),
-      Text(
-        "+B",
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 24,
-          color: defultColor,
-        ),
-      ),
-    ],
-  ),
-);
+    );
 
 Widget donorsAB_Pluse() => Container(
-  padding: const EdgeInsetsDirectional.all(10),
-  color: Colors.white,
-  child: Row(
-    children: [
-      Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(35)
-        ),
-        child: const Image(
-          image: AssetImage('assets/images/icons/male.jpg'),
-          width: 70,
-          height: 70,
-          fit: BoxFit.fill,
-        ),
-      ),
-      const Spacer(),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+      padding: const EdgeInsetsDirectional.all(10),
+      color: Colors.white,
+      child: Row(
         children: [
-          const Text(
-            'Mohammed Ahmad',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+          Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
+            child: const Image(
+              image: AssetImage('assets/images/icons/male.jpg'),
+              width: 70,
+              height: 70,
+              fit: BoxFit.fill,
             ),
           ),
-          Row(
+          const Spacer(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
               const Text(
-                'الحاله',
+                'Mohammed Ahmad',
                 style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.green,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
                 ),
               ),
-              Text(
-                ', النوع,',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
-              Text(
-                ' 01112602464',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
+              Row(
+                children: [
+                  const Text(
+                    'الحاله',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Text(
+                    ', النوع,',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                  Text(
+                    ' 01112602464',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                ],
+              )
             ],
-          )
+          ),
+          const Spacer(),
+          Text(
+            "+B",
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 24,
+              color: defultColor,
+            ),
+          ),
         ],
       ),
-      const Spacer(),
-      Text(
-        "+B",
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 24,
-          color: defultColor,
-        ),
-      ),
-    ],
-  ),
-);
+    );
 
 Widget donorsAB_min() => Container(
-  padding: const EdgeInsetsDirectional.all(10),
-  color: Colors.white,
-  child: Row(
-    children: [
-      Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(35)
-        ),
-        child: const Image(
-          image: AssetImage('assets/images/icons/male.jpg'),
-          width: 70,
-          height: 70,
-          fit: BoxFit.fill,
-        ),
-      ),
-      const Spacer(),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+      padding: const EdgeInsetsDirectional.all(10),
+      color: Colors.white,
+      child: Row(
         children: [
-          const Text(
-            'Mohammed Ahmad',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+          Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
+            child: const Image(
+              image: AssetImage('assets/images/icons/male.jpg'),
+              width: 70,
+              height: 70,
+              fit: BoxFit.fill,
             ),
           ),
-          Row(
+          const Spacer(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
               const Text(
-                'الحاله',
+                'Mohammed Ahmad',
                 style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.green,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
                 ),
               ),
-              Text(
-                ', النوع,',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
-              Text(
-                ' 01112602464',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
+              Row(
+                children: [
+                  const Text(
+                    'الحاله',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Text(
+                    ', النوع,',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                  Text(
+                    ' 01112602464',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                ],
+              )
             ],
-          )
+          ),
+          const Spacer(),
+          Text(
+            "+B",
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 24,
+              color: defultColor,
+            ),
+          ),
         ],
       ),
-      const Spacer(),
-      Text(
-        "+B",
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 24,
-          color: defultColor,
-        ),
-      ),
-    ],
-  ),
-);
+    );
 
 Widget donorsO_Pluse() => Container(
-  padding: const EdgeInsetsDirectional.all(10),
-  color: Colors.white,
-  child: Row(
-    children: [
-      Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(35)
-        ),
-        child: const Image(
-          image: AssetImage('assets/images/icons/male.jpg'),
-          width: 70,
-          height: 70,
-          fit: BoxFit.fill,
-        ),
-      ),
-      const Spacer(),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+      padding: const EdgeInsetsDirectional.all(10),
+      color: Colors.white,
+      child: Row(
         children: [
-          const Text(
-            'Mohammed Ahmad',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+          Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
+            child: const Image(
+              image: AssetImage('assets/images/icons/male.jpg'),
+              width: 70,
+              height: 70,
+              fit: BoxFit.fill,
             ),
           ),
-          Row(
+          const Spacer(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
               const Text(
-                'الحاله',
+                'Mohammed Ahmad',
                 style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.green,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
                 ),
               ),
-              Text(
-                ', النوع,',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
-              Text(
-                ' 01112602464',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
+              Row(
+                children: [
+                  const Text(
+                    'الحاله',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Text(
+                    ', النوع,',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                  Text(
+                    ' 01112602464',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                ],
+              )
             ],
-          )
+          ),
+          const Spacer(),
+          Text(
+            "+B",
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 24,
+              color: defultColor,
+            ),
+          ),
         ],
       ),
-      const Spacer(),
-      Text(
-        "+B",
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 24,
-          color: defultColor,
-        ),
-      ),
-    ],
-  ),
-);
+    );
 
 Widget donorsO_min() => Container(
-  padding: const EdgeInsetsDirectional.all(10),
-  color: Colors.white,
-  child: Row(
-    children: [
-      Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(35)
-        ),
-        child: const Image(
-          image: AssetImage('assets/images/icons/male.jpg'),
-          width: 70,
-          height: 70,
-          fit: BoxFit.fill,
-        ),
-      ),
-      const Spacer(),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
+      padding: const EdgeInsetsDirectional.all(10),
+      color: Colors.white,
+      child: Row(
         children: [
-          const Text(
-            'Mohammed Ahmad',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+          Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
+            child: const Image(
+              image: AssetImage('assets/images/icons/male.jpg'),
+              width: 70,
+              height: 70,
+              fit: BoxFit.fill,
             ),
           ),
-          Row(
+          const Spacer(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
               const Text(
-                'الحاله',
+                'Mohammed Ahmad',
                 style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.green,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
                 ),
               ),
-              Text(
-                ', النوع,',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
-              Text(
-                ' 01112602464',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: HexColor("#D9D9D9"),
-                ),
-              ),
+              Row(
+                children: [
+                  const Text(
+                    'الحاله',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Text(
+                    ', النوع,',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                  Text(
+                    ' 01112602464',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor("#D9D9D9"),
+                    ),
+                  ),
+                ],
+              )
             ],
-          )
+          ),
+          const Spacer(),
+          Text(
+            "+B",
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 24,
+              color: defultColor,
+            ),
+          ),
         ],
       ),
-      const Spacer(),
-      Text(
-        "+B",
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 24,
-          color: defultColor,
-        ),
-      ),
-    ],
-  ),
-);
-
+    );

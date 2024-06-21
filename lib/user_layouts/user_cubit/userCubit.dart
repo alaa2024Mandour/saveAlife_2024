@@ -53,6 +53,24 @@ class UserCubit extends Cubit<UserStatus> {
     emit(UserChangeBottomNavState());
   }
 
+  //==============================
+  bool haveNotification = true;
+  bool showNotification = false;
+  void ShowNotification(){
+    showNotification =! showNotification;
+    emit(ShowNotificationState());
+  }
+
+  String bloodTypeValueTest(String value ){
+    emit(TestBloodTypeState());
+    return value;
+  }
+
+  void show (val){
+    bloodTypeValueTest(val);
+
+  }
+
   //---------Choose Gender--------------
   String Gender = "male";
   void ChooseGender(String value) {
@@ -451,6 +469,7 @@ void signIn(String email, String password,context) async{
      user = SignInModel.fromJson(response);
      final decodedToken = JwtDecoder.decode(user!.token);
      CacheHelper().saveData(key: ApiKeys.token, value: user!.token);
+     print('==========Error is =${user?.error}==========');
      // CacheHelper().saveData(key: ApiKeys.id, value: decodedToken[ApiKeys.id]);
      emit(sucssesSignIn());
      getUserData(context);
@@ -557,8 +576,8 @@ void signIn(String email, String password,context) async{
         isFormData: true,
         data: {
           ApiKeys.bank_id:"1",
-          ApiKeys.date_id:"1",
-          ApiKeys.time_id:"3",
+          ApiKeys.date_id:"17",
+          ApiKeys.time_id:"36",
           ApiKeys.full_name: fullNameController.text,
           ApiKeys.national_id:nationalId.text,
           ApiKeys.age:ageController.text,
@@ -658,7 +677,6 @@ void signIn(String email, String password,context) async{
     }
   }
 
-
   //-----------------------Post Donors List data----------------------
   sendUsers_to_donors_list(booking_id) async{
     try {
@@ -690,11 +708,26 @@ void signIn(String email, String password,context) async{
   void showDonors(booking_id){
     sendUsers_to_donors_list(booking_id);
     getDonorsData();
-    emit(AdminSucssesGetDonorsData());
+    getUsersBookingData();
+    emit(SucssesSendingDonors());
+  }
+
+  //=====================delete donor======================
+  void delete_donor(id) async{
+    try {
+      emit(AdminloadingDeleteDonorsData());
+      final response = await api.delete(
+        EndPoints.delete_donor(id),
+        data:{
+          ApiKeys.userId_delete:id,
+        },
+      );
+      emit(AdminSucssesDeleteDonorsData());
+    } on ServerException catch (e) {
+      emit(AdminErrorSendDeleteDonorsData(e.errorModel.ErrorMessage));
+    }
   }
 }
-
-
 
 class bloodTypesModel {
   final String bloodType;

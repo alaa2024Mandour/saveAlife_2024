@@ -4,6 +4,10 @@ abstract class UserStatus{}
 
 class UserInitState extends UserStatus {}
 
+class ShowNotificationState extends UserStatus {}
+
+class TestBloodTypeState extends UserStatus {}
+
 class UserChangeBottomNavState extends UserStatus {}
 
 class UserShoeNotificationState extends UserStatus {}
@@ -183,6 +187,8 @@ class AdminErrorSendUsersToDonors extends UserStatus {
   AdminErrorSendUsersToDonors(this.errorMessage);
 }
 
+class SucssesSendingDonors  extends UserStatus {}
+
 //--------------------- Get donors list status ----------------------------
 class AdminloadingGetDonorsData  extends UserStatus {}
 
@@ -192,4 +198,15 @@ class AdminErrorSendGetDonorsData extends UserStatus {
   final String errorMessage ;
 
   AdminErrorSendGetDonorsData(this.errorMessage);
+}
+
+//--------------------- delete donors  status ----------------------------
+class AdminloadingDeleteDonorsData  extends UserStatus {}
+
+class AdminSucssesDeleteDonorsData extends UserStatus {}
+
+class AdminErrorSendDeleteDonorsData extends UserStatus {
+  final String errorMessage ;
+
+  AdminErrorSendDeleteDonorsData(this.errorMessage);
 }

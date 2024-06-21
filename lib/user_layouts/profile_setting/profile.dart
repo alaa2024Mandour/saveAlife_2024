@@ -149,7 +149,7 @@ class UserProfile extends StatelessWidget {
                                             Positioned(
                                               top: 30,
                                               child: Text(
-                                                "+5",
+                                                "+ ${cubit.user!.user?.numOfDonates}",
                                                 style: TextStyle(
                                                     fontSize: 25,
                                                     fontWeight: FontWeight.w900,

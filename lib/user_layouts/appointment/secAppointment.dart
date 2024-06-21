@@ -21,6 +21,7 @@ class SecAppointment extends StatelessWidget {
     var dropDownValue;
     var dropdownBloodMenuValue;
     var dateController = TextEditingController();
+    var timeController = TextEditingController();
     return BlocConsumer<UserCubit,UserStatus>(
         listener: (BuildContext context, UserStatus state) {  },
         builder: (BuildContext context, UserStatus state) {
@@ -491,6 +492,47 @@ class SecAppointment extends StatelessWidget {
                                           }else{
                                             print("Date is not selected");
                                           }
+                                        })),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 25,
+
+                              ),
+
+                              Row(
+                                children: [
+                                  Text(
+                                    '   ميعاد الزيارة',
+                                    style: TextStyle(color: Color(0xFFADADAD)),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: (TextFormField(
+                                        controller: timeController,
+                                        //editing controller of this TextField
+                                        decoration: const InputDecoration(
+                                            icon: Icon(Icons.calendar_today),
+                                            //icon of text field
+                                            labelText: "أدخل الساعه" //label text of field
+                                        ),
+
+                                        // when true user cannot edit text
+                                        onTap: () async {
+                                         await showTimePicker(
+                                             context: context,
+                                             initialTime: TimeOfDay.now()).then(
+                                                 (value) {
+                                               timeController.text=value!.format(context).toString();
+                                               print(value.format(context));
+                                             });
                                         })),
                                   ),
                                 ],
